@@ -90,8 +90,10 @@ class DemoController
     public function index2()
     {
         Coroutine::create(function () {
+
             App::trace('this is child trace' . Coroutine::id());
             Coroutine::create(function () {
+
                 App::trace('this is child child trace' . Coroutine::id());
             });
         });

@@ -27,6 +27,7 @@ return [
     ],
     'view'             => [
         'viewsPath' => '@resources/views/',
+        'suffixes'  => ['php','html']
     ],
     'cache'            => [
         'driver' => 'redis',

@@ -98,7 +98,8 @@ class SyncTask
      *
      * @return array
      */
-    public function mysql(){
+    public function mysql()
+    {
         $result = User::findById(4212)->getResult();
 
         $query = User::findById(4212);
