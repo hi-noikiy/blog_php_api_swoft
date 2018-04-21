@@ -10,6 +10,8 @@
 
 namespace App\Controllers;
 
+use App\Common\Code\Code;
+use App\Common\Controller\ApiController;
 use App\Models\Logic\IndexLogic;
 use Swoft\App;
 use Swoft\Core\Coroutine;
@@ -26,7 +28,7 @@ use Swoft\Http\Message\Server\Request;
  * 控制器demo
  * @Controller(prefix="/demo2")
  */
-class DemoController
+class DemoController extends ApiController
 {
 
     /**
@@ -63,10 +65,12 @@ class DemoController
      *
      * @param Request $request
      *
-     * @return array
+     * @return object
      */
     public function index(Request $request)
     {
+
+
         // 获取所有GET参数
         $get = $request->query();
         // 获取name参数默认值defaultName

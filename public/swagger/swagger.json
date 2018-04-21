@@ -1,0 +1,276 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "title": "\u535a\u5ba2api\u63a5\u53e3\u6587\u6863",
+        "version": "1.0.0"
+    },
+    "host": "www.losingbattle.site",
+    "basePath": "/api",
+    "schemes": [
+        "https"
+    ],
+    "paths": {
+        "/v1/auth/signin": {
+            "post": {
+                "tags": [
+                    "auth"
+                ],
+                "summary": "\u767b\u5f55",
+                "description": "\u767b\u5f55",
+                "consumes": [
+                    "multipart/form-data",
+                    "application/x-www-form-urlencoded"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "login_type",
+                        "in": "formData",
+                        "description": "1-\u5bc6\u7801\u767b\u5f55; 2-\u624b\u673a\u9a8c\u8bc1\u7801\u767b\u5f55.\u767b\u5f55\u65b9\u5f0f",
+                        "required": true,
+                        "type": "integer",
+                        "format": "int"
+                    },
+                    {
+                        "name": "mobile",
+                        "in": "formData",
+                        "description": "\u624b\u673a\u53f7",
+                        "required": true,
+                        "type": "string",
+                        "format": "string"
+                    },
+                    {
+                        "name": "password",
+                        "in": "formData",
+                        "description": "\u5bc6\u7801  login_type\u4e3a1\u65f6\u5fc5\u586b",
+                        "required": false,
+                        "type": "string",
+                        "format": "string"
+                    },
+                    {
+                        "name": "sms_code",
+                        "in": "formData",
+                        "description": "\u77ed\u4fe1\u9a8c\u8bc1\u7801 login_type\u4e3a2\u65f6\u5fc5\u586b",
+                        "required": false,
+                        "type": "string",
+                        "format": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Example extended response",
+                        "schema": {
+                            "properties": {
+                                "data": {
+                                    "$ref": "#/definitions/user_info"
+                                }
+                            },
+                            "$ref": "#/definitions/ApiResponse"
+                        },
+                        "$ref": "$/responses/Json"
+                    },
+                    "2002": {
+                        "description": "\u4e0d\u5408\u6cd5\u7684\u53c2\u6570,\u7f3a\u5c11\u53c2\u6570"
+                    }
+                }
+            }
+        },
+        "/v1/auth/signup": {
+            "post": {
+                "tags": [
+                    "auth"
+                ],
+                "summary": "\u6ce8\u518c",
+                "description": "\u6ce8\u518c",
+                "consumes": [
+                    "multipart/form-data",
+                    "application/x-www-form-urlencoded"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "mobile",
+                        "in": "formData",
+                        "description": "\u624b\u673a\u53f7",
+                        "required": true,
+                        "type": "string",
+                        "format": "string"
+                    },
+                    {
+                        "name": "password",
+                        "in": "formData",
+                        "description": "\u5bc6\u7801",
+                        "required": true,
+                        "type": "string",
+                        "format": "string"
+                    },
+                    {
+                        "name": "sms_code",
+                        "in": "formData",
+                        "description": "\u77ed\u4fe1\u9a8c\u8bc1\u7801 sms/send\u63a5\u53e3\u83b7\u53d6 type=2",
+                        "required": true,
+                        "type": "string",
+                        "format": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "\u8fd4\u56de\u6210\u529f",
+                        "schema": {
+                            "$ref": "#/definitions/authResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/sms/send": {
+            "post": {
+                "tags": [
+                    "sms"
+                ],
+                "description": "\u624b\u673a\u9a8c\u8bc1\u53d1\u9001",
+                "consumes": [
+                    "multipart/form-data",
+                    "application/x-www-form-urlencoded"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "type",
+                        "in": "formData",
+                        "description": "1-\u767b\u9646; 2-\u6ce8\u518c.3-,4-\u7ed1\u5b9a(\u6362\u7ed1),5-\u7b2c\u4e09\u65b9\u7ed1\u5b9a \u77ed\u4fe1\u4e00\u6837 \u4e0d\u9a8c\u8bc1\u624b\u673a\u53f7\u7801\u662f\u5426\u5b58\u5728",
+                        "required": true,
+                        "type": "integer",
+                        "format": "int"
+                    },
+                    {
+                        "name": "mobile",
+                        "in": "formData",
+                        "description": "\u624b\u673a\u53f7",
+                        "required": true,
+                        "type": "string",
+                        "format": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "\u8fd4\u56de\u6210\u529f"
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "user_info": {
+            "properties": {
+                "user_id": {
+                    "description": "\u7528\u6237id",
+                    "type": "integer"
+                },
+                "nick": {
+                    "description": "\u7528\u6237\u6635\u79f0",
+                    "type": "string"
+                },
+                "avatar": {
+                    "description": "\u7528\u6237\u5934\u50cf",
+                    "type": "string"
+                },
+                "mobile": {
+                    "description": "\u624b\u673a\u53f7\u7801",
+                    "type": "string"
+                },
+                "sex": {
+                    "description": "\u6027\u522b,0-\u672a\u77e5,1-\u7537,2-\u5973",
+                    "type": "integer"
+                }
+            },
+            "type": "object"
+        },
+        "ApiResponse": {
+            "properties": {
+                "code": {
+                    "description": "code\u7801",
+                    "type": "integer",
+                    "default": "200"
+                },
+                "res": {
+                    "description": "\u8fd4\u56de\u6570\u636e",
+                    "type": "object"
+                },
+                "msg": {
+                    "description": "msg",
+                    "type": "string",
+                    "default": "\u8bf7\u6c42\u6210\u529f"
+                }
+            },
+            "type": "object"
+        },
+        "authResponse": {
+            "properties": {
+                "code": {
+                    "description": "code\u7801",
+                    "type": "integer",
+                    "default": "200"
+                },
+                "res": {
+                    "description": "\u8fd4\u56de\u6570\u636e",
+                    "properties": {
+                        "access-token": {
+                            "description": "access-token",
+                            "type": "string"
+                        },
+                        "info": {
+                            "description": "\u4e2a\u4eba\u4fe1\u606f",
+                            "properties": {
+                                "user_id": {
+                                    "description": "\u7528\u6237id",
+                                    "type": "integer"
+                                },
+                                "nick": {
+                                    "description": "\u7528\u6237\u6635\u79f0",
+                                    "type": "string"
+                                },
+                                "avatar": {
+                                    "description": "\u7528\u6237\u5934\u50cf",
+                                    "type": "string"
+                                },
+                                "mobile": {
+                                    "description": "\u624b\u673a\u53f7\u7801",
+                                    "type": "string"
+                                },
+                                "sex": {
+                                    "description": "\u6027\u522b,0-\u672a\u77e5,1-\u7537,2-\u5973",
+                                    "type": "integer"
+                                }
+                            },
+                            "type": "object"
+                        }
+                    },
+                    "type": "object"
+                },
+                "msg": {
+                    "description": "msg",
+                    "type": "string",
+                    "default": "\u8bf7\u6c42\u6210\u529f"
+                }
+            },
+            "type": "object"
+        }
+    },
+    "tags": [
+        {
+            "name": "auth",
+            "description": "\u767b\u5f55\u6ce8\u518c\u6a21\u5757"
+        },
+        {
+            "name": "sms",
+            "description": "\u77ed\u4fe1\u53d1\u9001\u6a21\u5757"
+        }
+    ]
+}
