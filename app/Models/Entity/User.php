@@ -22,12 +22,8 @@ use Swoft\Db\Types;
  * 用户实体
  *
  * @Entity()
- * @Table(name="user")
+ * @Table(name="bo_users")
  * @uses      User
- * @version   2017年08月23日
- * @author    stelin <phpcrazy@126.com>
- * @copyright Copyright 2010-2016 Swoft software
- * @license   PHP Version 7.x {@link http://www.php.net/license/3_0.txt}
  */
 class User extends Model
 {
@@ -35,19 +31,19 @@ class User extends Model
      * 主键ID
      *
      * @Id()
-     * @Column(name="id", type=Types::INT)
+     * @Column(name="user_id", type=Types::INT)
      * @var null|int
      */
-    private $id;
+    private $user_id;
 
     /**
-     * 名称
+     * 昵称
      *
-     * @Column(name="name", type=Types::STRING, length=20)
+     * @Column(name="nick", type=Types::STRING, length=50)
      * @Required()
      * @var null|string
      */
-    private $name;
+    private $nick;
 
     /**
      * 年龄
@@ -85,31 +81,31 @@ class User extends Model
      */
     public function getId()
     {
-        return $this->id;
+        return $this->user_id;
     }
 
     /**
-     * @param int|null $id
+     * @param int|null $user_id
      */
-    public function setId($id)
+    public function setId($user_id)
     {
-        $this->id = $id;
+        $this->user_id = $user_id;
     }
 
     /**
      * @return null|string
      */
-    public function getName()
+    public function getNick()
     {
-        return $this->name;
+        return $this->nick;
     }
 
     /**
-     * @param null|string $name
+     * @param null|string $nick
      */
-    public function setName($name)
+    public function setNick($nick)
     {
-        $this->name = $name;
+        $this->nick = $nick;
     }
 
     /**

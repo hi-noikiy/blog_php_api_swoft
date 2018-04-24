@@ -17,6 +17,7 @@ class Code
     const REFRESH_TOKEN = 2005;//刷新token值标识符
     const CHECK_CODE_ERROR = 2006; //验证码错误
     const UN_REGISTERED = 2007; //未注册
+    const INVALID_SIGN = 2008;//不合法的签名
     const REGISTERED = 2009; //已注册，直接登录
     const REDIRECT = 2010; //前端路由重定向标识符
     const ACCOUNT_SYSTEM = 2018;//系统账号

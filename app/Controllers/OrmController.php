@@ -25,7 +25,7 @@ class OrmController
     public function save()
     {
         $user = new User();
-        $user->setName('name');
+        $user->setNick('name');
         $user->setSex(1);
         $user->setDesc('this my desc');
         $user->setAge(mt_rand(1, 100));
@@ -37,7 +37,9 @@ class OrmController
 
     public function findById()
     {
-        $result = User::findById(41710)->getResult();
+
+        $result = User::findById(31)->getResult();
+        return $result;
         $query  = User::findById(41710);
 
         /* @var User $user */

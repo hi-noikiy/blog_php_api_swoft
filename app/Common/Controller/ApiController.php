@@ -3,12 +3,19 @@
 namespace App\Common\Controller;
 
 use App\Common\Code\Code;
-use Swoft\Core\RequestContext;
 use Swoft\Http\Message\Server\Response;
-
+use Swoft\Bean\Annotation\Inject;
 
 class ApiController
 {
+    protected $data;
+
+    /**
+     * @Inject("demoRedis")
+     * @var \Swoft\Redis\Redis
+     */
+    protected $redis;
+
     protected $statusCode = 200;
 
     public function respondWithArray($array = null, $msg = '请求成功'): Response
@@ -49,5 +56,24 @@ class ApiController
         $this->statusCode = $statusCode;
 
         return $this;
+    }
+
+    protected function validate($validate)
+    {
+
+        if (strpos($validate, '.')) {
+            // 支持场景
+            list($validate, $scene) = explode('.', $validate);
+        }
+        $v = new $validate;
+        if (!empty($scene)) {
+            $v->scene($scene);
+        }
+
+        if (!$v->check(request()->input())) {
+            throw new \Exception($v->getError(), Code::INVALID_TOKEN);
+        } else {
+            return true;
+        }
     }
 }
