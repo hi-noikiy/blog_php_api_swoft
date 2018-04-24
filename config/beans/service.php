@@ -8,4 +8,15 @@
  */
 
 return [
+    'sessionManager' => [
+        'class' => \Swoft\Session\SessionManager::class,
+        'config' => [
+            'driver' => 'redis',
+            'name' => 'BO:',
+            'lifetime' => 1800,
+            'expire_on_close' => false,
+            'encrypt' => false,
+        ],
+    ],
+
 ];

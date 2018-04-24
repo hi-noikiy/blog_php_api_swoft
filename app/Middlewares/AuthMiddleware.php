@@ -3,14 +3,16 @@
 namespace App\Middlewares;
 
 
-use App\Common\Utility\Encrypt;
-use App\Common\Utility\Token;
+use App\Models\Data\UserData;
+use App\Models\Token;
 use Psr\Http\Server\RequestHandlerInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
+use Swoft\App;
 use Swoft\Bean\Annotation\Bean;
 use Swoft\Bean\Annotation\Value;
 use Swoft\Http\Message\Middleware\MiddlewareInterface;
+use Swoft\Bean\Annotation\Inject;
 
 /**
  * @Bean()
@@ -19,22 +21,46 @@ use Swoft\Http\Message\Middleware\MiddlewareInterface;
 class AuthMiddleware implements MiddlewareInterface
 {
     /**
-     * @Value(env="${IS_DEBUG}")
-     * @var bool
+     * @Inject()
+     * @var \Swoft\Redis\Redis
      */
-    private $is_debug;
+    private $redis;
+    /**
+     * @Inject()
+     * @var UserData
+     */
+    private $UserData;
+
+    /**
+     * @Inject()
+     * @var Token
+     */
+    private $token;
+
+    protected $uid;
 
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
-        $input = $request->getParsedBody() + $request->getQueryParams();
-        if ($this->is_debug) {
-            $encrypt = new Encrypt();
-            $encrypt->checkSign($input);
-        }
+
+        var_dump(1);
+        var_dump($this->UserData->getUserInfo());
+        $accessToken = $request->getHeader('access-token');
+
+//        $token =  new \App\Common\Utility\Token($this->redis);
+//
+//        $token->checkBasicAuth(end($accessToken));
+//        var_dump($token->getClientInfo(0));
+
+        $this->token->checkBasicAuth(end($accessToken));
+
+        var_dump($this->token->getClientInfo(0));
+
+
 
 //        return response()->raw(Encrypt::encrypt(json_encode($request->getParsedBody() + $request->getQueryParams())))->withoutHeader('Content-Type')->withAddedHeader('Content-Type', 'application/octet-stream');
         // 委托给下一个中间件处理
         $response = $handler->handle($request);
+
         return $response;
     }
 }

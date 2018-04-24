@@ -3,6 +3,7 @@
 namespace App\Common\Controller;
 
 use App\Common\Code\Code;
+use App\Models\Token;
 use Swoft\Http\Message\Server\Response;
 use Swoft\Bean\Annotation\Inject;
 
@@ -15,6 +16,12 @@ class ApiController
      * @var \Swoft\Redis\Redis
      */
     protected $redis;
+
+    /**
+     * @Inject()
+     * @var Token
+     */
+    protected $token;
 
     protected $statusCode = 200;
 
@@ -71,7 +78,7 @@ class ApiController
         }
 
         if (!$v->check(request()->input())) {
-            throw new \Exception($v->getError(), Code::INVALID_TOKEN);
+            throw new \Exception($v->getError(), Code::INVALID_PARAMETER);
         } else {
             return true;
         }

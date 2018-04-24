@@ -1,17 +1,22 @@
 <?php
 
-namespace App\Common\Utility;
+namespace App\Models;
 
 use App\Common\Code\Code;
-use Exception;
-use Swoft\App;
 use Swoft\Bean\Annotation\Inject;
-use Swoft\Redis\Redis;
+use Swoft\Bean\Annotation\Bean;
+use Swoft\Bean\Annotation\Scope;
+use Exception;
 
+/**
+ *
+ * @Bean()
+ * @uses      Token
+ */
 class Token
 {
     /**
-     * @Inject("demoRedis")
+     * @Inject()
      * @var \Swoft\Redis\Redis
      */
     private $redis;
@@ -29,20 +34,20 @@ class Token
      */
     public $clientInfo = null;
 
-    public function __construct(Redis $redis)
+    public function __construct()
     {
-        $this->redis = $redis;
+        var_dump(1);
     }
+
 
     public function buildAccessToken($lenght = 32)
     {
-        var_dump($this->redis);
+
         //生成AccessToken
         $str_pol = "1234567890ABCDEFGHIJKLMNOPQRSTUVWXYZ123456789abcdefghijklmnopqrstuvwxyz";
         $AccessToken = substr(str_shuffle($str_pol), 0, $lenght);
 
         //如果redis中已存在则递归执行
-
         if ($this->redis->has($AccessToken)) {
             return $this->buildAccessToken();
         }
@@ -92,4 +97,5 @@ class Token
             return null;
         }
     }
+
 }

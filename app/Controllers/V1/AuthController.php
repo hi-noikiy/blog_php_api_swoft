@@ -4,30 +4,31 @@ namespace App\Controllers\V1;
 
 
 use App\Common\Controller\ApiController;
+use App\Models\Token;
+use Swoft\App;
 use Swoft\Bean\BeanFactory;
 use Swoft\Db\Query;
 use Swoft\Http\Message\Server\Request;
-use App\Common\Bean\UserData;
 use Swoft\Http\Server\Bean\Annotation\Controller;
 use Swoft\Http\Server\Bean\Annotation\RequestMapping;
 use Swoft\Http\Server\Bean\Annotation\RequestMethod;
+use Swoft\Http\Message\Bean\Annotation\Middlewares;
 use Swoft\Http\Message\Bean\Annotation\Middleware;
+use App\Middlewares\SignMiddleware;
 use App\Middlewares\AuthMiddleware;
 use Swoft\Bean\Annotation\Inject;
 
 /**
  * @Controller(prefix="/v1/auth")
- * @Middleware(class=AuthMiddleware::class)
+ * @Middlewares({
+ *     @Middleware(SignMiddleware::class),
+ *     @Middleware(AuthMiddleware::class)
+ * })
  */
 class AuthController extends ApiController
 {
 
-//    /**
-//     *
-//     * @Inject()
-//     * @var UserData
-//     */
-//    private $userData;
+
     /**
      * @RequestMapping(route="signin", method=RequestMethod::POST)
      * @param Request $request
@@ -36,6 +37,16 @@ class AuthController extends ApiController
     public function signin(Request $request)
     {
 
-        return $this->respondWithArray(BeanFactory::hasBean("UserData"));
+        return $this->respondWithArray($this->token->getClientInfo(0));
+        return $this->respondWithArray();
+    }
+
+    /**
+     * @RequestMapping(route="signup", method=RequestMethod::GET)
+     * @return string
+     */
+    public function signup(){
+
+        return $this->respondWithArray($this->token->getClientInfo(0));
     }
 }
