@@ -36,6 +36,8 @@ class AuthController extends ApiController
      */
     public function signin(Request $request)
     {
+
+        return $this->respondWithArray($request->input());
         return $this->respondWithArray($this->token->getClientInfo('user_id'));
     }
 

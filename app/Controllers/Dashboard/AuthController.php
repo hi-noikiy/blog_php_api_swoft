@@ -4,6 +4,8 @@ namespace App\Controllers\Dashboard;
 
 use App\Common\Code\Code;
 use App\Models\Entity\BoUsers;
+use Firebase\JWT\ExpiredException;
+use Firebase\JWT\JWT;
 use Swoft\Http\Server\Bean\Annotation\Controller;
 use Swoft\Http\Server\Bean\Annotation\RequestMapping;
 use Swoft\Http\Server\Bean\Annotation\RequestMethod;
@@ -19,9 +21,9 @@ use Swoft\Bean\Annotation\Value;
 class AuthController extends ApiController
 {
     /**
-     * @Value(name="${config.db}")
+     * @Value(env="${JWT_KEY}")
      */
-    private $config;
+    private $jwt_key;
 
     /**
      * @RequestMapping(route="login", method=RequestMethod::POST)
@@ -29,14 +31,21 @@ class AuthController extends ApiController
      */
     public function login()
     {
-        return $this->config;
-        return $this->respondWithArray($this->config);
         $this->validate('App\Common\Validate\Dashboard\AuthValidate.login');
-        $user = $this->checkUser(request()->input('account'), request()->input('password'));
+        $uid = $this->checkUser(request()->input('account'), request()->input('password'));
+
+
+        $arr = [
+            'access-token'=>JWT::encode([
+                'uid'=>$uid,
+                'exp'=>time()+60*2
+            ],$this->jwt_key)
+        ];
 
 
 
-        return $this->respondWithArray($user);
+
+        return $this->respondWithArray($arr);
     }
 
     private function checkUser(string $account, string $password)
@@ -47,7 +56,7 @@ class AuthController extends ApiController
         }
         $md5Password = md5(md5($password) . $user->getSalt());
         if ($md5Password == $user->getPassword()) {
-            return ['info' => $user->toArray()];
+            return $user->getUserId();
         } else {
             throw new Exception('用户或密码错误', Code::INVALID_PARAMETER);
         }
