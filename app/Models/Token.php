@@ -32,17 +32,10 @@ class Token
      * 客户端信息
      * @var $clientInfo array|null
      */
-    public $clientInfo = null;
+    private $clientInfo = null;
 
-    public function __construct()
+    private function buildAccessToken($lenght = 32)
     {
-        var_dump(1);
-    }
-
-
-    public function buildAccessToken($lenght = 32)
-    {
-
         //生成AccessToken
         $str_pol = "1234567890ABCDEFGHIJKLMNOPQRSTUVWXYZ123456789abcdefghijklmnopqrstuvwxyz";
         $AccessToken = substr(str_shuffle($str_pol), 0, $lenght);
@@ -51,6 +44,14 @@ class Token
         if ($this->redis->has($AccessToken)) {
             return $this->buildAccessToken();
         }
+        return $AccessToken;
+    }
+
+    public function setToken(array $data): string
+    {
+        $AccessToken = $this->buildAccessToken();
+        $this->redis->hMset($AccessToken, $data);
+        $this->redis->expire($AccessToken, $this->expires);
         return $AccessToken;
     }
 
@@ -65,14 +66,17 @@ class Token
     {
 
         if ($rank == false) {
-            if ($map = $this->redis->hGetAll($accessToken)) {
-                $this->clientInfo = $map;
+            if ($hkeys = $this->redis->hKeys($accessToken)) {
+                $hvals = $this->redis->hVals($accessToken);
+                $this->setClientInfo(array_combine($hkeys, $hvals));
+            } else {
+                $this->setClientInfo(null);
             }
         } else {
             if (!empty($accessToken)) {
-
-                if ($map = $this->redis->hGetAll($accessToken)) {
-                    $this->setClientInfo($map);
+                if ($hkeys = $this->redis->hKeys($accessToken)) {
+                    $hvals = $this->redis->hVals($accessToken);
+                    $this->setClientInfo(array_combine($hkeys, $hvals));
                 } else {
                     throw new Exception('账号异常,请重新登录', Code::INVALID_TOKEN);
                 }
@@ -82,18 +86,20 @@ class Token
         }
     }
 
-    public function setClientInfo($data){
+    public function setClientInfo($data)
+    {
         $this->clientInfo = $data;
     }
 
-    public function getClientInfo(string $name){
-        if($this->clientInfo){
-            if($name){
+    public function getClientInfo(string $name = null)
+    {
+        if ($this->clientInfo) {
+            if ($name && isset($this->clientInfo[$name])) {
                 return $this->clientInfo[$name];
-            }else{
+            } else {
                 return $this->clientInfo;
             }
-        }else{
+        } else {
             return null;
         }
     }

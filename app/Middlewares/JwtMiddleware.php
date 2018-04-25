@@ -2,7 +2,7 @@
 
 namespace App\Middlewares;
 
-use App\Models\Token;
+use Firebase\JWT\JWT;
 use Psr\Http\Server\RequestHandlerInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -13,27 +13,16 @@ use Swoft\Bean\Annotation\Inject;
 
 /**
  * @Bean()
- * @uses      AuthMiddleware
+ * @uses      JwtMiddleware
  */
-class AuthMiddleware implements MiddlewareInterface
+class JwtMiddleware implements MiddlewareInterface
 {
-    /**
-     * @Inject()
-     * @var \Swoft\Redis\Redis
-     */
-    private $redis;
-
-    /**
-     * @Inject()
-     * @var Token
-     */
-    private $token;
 
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
 
         $accessToken = $request->getHeader('access-token');
-        $this->token->checkBasicAuth(end($accessToken));
+        end($accessToken);
 
 
 //        return response()->raw(Encrypt::encrypt(json_encode($request->getParsedBody() + $request->getQueryParams())))->withoutHeader('Content-Type')->withAddedHeader('Content-Type', 'application/octet-stream');
