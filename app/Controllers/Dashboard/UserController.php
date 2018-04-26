@@ -4,6 +4,7 @@ namespace App\Controllers\Dashboard;
 
 
 use App\Common\Controller\ApiController;
+use Swoft\Core\RequestContext;
 use Swoft\Http\Message\Server\Request;
 use Swoft\Http\Server\Bean\Annotation\Controller;
 use Swoft\Http\Server\Bean\Annotation\RequestMapping;
@@ -16,18 +17,16 @@ use Swoft\Bean\Annotation\Inject;
  * @Controller(prefix="/dashboard/user")
  *     @Middleware(JwtMiddleware::class)
  */
-class UserControoler extends ApiController
+class UserController extends ApiController
 {
-
-
     /**
-     * 查询列表接口
-     * 地址:/user/
-     *
      * @RequestMapping(route="/dashboard/user", method={RequestMethod::GET})
      */
-    public function list()
+    public function list(Request $request)
     {
+
+
+        return $request->getAttribute('uid');
         return ['list'];
     }
 

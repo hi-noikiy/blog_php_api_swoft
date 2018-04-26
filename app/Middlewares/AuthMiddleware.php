@@ -33,9 +33,9 @@ class AuthMiddleware implements MiddlewareInterface
     {
 
         $accessToken = $request->getHeader('access-token');
-        $this->token->checkBasicAuth(end($accessToken));
+        $clientinfo = $this->token->checkBasicAuth(end($accessToken));
 
-
+        $request = $request->withAttribute('uid',$clientinfo['user_id']??0);
 //        return response()->raw(Encrypt::encrypt(json_encode($request->getParsedBody() + $request->getQueryParams())))->withoutHeader('Content-Type')->withAddedHeader('Content-Type', 'application/octet-stream');
         // 委托给下一个中间件处理
         $response = $handler->handle($request);

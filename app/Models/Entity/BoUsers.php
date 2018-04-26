@@ -124,7 +124,7 @@ class BoUsers extends Model
      * @param int $value
      * @return $this
      */
-    public function setUserId(int $value)
+    public function setUser_Id(int $value)
     {
         $this->user_id = $value;
 
@@ -292,7 +292,7 @@ class BoUsers extends Model
      * 
      * @return int
      */
-    public function getUserId()
+    public function getUser_Id()
     {
         return $this->user_id;
     }

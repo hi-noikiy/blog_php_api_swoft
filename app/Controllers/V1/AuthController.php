@@ -38,15 +38,17 @@ class AuthController extends ApiController
     {
 
         return $this->respondWithArray($request->input());
-        return $this->respondWithArray($this->token->getClientInfo('user_id'));
+
     }
 
     /**
      * @RequestMapping(route="signup", method=RequestMethod::GET)
+     * @param Request $request
      * @return string
      */
-    public function signup(){
+    public function signup(Request $request){
 
-        return $this->respondWithArray($this->token->getClientInfo(0));
+        return $request->getAttribute('uid');
+        return $this->respondWithArray();
     }
 }
