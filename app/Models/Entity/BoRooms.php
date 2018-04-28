@@ -11,45 +11,41 @@ use Swoft\Db\Bean\Annotation\Table;
 use Swoft\Db\Types;
 
 /**
- * 
- *
  * @Entity()
  * @Table(name="bo_rooms")
  * @uses      BoRooms
- * @version   2018年04月25日
+ * @version   2018年04月28日
  */
 class BoRooms extends Model
 {
     /**
-     * @var int $room_id 
+     * @var int $roomId 
      * @Id()
      * @Column(name="room_id", type=Types::INT)
      */
-    private $room_id = '';
+    private $roomId;
 
     /**
-     * @var string $room_name 房间名字
+     * @var string $roomName 房间名字
      * @Column(name="room_name", type=Types::STRING, length=255)
      * @Required()
      */
-    private $room_name = '';
+    private $roomName;
 
     /**
-     * @var int $is_show 
+     * @var int $isShow 
      * @Column(name="is_show", type=Types::INT)
      * @Required()
      */
-    private $is_show = '1';
+    private $isShow = 1;
 
- 
     /**
-     * 
      * @param int $value
      * @return $this
      */
     public function setRoomId(int $value)
     {
-        $this->room_id = $value;
+        $this->roomId = $value;
 
         return $this;
     }
@@ -61,49 +57,45 @@ class BoRooms extends Model
      */
     public function setRoomName(string $value): self
     {
-        $this->room_name = $value;
+        $this->roomName = $value;
 
         return $this;
     }
 
     /**
-     * 
      * @param int $value
      * @return $this
      */
     public function setIsShow(int $value): self
     {
-        $this->is_show = $value;
+        $this->isShow = $value;
 
         return $this;
     }
 
- 
     /**
-     * 
-     * @return int
+     * @return mixed
      */
     public function getRoomId()
     {
-        return $this->room_id;
+        return $this->roomId;
     }
 
     /**
      * 房间名字
-     * @return string
+     * @return mixed
      */
     public function getRoomName()
     {
-        return $this->room_name;
+        return $this->roomName;
     }
 
     /**
-     * 
      * @return int
      */
     public function getIsShow(): int
     {
-        return $this->is_show;
+        return $this->isShow;
     }
 
 }

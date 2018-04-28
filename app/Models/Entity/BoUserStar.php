@@ -11,127 +11,115 @@ use Swoft\Db\Bean\Annotation\Table;
 use Swoft\Db\Types;
 
 /**
- * 
- *
  * @Entity()
  * @Table(name="bo_user_star")
  * @uses      BoUserStar
- * @version   2018年04月25日
+ * @version   2018年04月28日
  */
 class BoUserStar extends Model
 {
     /**
-     * @var int $us_id 
+     * @var int $usId 
      * @Id()
      * @Column(name="us_id", type=Types::INT)
      */
-    private $us_id = '';
+    private $usId;
 
     /**
-     * @var int $user_id 
+     * @var int $userId 
      * @Column(name="user_id", type=Types::INT)
      * @Required()
      */
-    private $user_id = '';
+    private $userId = 0;
 
     /**
-     * @var int $article_id 
+     * @var int $articleId 
      * @Column(name="article_id", type=Types::INT)
      * @Required()
      */
-    private $article_id = '';
+    private $articleId = 0;
 
     /**
-     * @var mixed $add_time 
+     * @var mixed $addTime 
      * @Column(name="add_time", type="string")
      * @Required()
      */
-    private $add_time = '';
+    private $addTime;
 
- 
     /**
-     * 
      * @param int $value
      * @return $this
      */
     public function setUsId(int $value)
     {
-        $this->us_id = $value;
+        $this->usId = $value;
 
         return $this;
     }
 
     /**
-     * 
      * @param int $value
      * @return $this
      */
     public function setUserId(int $value): self
     {
-        $this->user_id = $value;
+        $this->userId = $value;
 
         return $this;
     }
 
     /**
-     * 
      * @param int $value
      * @return $this
      */
     public function setArticleId(int $value): self
     {
-        $this->article_id = $value;
+        $this->articleId = $value;
 
         return $this;
     }
 
     /**
-     * 
      * @param $value
      * @return $this
      */
     public function setAddTime($value): self
     {
-        $this->add_time = $value;
+        $this->addTime = $value;
 
         return $this;
     }
 
- 
     /**
-     * 
-     * @return int
+     * @return mixed
      */
     public function getUsId()
     {
-        return $this->us_id;
+        return $this->usId;
     }
 
     /**
-     * 
-     * @return int
+     * @return mixed
      */
     public function getUserId()
     {
-        return $this->user_id;
+        return $this->userId;
     }
 
     /**
-     * 
-     * @return int
+     * @return mixed
      */
     public function getArticleId()
     {
-        return $this->article_id;
+        return $this->articleId;
     }
 
     /**
-     * 
      * @return mixed
      */
     public function getAddTime()
     {
-        return $this->add_time;
+        return $this->addTime;
     }
 
 }

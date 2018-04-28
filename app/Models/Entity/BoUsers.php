@@ -11,122 +11,118 @@ use Swoft\Db\Bean\Annotation\Table;
 use Swoft\Db\Types;
 
 /**
- * 
- *
  * @Entity()
  * @Table(name="bo_users")
  * @uses      BoUsers
- * @version   2018年04月25日
+ * @version   2018年04月28日
  */
 class BoUsers extends Model
 {
     /**
-     * @var int $user_id 
+     * @var int $userId 
      * @Id()
      * @Column(name="user_id", type=Types::INT)
      */
-    private $user_id = '';
+    private $userId;
 
     /**
      * @var string $nick 昵称
      * @Column(name="nick", type=Types::STRING, length=50)
      * @Required()
      */
-    private $nick = '';
+    private $nick;
 
     /**
      * @var string $avatar 头像
      * @Column(name="avatar", type=Types::STRING, length=65535)
      * @Required()
      */
-    private $avatar = '';
+    private $avatar;
 
     /**
      * @var string $mobile 手机号 唯一标识符
      * @Column(name="mobile", type=Types::STRING, length=20)
      * @Required()
      */
-    private $mobile = '';
+    private $mobile;
 
     /**
      * @var int $age 
      * @Column(name="age", type=Types::INT)
      * @Required()
      */
-    private $age = '0';
+    private $age = 0;
 
     /**
      * @var int $sex 
      * @Column(name="sex", type=Types::INT)
      * @Required()
      */
-    private $sex = '0';
+    private $sex = 0;
 
     /**
      * @var string $salt 盐值
      * @Column(name="salt", type=Types::STRING, length=10)
      * @Required()
      */
-    private $salt = '';
+    private $salt;
 
     /**
      * @var string $password 密码
      * @Column(name="password", type=Types::STRING, length=50)
      * @Required()
      */
-    private $password = '';
+    private $password;
 
     /**
-     * @var mixed $reg_time 注册时间
+     * @var mixed $regTime 注册时间
      * @Column(name="reg_time", type="string")
      * @Required()
      */
-    private $reg_time = '';
+    private $regTime;
 
     /**
-     * @var mixed $login_time 登陆时间
+     * @var mixed $loginTime 登陆时间
      * @Column(name="login_time", type="string")
      * @Required()
      */
-    private $login_time = '';
+    private $loginTime;
 
     /**
-     * @var string $last_ip 
+     * @var string $lastIp 
      * @Column(name="last_ip", type=Types::STRING, length=20)
      * @Required()
      */
-    private $last_ip = '0';
+    private $lastIp;
 
     /**
-     * @var int $visit_count 登陆次数
+     * @var int $visitCount 登陆次数
      * @Column(name="visit_count", type=Types::INT)
      * @Required()
      */
-    private $visit_count = '0';
+    private $visitCount = 0;
 
     /**
-     * @var int $is_delete 是否禁用
+     * @var int $isDelete 是否禁用
      * @Column(name="is_delete", type=Types::INT)
      * @Required()
      */
-    private $is_delete = '0';
+    private $isDelete = 0;
 
     /**
-     * @var int $is_admin 
+     * @var int $isAdmin 
      * @Column(name="is_admin", type=Types::INT)
      * @Required()
      */
-    private $is_admin = '0';
+    private $isAdmin = 0;
 
- 
     /**
-     * 
      * @param int $value
      * @return $this
      */
-    public function setUser_Id(int $value)
+    public function setUserId(int $value)
     {
-        $this->user_id = $value;
+        $this->userId = $value;
 
         return $this;
     }
@@ -168,7 +164,6 @@ class BoUsers extends Model
     }
 
     /**
-     * 
      * @param int $value
      * @return $this
      */
@@ -180,7 +175,6 @@ class BoUsers extends Model
     }
 
     /**
-     * 
      * @param int $value
      * @return $this
      */
@@ -222,7 +216,7 @@ class BoUsers extends Model
      */
     public function setRegTime($value): self
     {
-        $this->reg_time = $value;
+        $this->regTime = $value;
 
         return $this;
     }
@@ -234,19 +228,18 @@ class BoUsers extends Model
      */
     public function setLoginTime($value): self
     {
-        $this->login_time = $value;
+        $this->loginTime = $value;
 
         return $this;
     }
 
     /**
-     * 
      * @param string $value
      * @return $this
      */
     public function setLastIp(string $value): self
     {
-        $this->last_ip = $value;
+        $this->lastIp = $value;
 
         return $this;
     }
@@ -258,7 +251,7 @@ class BoUsers extends Model
      */
     public function setVisitCount(int $value): self
     {
-        $this->visit_count = $value;
+        $this->visitCount = $value;
 
         return $this;
     }
@@ -270,36 +263,33 @@ class BoUsers extends Model
      */
     public function setIsDelete(int $value): self
     {
-        $this->is_delete = $value;
+        $this->isDelete = $value;
 
         return $this;
     }
 
     /**
-     * 
      * @param int $value
      * @return $this
      */
     public function setIsAdmin(int $value): self
     {
-        $this->is_admin = $value;
+        $this->isAdmin = $value;
 
         return $this;
     }
 
- 
     /**
-     * 
-     * @return int
+     * @return mixed
      */
-    public function getUser_Id()
+    public function getUserId()
     {
-        return $this->user_id;
+        return $this->userId;
     }
 
     /**
      * 昵称
-     * @return string
+     * @return mixed
      */
     public function getNick()
     {
@@ -308,7 +298,7 @@ class BoUsers extends Model
 
     /**
      * 头像
-     * @return string
+     * @return mixed
      */
     public function getAvatar()
     {
@@ -317,7 +307,7 @@ class BoUsers extends Model
 
     /**
      * 手机号 唯一标识符
-     * @return string
+     * @return mixed
      */
     public function getMobile()
     {
@@ -325,8 +315,7 @@ class BoUsers extends Model
     }
 
     /**
-     * 
-     * @return int
+     * @return mixed
      */
     public function getAge()
     {
@@ -334,8 +323,7 @@ class BoUsers extends Model
     }
 
     /**
-     * 
-     * @return int
+     * @return mixed
      */
     public function getSex()
     {
@@ -344,7 +332,7 @@ class BoUsers extends Model
 
     /**
      * 盐值
-     * @return string
+     * @return mixed
      */
     public function getSalt()
     {
@@ -353,7 +341,7 @@ class BoUsers extends Model
 
     /**
      * 密码
-     * @return string
+     * @return mixed
      */
     public function getPassword()
     {
@@ -366,7 +354,7 @@ class BoUsers extends Model
      */
     public function getRegTime()
     {
-        return $this->reg_time;
+        return $this->regTime;
     }
 
     /**
@@ -375,43 +363,41 @@ class BoUsers extends Model
      */
     public function getLoginTime()
     {
-        return $this->login_time;
+        return $this->loginTime;
     }
 
     /**
-     * 
-     * @return string
+     * @return mixed
      */
     public function getLastIp()
     {
-        return $this->last_ip;
+        return $this->lastIp;
     }
 
     /**
      * 登陆次数
-     * @return int
+     * @return mixed
      */
     public function getVisitCount()
     {
-        return $this->visit_count;
+        return $this->visitCount;
     }
 
     /**
      * 是否禁用
-     * @return int
+     * @return mixed
      */
     public function getIsDelete()
     {
-        return $this->is_delete;
+        return $this->isDelete;
     }
 
     /**
-     * 
-     * @return int
+     * @return mixed
      */
     public function getIsAdmin()
     {
-        return $this->is_admin;
+        return $this->isAdmin;
     }
 
 }

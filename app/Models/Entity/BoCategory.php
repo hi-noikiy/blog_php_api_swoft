@@ -11,66 +11,62 @@ use Swoft\Db\Bean\Annotation\Table;
 use Swoft\Db\Types;
 
 /**
- * 
- *
  * @Entity()
  * @Table(name="bo_category")
  * @uses      BoCategory
- * @version   2018年04月25日
+ * @version   2018年04月28日
  */
 class BoCategory extends Model
 {
     /**
-     * @var int $cat_id 
+     * @var int $catId 
      * @Id()
      * @Column(name="cat_id", type=Types::INT)
      */
-    private $cat_id = '';
+    private $catId;
 
     /**
-     * @var string $cat_name 分类名字
+     * @var string $catName 分类名字
      * @Column(name="cat_name", type=Types::STRING, length=20)
      * @Required()
      */
-    private $cat_name = '';
+    private $catName;
 
     /**
      * @var string $icon 图标
      * @Column(name="icon", type=Types::STRING, length=20)
      * @Required()
      */
-    private $icon = '';
+    private $icon;
 
     /**
      * @var string $router 路由
      * @Column(name="router", type=Types::STRING, length=20)
      * @Required()
      */
-    private $router = '';
+    private $router;
 
     /**
      * @var int $sort 降序
      * @Column(name="sort", type=Types::INT)
      * @Required()
      */
-    private $sort = '0';
+    private $sort = 0;
 
     /**
      * @var int $able 0禁用|1启动
      * @Column(name="able", type=Types::INT)
      * @Required()
      */
-    private $able = '1';
+    private $able = 1;
 
- 
     /**
-     * 
      * @param int $value
      * @return $this
      */
     public function setCatId(int $value)
     {
-        $this->cat_id = $value;
+        $this->catId = $value;
 
         return $this;
     }
@@ -82,7 +78,7 @@ class BoCategory extends Model
      */
     public function setCatName(string $value): self
     {
-        $this->cat_name = $value;
+        $this->catName = $value;
 
         return $this;
     }
@@ -135,28 +131,26 @@ class BoCategory extends Model
         return $this;
     }
 
- 
     /**
-     * 
-     * @return int
+     * @return mixed
      */
     public function getCatId()
     {
-        return $this->cat_id;
+        return $this->catId;
     }
 
     /**
      * 分类名字
-     * @return string
+     * @return mixed
      */
     public function getCatName()
     {
-        return $this->cat_name;
+        return $this->catName;
     }
 
     /**
      * 图标
-     * @return string
+     * @return mixed
      */
     public function getIcon()
     {
@@ -165,7 +159,7 @@ class BoCategory extends Model
 
     /**
      * 路由
-     * @return string
+     * @return mixed
      */
     public function getRouter()
     {
@@ -174,7 +168,7 @@ class BoCategory extends Model
 
     /**
      * 降序
-     * @return int
+     * @return mixed
      */
     public function getSort()
     {

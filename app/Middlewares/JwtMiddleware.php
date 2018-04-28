@@ -30,15 +30,23 @@ class JwtMiddleware implements MiddlewareInterface
 
         $accessToken = $request->getHeader('access-token');
         if (!end($accessToken)) {
-            throw new Exception('access-token不存在', Code::UNLOGIN);
+            throw new Exception('请登录', Code::UNLOGIN);
         }
-        var_dump(explode('/',$request->getUri()->getPath()));
+        $route = explode('/',$request->getUri()->getPath());
 
         try {
             $decode = JWT::decode(end($accessToken), $this->jwt_key, ['HS256']);
         } catch (ExpiredException $e) {
             throw new ExpiredException('请重新登录', Code::INVALID_TOKEN);
         }
+
+        if($route[1] == 'dashboard'){
+            if(!$decode->is_admin){
+                throw new ExpiredException('该用户无权限', Code::ACCOUNT_BAD);
+            }
+            //权限管理代码
+        }
+
 
         $request = $request->withAttribute('uid',$decode->uid);
 //        return response()->raw(Encrypt::encrypt(json_encode($request->getParsedBody() + $request->getQueryParams())))->withoutHeader('Content-Type')->withAddedHeader('Content-Type', 'application/octet-stream');

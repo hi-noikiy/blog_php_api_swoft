@@ -11,59 +11,55 @@ use Swoft\Db\Bean\Annotation\Table;
 use Swoft\Db\Types;
 
 /**
- * 
- *
  * @Entity()
  * @Table(name="bo_nav")
  * @uses      BoNav
- * @version   2018年04月25日
+ * @version   2018年04月28日
  */
 class BoNav extends Model
 {
     /**
-     * @var int $nav_id 
+     * @var int $navId 
      * @Id()
      * @Column(name="nav_id", type=Types::INT)
      */
-    private $nav_id = '';
+    private $navId;
 
     /**
-     * @var string $nav_name 导航栏名称
+     * @var string $navName 导航栏名称
      * @Column(name="nav_name", type=Types::STRING, length=20)
      * @Required()
      */
-    private $nav_name = '';
+    private $navName;
 
     /**
      * @var string $icon 图标
      * @Column(name="icon", type=Types::STRING, length=20)
      * @Required()
      */
-    private $icon = '';
+    private $icon;
 
     /**
      * @var string $router 路由
      * @Column(name="router", type=Types::STRING, length=20)
      * @Required()
      */
-    private $router = '';
+    private $router;
 
     /**
      * @var int $sort 排序
      * @Column(name="sort", type=Types::INT)
      * @Required()
      */
-    private $sort = '0';
+    private $sort = 0;
 
- 
     /**
-     * 
      * @param int $value
      * @return $this
      */
     public function setNavId(int $value)
     {
-        $this->nav_id = $value;
+        $this->navId = $value;
 
         return $this;
     }
@@ -75,7 +71,7 @@ class BoNav extends Model
      */
     public function setNavName(string $value): self
     {
-        $this->nav_name = $value;
+        $this->navName = $value;
 
         return $this;
     }
@@ -116,28 +112,26 @@ class BoNav extends Model
         return $this;
     }
 
- 
     /**
-     * 
-     * @return int
+     * @return mixed
      */
     public function getNavId()
     {
-        return $this->nav_id;
+        return $this->navId;
     }
 
     /**
      * 导航栏名称
-     * @return string
+     * @return mixed
      */
     public function getNavName()
     {
-        return $this->nav_name;
+        return $this->navName;
     }
 
     /**
      * 图标
-     * @return string
+     * @return mixed
      */
     public function getIcon()
     {
@@ -146,7 +140,7 @@ class BoNav extends Model
 
     /**
      * 路由
-     * @return string
+     * @return mixed
      */
     public function getRouter()
     {
@@ -155,7 +149,7 @@ class BoNav extends Model
 
     /**
      * 排序
-     * @return int
+     * @return mixed
      */
     public function getSort()
     {

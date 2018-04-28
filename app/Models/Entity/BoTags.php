@@ -11,45 +11,41 @@ use Swoft\Db\Bean\Annotation\Table;
 use Swoft\Db\Types;
 
 /**
- * 
- *
  * @Entity()
  * @Table(name="bo_tags")
  * @uses      BoTags
- * @version   2018年04月25日
+ * @version   2018年04月28日
  */
 class BoTags extends Model
 {
     /**
-     * @var int $tag_id 
+     * @var int $tagId 
      * @Id()
      * @Column(name="tag_id", type=Types::INT)
      */
-    private $tag_id = '';
+    private $tagId;
 
     /**
-     * @var string $tag_name 标签名字
+     * @var string $tagName 标签名字
      * @Column(name="tag_name", type=Types::STRING, length=20)
      * @Required()
      */
-    private $tag_name = '';
+    private $tagName;
 
     /**
      * @var int $order 排序
      * @Column(name="order", type=Types::INT)
      * @Required()
      */
-    private $order = '';
+    private $order = 0;
 
- 
     /**
-     * 
      * @param int $value
      * @return $this
      */
     public function setTagId(int $value)
     {
-        $this->tag_id = $value;
+        $this->tagId = $value;
 
         return $this;
     }
@@ -61,7 +57,7 @@ class BoTags extends Model
      */
     public function setTagName(string $value): self
     {
-        $this->tag_name = $value;
+        $this->tagName = $value;
 
         return $this;
     }
@@ -78,28 +74,26 @@ class BoTags extends Model
         return $this;
     }
 
- 
     /**
-     * 
-     * @return int
+     * @return mixed
      */
     public function getTagId()
     {
-        return $this->tag_id;
+        return $this->tagId;
     }
 
     /**
      * 标签名字
-     * @return string
+     * @return mixed
      */
     public function getTagName()
     {
-        return $this->tag_name;
+        return $this->tagName;
     }
 
     /**
      * 排序
-     * @return int
+     * @return mixed
      */
     public function getOrder()
     {

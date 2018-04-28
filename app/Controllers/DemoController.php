@@ -12,6 +12,7 @@ namespace App\Controllers;
 
 use App\Common\Code\Code;
 use App\Common\Controller\ApiController;
+use App\Common\Utility\Qiniu;
 use App\Models\Logic\IndexLogic;
 use Swoft\App;
 use Swoft\Core\Coroutine;
@@ -69,22 +70,15 @@ class DemoController extends ApiController
      */
     public function index(Request $request)
     {
+        var_dump($request->input());
+        var_dump(request()->getServerParams());
+        return $request->server();
+        return $this->respondWithArray((array)($request->file('file')));
+        return ((new Qiniu())->single_upload($request->file('file')->toArray(),'common'));
+        return $this->respondWithArray(($request->file('file')->toArray())['tmp_file']);
+        var_dump($request->file('file'));
 
-
-        // 获取所有GET参数
-        $get = $request->query();
-        // 获取name参数默认值defaultName
-        $getName = $request->query('name', 'defaultName');
-        // 获取所有POST参数
-        $post = $request->post();
-        // 获取name参数默认值defaultName
-        $postName = $request->post('name', 'defaultName');
-        // 获取所有参，包括GET或POST
-        $inputs = $request->input();
-        // 获取name参数默认值defaultName
-        $inputName = $request->input('name', 'defaultName');
-
-        return compact('get', 'getName', 'post', 'postName', 'inputs', 'inputName');
+//        return $this->respondWithArray($request->file('file')->toArray());
     }
 
     /**
@@ -94,10 +88,10 @@ class DemoController extends ApiController
     public function index2()
     {
         Coroutine::create(function () {
-
+            var_dump(Coroutine::id());
             App::trace('this is child trace' . Coroutine::id());
             Coroutine::create(function () {
-
+                var_dump(Coroutine::id());
                 App::trace('this is child child trace' . Coroutine::id());
             });
         });

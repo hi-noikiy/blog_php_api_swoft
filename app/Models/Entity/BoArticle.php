@@ -11,92 +11,88 @@ use Swoft\Db\Bean\Annotation\Table;
 use Swoft\Db\Types;
 
 /**
- * 
- *
  * @Entity()
  * @Table(name="bo_article")
  * @uses      BoArticle
- * @version   2018年04月25日
+ * @version   2018年04月28日
  */
 class BoArticle extends Model
 {
     /**
-     * @var int $article_id 
+     * @var int $articleId 
      * @Id()
      * @Column(name="article_id", type=Types::INT)
      */
-    private $article_id = '';
+    private $articleId;
 
     /**
      * @var string $title 标题
      * @Column(name="title", type=Types::STRING, length=20)
      * @Required()
      */
-    private $title = '';
+    private $title;
 
     /**
      * @var string $subheading 副标题
      * @Column(name="subheading", type=Types::STRING, length=20)
      */
-    private $subheading = '';
+    private $subheading;
 
     /**
      * @var string $tags 标签
      * @Column(name="tags", type=Types::STRING, length=255)
      */
-    private $tags = '';
+    private $tags;
 
     /**
      * @var int $category 
      * @Column(name="category", type=Types::INT)
      * @Required()
      */
-    private $category = '0';
+    private $category = 0;
 
     /**
      * @var mixed $content 内容
      * @Column(name="content", type="string", length=16777215)
      * @Required()
      */
-    private $content = '';
+    private $content;
 
     /**
      * @var string $author 作者
      * @Column(name="author", type=Types::STRING, length=20)
      * @Required()
      */
-    private $author = 'blogger';
+    private $author = "blogger";
 
     /**
-     * @var mixed $add_time 
+     * @var mixed $addTime 
      * @Column(name="add_time", type="string")
      * @Required()
      */
-    private $add_time = '';
+    private $addTime;
 
     /**
      * @var int $stars 星星
      * @Column(name="stars", type=Types::INT)
      * @Required()
      */
-    private $stars = '0';
+    private $stars = 0;
 
     /**
-     * @var mixed $edit_time 
+     * @var mixed $editTime 
      * @Column(name="edit_time", type="string")
      * @Required()
      */
-    private $edit_time = '';
+    private $editTime;
 
- 
     /**
-     * 
      * @param int $value
      * @return $this
      */
     public function setArticleId(int $value)
     {
-        $this->article_id = $value;
+        $this->articleId = $value;
 
         return $this;
     }
@@ -138,7 +134,6 @@ class BoArticle extends Model
     }
 
     /**
-     * 
      * @param int $value
      * @return $this
      */
@@ -174,13 +169,12 @@ class BoArticle extends Model
     }
 
     /**
-     * 
      * @param $value
      * @return $this
      */
     public function setAddTime($value): self
     {
-        $this->add_time = $value;
+        $this->addTime = $value;
 
         return $this;
     }
@@ -198,30 +192,27 @@ class BoArticle extends Model
     }
 
     /**
-     * 
      * @param $value
      * @return $this
      */
     public function setEditTime($value): self
     {
-        $this->edit_time = $value;
+        $this->editTime = $value;
 
         return $this;
     }
 
- 
     /**
-     * 
-     * @return int
+     * @return mixed
      */
     public function getArticleId()
     {
-        return $this->article_id;
+        return $this->articleId;
     }
 
     /**
      * 标题
-     * @return string
+     * @return mixed
      */
     public function getTitle()
     {
@@ -230,7 +221,7 @@ class BoArticle extends Model
 
     /**
      * 副标题
-     * @return string
+     * @return mixed
      */
     public function getSubheading()
     {
@@ -239,7 +230,7 @@ class BoArticle extends Model
 
     /**
      * 标签
-     * @return string
+     * @return mixed
      */
     public function getTags()
     {
@@ -247,8 +238,7 @@ class BoArticle extends Model
     }
 
     /**
-     * 
-     * @return int
+     * @return mixed
      */
     public function getCategory()
     {
@@ -274,17 +264,16 @@ class BoArticle extends Model
     }
 
     /**
-     * 
      * @return mixed
      */
     public function getAddTime()
     {
-        return $this->add_time;
+        return $this->addTime;
     }
 
     /**
      * 星星
-     * @return int
+     * @return mixed
      */
     public function getStars()
     {
@@ -292,12 +281,11 @@ class BoArticle extends Model
     }
 
     /**
-     * 
      * @return mixed
      */
     public function getEditTime()
     {
-        return $this->edit_time;
+        return $this->editTime;
     }
 
 }

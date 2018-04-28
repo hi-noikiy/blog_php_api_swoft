@@ -10,6 +10,8 @@
 
 namespace App\Exception;
 
+use App\Models\Entity\BoSystemLog;
+use App\Models\Entity\BoSystemTrace;
 use Swoft\App;
 use Swoft\Bean\Annotation\ExceptionHandler;
 use Swoft\Bean\Annotation\Handler;
@@ -36,7 +38,7 @@ class SwoftExceptionHandler
     /**
      * @Handler(Exception::class)
      *
-     * @param Response   $response
+     * @param Response $response
      * @param \Throwable $throwable
      *
      * @return Response
@@ -45,12 +47,28 @@ class SwoftExceptionHandler
     {
 //        $file      = $throwable->getFile();
 //        $line      = $throwable->getLine();
-        $code      = $throwable->getCode();
-        $exception = $throwable->getMessage();
+        $code = $throwable->getCode();
+        $message = $throwable->getMessage();
 
 //        $data = ['msg' => $exception, 'file' => $file, 'line' => $line, 'code' => $code];
-        $data = [ 'code' => $code,'res'=>null,'msg' => $exception];
+        $data = ['code' => $code, 'res' => null, 'msg' => $message];
 
+        if ($code === 0) {
+            $systemlog = new BoSystemLog();
+            $systrace = new BoSystemTrace();
+
+            $data = [
+                'message' => $throwable->getMessage(),
+                'file' => $throwable->getFile(),
+                'line' => $throwable->getLine(),
+                'recordTime' => date('Y-m-d H:i:s')
+            ];
+
+            $sl_id = $systemlog->fill($data)->save()->getResult();
+            $systrace->setSlId($sl_id);
+            $systrace->setTrace(addslashes(json_encode($throwable->getTrace())));
+            $systrace->save();
+        }
 //        App::error(json_encode($data));
         return $response->json($data);
     }
@@ -58,15 +76,15 @@ class SwoftExceptionHandler
     /**
      * @Handler(RuntimeException::class)
      *
-     * @param Response   $response
+     * @param Response $response
      * @param \Throwable $throwable
      *
      * @return Response
      */
     public function handlerRuntimeException(Response $response, \Throwable $throwable)
     {
-        $file      = $throwable->getFile();
-        $code      = $throwable->getCode();
+        $file = $throwable->getFile();
+        $code = $throwable->getCode();
         $exception = $throwable->getMessage();
 
         return $response->json([$exception, 'runtimeException']);
@@ -75,7 +93,7 @@ class SwoftExceptionHandler
     /**
      * @Handler(ValidatorException::class)
      *
-     * @param Response   $response
+     * @param Response $response
      * @param \Throwable $throwable
      *
      * @return Response
@@ -90,7 +108,7 @@ class SwoftExceptionHandler
     /**
      * @Handler(BadRequestException::class)
      *
-     * @param Response   $response
+     * @param Response $response
      * @param \Throwable $throwable
      *
      * @return Response
@@ -105,15 +123,15 @@ class SwoftExceptionHandler
     /**
      * @Handler(BadMethodCallException::class)
      *
-     * @param Request    $request
-     * @param Response   $response
+     * @param Request $request
+     * @param Response $response
      * @param \Throwable $throwable
      *
      * @return Response
      */
     public function handlerViewException(Request $request, Response $response, \Throwable $throwable)
     {
-        $name  = $throwable->getMessage(). $request->getUri()->getPath();
+        $name = $throwable->getMessage() . $request->getUri()->getPath();
         $notes = [
             'New Generation of PHP Framework',
             'Hign Performance, Coroutine and Full Stack',
@@ -140,7 +158,7 @@ class SwoftExceptionHandler
                 'link' => 'https://github.com/swoft-cloud/swoft',
             ],
         ];
-        $data  = compact('name', 'notes', 'links');
+        $data = compact('name', 'notes', 'links');
 
         return view('exception/index', $data);
     }

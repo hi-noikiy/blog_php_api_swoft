@@ -11,12 +11,10 @@ use Swoft\Db\Bean\Annotation\Table;
 use Swoft\Db\Types;
 
 /**
- * 
- *
  * @Entity()
  * @Table(name="bo_sms_record")
  * @uses      BoSmsRecord
- * @version   2018年04月25日
+ * @version   2018年04月28日
  */
 class BoSmsRecord extends Model
 {
@@ -25,46 +23,44 @@ class BoSmsRecord extends Model
      * @Id()
      * @Column(name="id", type=Types::INT)
      */
-    private $id = '';
+    private $id;
 
     /**
      * @var string $mobile 
      * @Column(name="mobile", type=Types::STRING, length=50)
      * @Required()
      */
-    private $mobile = '';
+    private $mobile;
 
     /**
-     * @var string $template_code 
+     * @var string $templateCode 
      * @Column(name="template_code", type=Types::STRING, length=100)
      * @Required()
      */
-    private $template_code = '';
+    private $templateCode;
 
     /**
-     * @var string $request_id 
+     * @var string $requestId 
      * @Column(name="request_id", type=Types::STRING, length=50)
      * @Required()
      */
-    private $request_id = '';
+    private $requestId;
 
     /**
      * @var string $ip 
      * @Column(name="ip", type=Types::STRING, length=50)
      * @Required()
      */
-    private $ip = '';
+    private $ip;
 
     /**
      * @var mixed $date 
      * @Column(name="date", type="string")
      * @Required()
      */
-    private $date = '';
+    private $date;
 
- 
     /**
-     * 
      * @param int $value
      * @return $this
      */
@@ -76,7 +72,6 @@ class BoSmsRecord extends Model
     }
 
     /**
-     * 
      * @param string $value
      * @return $this
      */
@@ -88,31 +83,28 @@ class BoSmsRecord extends Model
     }
 
     /**
-     * 
      * @param string $value
      * @return $this
      */
     public function setTemplateCode(string $value): self
     {
-        $this->template_code = $value;
+        $this->templateCode = $value;
 
         return $this;
     }
 
     /**
-     * 
      * @param string $value
      * @return $this
      */
     public function setRequestId(string $value): self
     {
-        $this->request_id = $value;
+        $this->requestId = $value;
 
         return $this;
     }
 
     /**
-     * 
      * @param string $value
      * @return $this
      */
@@ -124,7 +116,6 @@ class BoSmsRecord extends Model
     }
 
     /**
-     * 
      * @param $value
      * @return $this
      */
@@ -135,10 +126,8 @@ class BoSmsRecord extends Model
         return $this;
     }
 
- 
     /**
-     * 
-     * @return int
+     * @return mixed
      */
     public function getId()
     {
@@ -146,8 +135,7 @@ class BoSmsRecord extends Model
     }
 
     /**
-     * 
-     * @return string
+     * @return mixed
      */
     public function getMobile()
     {
@@ -155,26 +143,23 @@ class BoSmsRecord extends Model
     }
 
     /**
-     * 
-     * @return string
+     * @return mixed
      */
     public function getTemplateCode()
     {
-        return $this->template_code;
+        return $this->templateCode;
     }
 
     /**
-     * 
-     * @return string
+     * @return mixed
      */
     public function getRequestId()
     {
-        return $this->request_id;
+        return $this->requestId;
     }
 
     /**
-     * 
-     * @return string
+     * @return mixed
      */
     public function getIp()
     {
@@ -182,7 +167,6 @@ class BoSmsRecord extends Model
     }
 
     /**
-     * 
      * @return mixed
      */
     public function getDate()

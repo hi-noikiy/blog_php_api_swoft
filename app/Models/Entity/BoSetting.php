@@ -12,98 +12,90 @@ use Swoft\Db\Types;
 
 /**
  * app配置表
- *
+
  * @Entity()
  * @Table(name="bo_setting")
  * @uses      BoSetting
- * @version   2018年04月25日
+ * @version   2018年04月28日
  */
 class BoSetting extends Model
 {
     /**
-     * @var int $setting_id 
+     * @var int $settingId 
      * @Id()
      * @Column(name="setting_id", type=Types::INT)
      */
-    private $setting_id = '';
+    private $settingId;
 
     /**
-     * @var string $setting_key 
+     * @var string $settingKey 
      * @Column(name="setting_key", type=Types::STRING, length=255)
      * @Required()
      */
-    private $setting_key = '';
+    private $settingKey;
 
     /**
-     * @var string $setting_value 
+     * @var string $settingValue 
      * @Column(name="setting_value", type=Types::STRING, length=255)
      * @Required()
      */
-    private $setting_value = '';
+    private $settingValue;
 
- 
     /**
-     * 
      * @param int $value
      * @return $this
      */
     public function setSettingId(int $value)
     {
-        $this->setting_id = $value;
+        $this->settingId = $value;
 
         return $this;
     }
 
     /**
-     * 
      * @param string $value
      * @return $this
      */
     public function setSettingKey(string $value): self
     {
-        $this->setting_key = $value;
+        $this->settingKey = $value;
 
         return $this;
     }
 
     /**
-     * 
      * @param string $value
      * @return $this
      */
     public function setSettingValue(string $value): self
     {
-        $this->setting_value = $value;
+        $this->settingValue = $value;
 
         return $this;
     }
 
- 
     /**
-     * 
-     * @return int
+     * @return mixed
      */
     public function getSettingId()
     {
-        return $this->setting_id;
+        return $this->settingId;
     }
 
     /**
-     * 
-     * @return string
+     * @return mixed
      */
     public function getSettingKey()
     {
-        return $this->setting_key;
+        return $this->settingKey;
     }
 
     /**
-     * 
-     * @return string
+     * @return mixed
      */
     public function getSettingValue()
     {
-        return $this->setting_value;
+        return $this->settingValue;
     }
 
 }
