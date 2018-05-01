@@ -14,11 +14,11 @@ use Swoft\Db\Types;
  * 【配置】后台菜单表
 
  * @Entity()
- * @Table(name="bo_admin_menu")
- * @uses      BoAdminMenu
- * @version   2018年04月28日
+ * @Table(name="admin_menu")
+ * @uses      AdminMenu
+ * @version   2018年04月29日
  */
-class BoAdminMenu extends Model
+class AdminMenu extends Model
 {
     /**
      * @var int $id 菜单ID

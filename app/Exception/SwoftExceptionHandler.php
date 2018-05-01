@@ -10,8 +10,8 @@
 
 namespace App\Exception;
 
-use App\Models\Entity\BoSystemLog;
-use App\Models\Entity\BoSystemTrace;
+use App\Models\Entity\SystemLog;
+use App\Models\Entity\SystemTrace;
 use Swoft\App;
 use Swoft\Bean\Annotation\ExceptionHandler;
 use Swoft\Bean\Annotation\Handler;
@@ -54,17 +54,17 @@ class SwoftExceptionHandler
         $data = ['code' => $code, 'res' => null, 'msg' => $message];
 
         if ($code === 0) {
-            $systemlog = new BoSystemLog();
-            $systrace = new BoSystemTrace();
+            $systemlog = new SystemLog();
+            $systrace = new SystemTrace();
 
-            $data = [
+            $insert = [
                 'message' => $throwable->getMessage(),
                 'file' => $throwable->getFile(),
                 'line' => $throwable->getLine(),
                 'recordTime' => date('Y-m-d H:i:s')
             ];
 
-            $sl_id = $systemlog->fill($data)->save()->getResult();
+            $sl_id = $systemlog->fill($insert)->save()->getResult();
             $systrace->setSlId($sl_id);
             $systrace->setTrace(addslashes(json_encode($throwable->getTrace())));
             $systrace->save();

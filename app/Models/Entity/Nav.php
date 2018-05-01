@@ -12,11 +12,11 @@ use Swoft\Db\Types;
 
 /**
  * @Entity()
- * @Table(name="bo_nav")
- * @uses      BoNav
- * @version   2018年04月28日
+ * @Table(name="nav")
+ * @uses      Nav
+ * @version   2018年04月29日
  */
-class BoNav extends Model
+class Nav extends Model
 {
     /**
      * @var int $navId 

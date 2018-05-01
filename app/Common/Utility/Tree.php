@@ -72,8 +72,10 @@ class Tree{
             foreach($list as $key => $data){
                 // 判断是否存在parent
                 $parent_id = $data[$pid];
-                if($parent_id === null || (int)$root === $parent_id){
+
+                if($parent_id === null || (int)$root === (int)$parent_id){
                     $tree[] =& $list[$key];
+                    var_dump($tree);
                 }else{
                     if(isset($refer[$parent_id])){
                         $parent =& $refer[$parent_id];
@@ -113,7 +115,7 @@ class Tree{
                 $reffer = $value;
                 if(isset($reffer[$child])){
                     unset($reffer[$child]);
-                    tree_to_list($value[$child], $child, $order, $list);
+                    $this->tree_to_list($value[$child], $child, $order, $list);
                 }
                 $list[] = $reffer;
             }

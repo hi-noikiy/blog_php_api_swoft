@@ -44,7 +44,8 @@ class JwtMiddleware implements MiddlewareInterface
             if(!$decode->is_admin){
                 throw new ExpiredException('该用户无权限', Code::ACCOUNT_BAD);
             }
-            //权限管理代码
+            //权限管理代码 restful风格根据 method区分一个模块的验证
+
         }
 
 

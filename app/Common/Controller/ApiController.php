@@ -6,6 +6,7 @@ use App\Common\Code\Code;
 use App\Models\Token;
 use Swoft\Http\Message\Server\Response;
 use Swoft\Bean\Annotation\Inject;
+use Exception;
 
 class ApiController
 {
@@ -38,7 +39,7 @@ class ApiController
     public function respondWithError($msg): Response
     {
         if ($this->statusCode === 200) {
-            throw new \Exception("You better have a really good reason for erroring on a 200...", 500);
+            throw new Exception("You better have a really good reason for erroring on a 200...", 500);
 //            trigger_error(
 //                "You better have a really good reason for erroring on a 200...",
 //                E_USER_WARNING
@@ -65,6 +66,11 @@ class ApiController
         return $this;
     }
 
+    /**
+     * @param $validate string
+     * @return bool
+     * @throws  object
+     */
     protected function validate($validate)
     {
 
@@ -78,7 +84,7 @@ class ApiController
         }
 
         if (!$v->check(request()->input())) {
-            throw new \Exception($v->getError(), Code::INVALID_PARAMETER);
+            throw new Exception($v->getError(), Code::INVALID_PARAMETER);
         } else {
             return true;
         }

@@ -12,11 +12,11 @@ use Swoft\Db\Types;
 
 /**
  * @Entity()
- * @Table(name="bo_article")
- * @uses      BoArticle
- * @version   2018年04月28日
+ * @Table(name="article")
+ * @uses      Article
+ * @version   2018年04月29日
  */
-class BoArticle extends Model
+class Article extends Model
 {
     /**
      * @var int $articleId 

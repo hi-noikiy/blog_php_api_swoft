@@ -35,6 +35,7 @@ class AuthController extends ApiController
     /**
      * @RequestMapping(route="login", method=RequestMethod::POST)
      * @return object
+     * @throws
      */
     public function login()
     {
@@ -44,7 +45,7 @@ class AuthController extends ApiController
 
         $arr = [
             'access-token' => JWT::encode(
-                array_merge($info, ['exp' => time() + 600 * 2])
+                array_merge($info, ['exp' => time() + 3600 * 2])
                 , $this->jwt_key)
         ];
 

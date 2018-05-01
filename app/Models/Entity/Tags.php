@@ -12,11 +12,11 @@ use Swoft\Db\Types;
 
 /**
  * @Entity()
- * @Table(name="bo_tags")
- * @uses      BoTags
- * @version   2018年04月28日
+ * @Table(name="tags")
+ * @uses      Tags
+ * @version   2018年04月29日
  */
-class BoTags extends Model
+class Tags extends Model
 {
     /**
      * @var int $tagId 

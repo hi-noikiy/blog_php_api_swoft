@@ -12,18 +12,19 @@ use Swoft\Db\Types;
 
 /**
  * @Entity()
- * @Table(name="bo_system_log")
- * @uses      BoSystemLog
- * @version   2018年04月28日
+ * @Table(name="system_log")
+ * @uses      SystemLog
+ * @version   2018年04月29日
  */
-class BoSystemLog extends Model
+class SystemLog extends Model
 {
     /**
-     * @var int $slId 
+     * @var int $sl_id
      * @Id()
      * @Column(name="sl_id", type=Types::INT)
+     * @var null|int
      */
-    private $slId;
+    private $sl_id;
 
     /**
      * @var string $message 错误消息
@@ -40,14 +41,14 @@ class BoSystemLog extends Model
     private $file;
 
     /**
-     * @var int $line 
+     * @var int $line
      * @Column(name="line", type=Types::INT)
      * @Required()
      */
     private $line = 0;
 
     /**
-     * @var mixed $recordTime 
+     * @var mixed $recordTime
      * @Column(name="record_time", type="string")
      */
     private $recordTime;
@@ -58,7 +59,7 @@ class BoSystemLog extends Model
      */
     public function setSlId(int $value)
     {
-        $this->slId = $value;
+        $this->sl_id = $value;
 
         return $this;
     }
@@ -114,7 +115,7 @@ class BoSystemLog extends Model
      */
     public function getSlId()
     {
-        return $this->slId;
+        return $this->sl_id;
     }
 
     /**

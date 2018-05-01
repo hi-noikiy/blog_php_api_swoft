@@ -12,11 +12,11 @@ use Swoft\Db\Types;
 
 /**
  * @Entity()
- * @Table(name="bo_admin_rule")
- * @uses      BoAdminRule
- * @version   2018年04月28日
+ * @Table(name="admin_rule")
+ * @uses      AdminRule
+ * @version   2018年04月29日
  */
-class BoAdminRule extends Model
+class AdminRule extends Model
 {
     /**
      * @var int $ruleId 

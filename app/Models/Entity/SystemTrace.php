@@ -12,18 +12,18 @@ use Swoft\Db\Types;
 
 /**
  * @Entity()
- * @Table(name="bo_system_trace")
- * @uses      BoSystemTrace
- * @version   2018年04月28日
+ * @Table(name="system_trace")
+ * @uses      SystemTrace
+ * @version   2018年04月29日
  */
-class BoSystemTrace extends Model
+class SystemTrace extends Model
 {
     /**
      * @var int $traceId 
      * @Id()
      * @Column(name="trace_id", type=Types::INT)
      */
-    private $traceId;
+    private $trace_id;
 
     /**
      * @var int $slId 
@@ -44,7 +44,7 @@ class BoSystemTrace extends Model
      */
     public function setTraceId(int $value)
     {
-        $this->traceId = $value;
+        $this->trace_id = $value;
 
         return $this;
     }
@@ -76,7 +76,7 @@ class BoSystemTrace extends Model
      */
     public function getTraceId()
     {
-        return $this->traceId;
+        return $this->trace_id;
     }
 
     /**

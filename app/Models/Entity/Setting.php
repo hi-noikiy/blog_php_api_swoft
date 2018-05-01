@@ -14,11 +14,11 @@ use Swoft\Db\Types;
  * app配置表
 
  * @Entity()
- * @Table(name="bo_setting")
- * @uses      BoSetting
- * @version   2018年04月28日
+ * @Table(name="setting")
+ * @uses      Setting
+ * @version   2018年04月29日
  */
-class BoSetting extends Model
+class Setting extends Model
 {
     /**
      * @var int $settingId 
