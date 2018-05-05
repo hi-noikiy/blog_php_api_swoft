@@ -17,6 +17,7 @@ use App\Models\Logic\IndexLogic;
 use Swoft\App;
 use Swoft\Core\Coroutine;
 use Swoft\Bean\Annotation\Inject;
+use Swoft\Core\RequestContext;
 use Swoft\Http\Server\Bean\Annotation\Controller;
 use Swoft\Http\Server\Bean\Annotation\RequestMapping;
 use Swoft\Http\Server\Bean\Annotation\RequestMethod;
@@ -24,6 +25,7 @@ use Swoft\View\Bean\Annotation\View;
 use Swoft\Task\Task;
 use Swoft\Core\Application;
 use Swoft\Http\Message\Server\Request;
+use Swoole\WebSocket\Server;
 
 /**
  * 控制器demo
@@ -65,11 +67,16 @@ class DemoController extends ApiController
      * @RequestMapping(route="index", method={RequestMethod::GET, RequestMethod::POST})
      *
      * @param Request $request
+     * @param Server $server
      *
      * @return object
      */
     public function index(Request $request)
     {
+
+        return \Swoft::$server->sendTo($fd, 'hi, 你好啊！');
+        return 1;
+       return $server->push(4,'test');
         var_dump($request->input());
         var_dump(request()->getServerParams());
         return $request->server();

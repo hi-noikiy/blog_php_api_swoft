@@ -9,3 +9,7 @@ function today_rest(){
 
     return $surplus;
 }
+
+function ip(){
+    return \Swoft\Core\RequestContext::getRequest()->getHeaders()['x-real-ip'][0];
+}

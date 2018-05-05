@@ -59,7 +59,7 @@ class SwoftExceptionHandler
 
             $insert = [
                 'message' => $throwable->getMessage(),
-                'file' => $throwable->getFile(),
+                'file' => addslashes($throwable->getFile()),
                 'line' => $throwable->getLine(),
                 'recordTime' => date('Y-m-d H:i:s')
             ];

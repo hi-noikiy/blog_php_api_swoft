@@ -41,7 +41,6 @@ class AuthController extends ApiController
     {
         $this->validate('App\Common\Validate\Dashboard\AuthValidate.login');
         $info = $this->AuthLogic->checkUser(request()->post('account'), request()->post('password'));
-        var_dump($info);
 
         $arr = [
             'access-token' => JWT::encode(

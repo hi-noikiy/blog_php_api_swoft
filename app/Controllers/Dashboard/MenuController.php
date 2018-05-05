@@ -6,7 +6,6 @@ namespace App\Controllers\Dashboard;
 use App\Common\Utility\Tree;
 use App\Controllers\Psr7Controller;
 use App\Models\Entity\AdminMenu;
-use App\Models\Entity\BoSystemLog;
 use App\Models\Entity\SystemLog;
 use Swoft\Db\Db;
 use Swoft\Db\Query;
@@ -32,9 +31,7 @@ class MenuController extends ApiController
      */
     public function info()
     {
-
-        $menusList = Query::table(AdminMenu::class)->where('status', 1)->orderBy('sort', 'DESC')->get(['*'])->getResult();
-
+        $menusList = AdminMenu::findAll()->getResult()->toArray();
         $res['menu'] = (new Tree())->list_to_tree($menusList, 'id', 'pid', 'child', 0, true);
 
         return $this->respondWithArray($res);

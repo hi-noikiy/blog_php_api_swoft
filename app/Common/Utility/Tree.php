@@ -73,7 +73,7 @@ class Tree{
                 // 判断是否存在parent
                 $parent_id = $data[$pid];
 
-                if($parent_id === null || (int)$root === (int)$parent_id){
+                if($parent_id === null || $root === (int)$parent_id){
                     $tree[] =& $list[$key];
                     var_dump($tree);
                 }else{
