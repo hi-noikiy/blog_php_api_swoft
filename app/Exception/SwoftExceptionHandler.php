@@ -10,6 +10,7 @@
 
 namespace App\Exception;
 
+use App\Controllers\TaskController;
 use App\Models\Entity\SystemLog;
 use App\Models\Entity\SystemTrace;
 use Swoft\App;
@@ -22,6 +23,7 @@ use Swoft\Http\Message\Server\Response;
 use Swoft\Exception\BadMethodCallException;
 use Swoft\Exception\ValidatorException;
 use Swoft\Http\Server\Exception\BadRequestException;
+use Swoft\Task\Task;
 
 /**
  * the handler of global exception
@@ -54,20 +56,7 @@ class SwoftExceptionHandler
         $data = ['code' => $code, 'res' => null, 'msg' => $message];
 
         if ($code === 0) {
-            $systemlog = new SystemLog();
-            $systrace = new SystemTrace();
-
-            $insert = [
-                'message' => $throwable->getMessage(),
-                'file' => addslashes($throwable->getFile()),
-                'line' => $throwable->getLine(),
-                'recordTime' => date('Y-m-d H:i:s')
-            ];
-
-            $sl_id = $systemlog->fill($insert)->save()->getResult();
-            $systrace->setSlId($sl_id);
-            $systrace->setTrace(addslashes(json_encode($throwable->getTrace())));
-            $systrace->save();
+            Task::deliver('Log', 'record', [$throwable->getMessage(), $throwable->getLine(), $throwable->getFile(), $throwable->getTraceAsString()], Task::TYPE_ASYNC);
         }
 //        App::error(json_encode($data));
         return $response->json($data);

@@ -74,7 +74,8 @@ class DemoController extends ApiController
     public function index(Request $request)
     {
 
-        return \Swoft::$server->sendTo($fd, 'hi, 你好啊！');
+        return $this->redis->keys('*');
+
         return 1;
        return $server->push(4,'test');
         var_dump($request->input());

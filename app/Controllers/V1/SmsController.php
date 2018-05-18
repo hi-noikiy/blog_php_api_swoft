@@ -41,7 +41,7 @@ class SmsController extends ApiController
                 return $this->setStatusCode(Code::ERROR)->respondWithError('请求频繁!');
             }
         }
-        $this->risk($this->ip());
+        $this->risk(ip());
         $this->risk($this->data['mobile']);
         $template_code = $this->transformType($this->data['type']);
         $sms_code = rand(10000, 99999);
@@ -77,7 +77,7 @@ class SmsController extends ApiController
             return false;
         }
         if (isset($resp->result) && $resp->result->success) {
-            Db::name('sms_record')->insert(['mobile' => $mobile, 'template_code' => $template_code, 'request_id' => $resp->request_id, 'ip' => $this->ip(), 'date' => date('Y-m-d H:i:s', time())]);
+            Db::name('sms_record')->insert(['mobile' => $mobile, 'template_code' => $template_code, 'request_id' => $resp->request_id, 'ip' => ip(), 'date' => date('Y-m-d H:i:s', time())]);
         }
         return true;
     }

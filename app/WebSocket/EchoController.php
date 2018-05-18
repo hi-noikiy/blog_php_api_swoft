@@ -40,6 +40,8 @@ class EchoController implements HandlerInterface
      */
     public function onMessage(Server $server, Frame $frame)
     {
+        var_dump($frame);
+        $server->task('123');
         $server->push($frame->fd, 'hello, I have received your message: ' . $frame->data);
     }
 

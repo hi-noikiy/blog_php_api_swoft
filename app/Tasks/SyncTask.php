@@ -1,12 +1,4 @@
 <?php
-/**
- * This file is part of Swoft.
- *
- * @link https://swoft.org
- * @document https://doc.swoft.org
- * @contact group@swoft.org
- * @license https://github.com/swoft-cloud/swoft/blob/master/LICENSE
- */
 
 namespace App\Tasks;
 
@@ -50,6 +42,8 @@ class SyncTask
      */
     public function deliverCo(string $p1, string $p2)
     {
+
+        sleep(1);
         App::profileStart('co');
         App::trace('trace');
         App::info('info');
@@ -69,6 +63,7 @@ class SyncTask
      */
     public function deliverAsync(string $p1, string $p2)
     {
+        sleep(1);
         App::profileStart('co');
         App::trace('trace');
         App::info('info');
