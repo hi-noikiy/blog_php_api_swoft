@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Models\Entity;
 
 use Swoft\Db\Model;
@@ -14,30 +13,29 @@ use Swoft\Db\Types;
  * @Entity()
  * @Table(name="tags")
  * @uses      Tags
- * @version   2018年04月29日
  */
 class Tags extends Model
 {
     /**
      * @var int $tagId 
      * @Id()
-     * @Column(name="tag_id", type=Types::INT)
+     * @Column(name="tag_id", type="integer")
      */
     private $tagId;
 
     /**
      * @var string $tagName 标签名字
-     * @Column(name="tag_name", type=Types::STRING, length=20)
+     * @Column(name="tag_name", type="string", length=20)
      * @Required()
      */
     private $tagName;
 
     /**
      * @var int $order 排序
-     * @Column(name="order", type=Types::INT)
+     * @Column(name="order", type="integer")
      * @Required()
      */
-    private $order = 0;
+    private $order;
 
     /**
      * @param int $value
@@ -84,7 +82,7 @@ class Tags extends Model
 
     /**
      * 标签名字
-     * @return mixed
+     * @return string
      */
     public function getTagName()
     {
@@ -93,7 +91,7 @@ class Tags extends Model
 
     /**
      * 排序
-     * @return mixed
+     * @return int
      */
     public function getOrder()
     {

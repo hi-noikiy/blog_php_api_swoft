@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Models\Entity;
 
 use Swoft\Db\Model;
@@ -14,48 +13,47 @@ use Swoft\Db\Types;
  * @Entity()
  * @Table(name="sms_record")
  * @uses      SmsRecord
- * @version   2018年04月29日
  */
 class SmsRecord extends Model
 {
     /**
      * @var int $id 
      * @Id()
-     * @Column(name="id", type=Types::INT)
+     * @Column(name="id", type="integer")
      */
     private $id;
 
     /**
      * @var string $mobile 
-     * @Column(name="mobile", type=Types::STRING, length=50)
+     * @Column(name="mobile", type="string", length=50)
      * @Required()
      */
     private $mobile;
 
     /**
      * @var string $templateCode 
-     * @Column(name="template_code", type=Types::STRING, length=100)
+     * @Column(name="template_code", type="string", length=100)
      * @Required()
      */
     private $templateCode;
 
     /**
      * @var string $requestId 
-     * @Column(name="request_id", type=Types::STRING, length=50)
+     * @Column(name="request_id", type="string", length=50)
      * @Required()
      */
     private $requestId;
 
     /**
      * @var string $ip 
-     * @Column(name="ip", type=Types::STRING, length=50)
+     * @Column(name="ip", type="string", length=50)
      * @Required()
      */
     private $ip;
 
     /**
-     * @var mixed $date 
-     * @Column(name="date", type="string")
+     * @var string $date 
+     * @Column(name="date", type="timestamp")
      * @Required()
      */
     private $date;
@@ -116,10 +114,10 @@ class SmsRecord extends Model
     }
 
     /**
-     * @param $value
+     * @param string $value
      * @return $this
      */
-    public function setDate($value): self
+    public function setDate(string $value): self
     {
         $this->date = $value;
 
@@ -135,7 +133,7 @@ class SmsRecord extends Model
     }
 
     /**
-     * @return mixed
+     * @return string
      */
     public function getMobile()
     {
@@ -143,7 +141,7 @@ class SmsRecord extends Model
     }
 
     /**
-     * @return mixed
+     * @return string
      */
     public function getTemplateCode()
     {
@@ -151,7 +149,7 @@ class SmsRecord extends Model
     }
 
     /**
-     * @return mixed
+     * @return string
      */
     public function getRequestId()
     {
@@ -159,7 +157,7 @@ class SmsRecord extends Model
     }
 
     /**
-     * @return mixed
+     * @return string
      */
     public function getIp()
     {
@@ -167,7 +165,7 @@ class SmsRecord extends Model
     }
 
     /**
-     * @return mixed
+     * @return string
      */
     public function getDate()
     {

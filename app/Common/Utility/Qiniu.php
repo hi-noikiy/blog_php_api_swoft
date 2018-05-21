@@ -17,7 +17,8 @@ class Qiniu
     protected $QiNiu_config = [
         'accesskey' => 'ktvVle4hNOk_qJSTYHC5FI5Ed7au9_bKnmc2Wnwc',
         'secretkey' => 'eR0PGcIXsXB9tmMENJWT9colY2jnaZaO6UB-s8QE',
-        'bucket' => 'wxcs',
+        'bucket' => 'losingbattle',
+        'host'=>'https://img.losingbattle.site/'
     ];
 
     public function __construct()
@@ -44,7 +45,7 @@ class Qiniu
         if ($err !== null) {
             return $err;
         } else {
-            return $ret['key'];
+            return $this->QiNiu_config['host'].$ret['key'];
         }
 
     }

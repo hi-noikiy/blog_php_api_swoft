@@ -3,7 +3,8 @@
 namespace App\Controllers\Dashboard;
 
 use App\Common\Code\Code;
-use App\Models\Entity\BoUsers;
+use App\Common\Utility\Tree;
+use App\Models\Entity\AdminMenu;
 use Firebase\JWT\ExpiredException;
 use Firebase\JWT\JWT;
 use Swoft\Http\Server\Bean\Annotation\Controller;
@@ -40,14 +41,19 @@ class AuthController extends ApiController
     public function login()
     {
         $this->validate('App\Common\Validate\Dashboard\AuthValidate.login');
-        $info = $this->AuthLogic->checkUser(request()->post('account'), request()->post('password'));
+        $info = $this->AuthLogic->checkManager(request()->post('account'), request()->post('password'));
 
+        $this->AuthLogic->updateUserInfo($info['user_id']);
         $arr = [
             'access-token' => JWT::encode(
-                array_merge($info, ['exp' => time() + 3600 * 2])
-                , $this->jwt_key)
+                array_merge(['user_id' => $info['user_id']], ['exp' => time() + 3600 * 2])
+                , $this->jwt_key),
+            'info' => [
+                'avatar' => $info['avatar'],
+                'account' => $info['account']
+            ],
+            'menu' => (new Tree())->list_to_tree(AdminMenu::findAll()->getResult()->toArray(), 'id', 'pid', 'child', 0, true)
         ];
-
 
         return $this->respondWithArray($arr);
     }

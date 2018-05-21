@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Models\Entity;
 
 use Swoft\Db\Model;
@@ -14,74 +13,70 @@ use Swoft\Db\Types;
  * @Entity()
  * @Table(name="article")
  * @uses      Article
- * @version   2018年04月29日
  */
 class Article extends Model
 {
     /**
      * @var int $articleId 
      * @Id()
-     * @Column(name="article_id", type=Types::INT)
+     * @Column(name="article_id", type="integer")
      */
     private $articleId;
 
     /**
      * @var string $title 标题
-     * @Column(name="title", type=Types::STRING, length=20)
+     * @Column(name="title", type="string", length=20)
      * @Required()
      */
     private $title;
 
     /**
      * @var string $subheading 副标题
-     * @Column(name="subheading", type=Types::STRING, length=20)
+     * @Column(name="subheading", type="string", length=20)
      */
     private $subheading;
 
     /**
      * @var string $tags 标签
-     * @Column(name="tags", type=Types::STRING, length=255)
+     * @Column(name="tags", type="string", length=255)
      */
     private $tags;
 
     /**
      * @var int $category 
-     * @Column(name="category", type=Types::INT)
-     * @Required()
+     * @Column(name="category", type="integer", default=0)
      */
-    private $category = 0;
+    private $category;
 
     /**
-     * @var mixed $content 内容
-     * @Column(name="content", type="string", length=16777215)
+     * @var string $content 内容
+     * @Column(name="content", type="text", length=16777215)
      * @Required()
      */
     private $content;
 
     /**
      * @var string $author 作者
-     * @Column(name="author", type=Types::STRING, length=20)
-     * @Required()
+     * @Column(name="author", type="string", length=20, default="blogger")
      */
-    private $author = "blogger";
+    private $author;
 
     /**
-     * @var mixed $addTime 
-     * @Column(name="add_time", type="string")
+     * @var string $addTime 
+     * @Column(name="add_time", type="timestamp")
      * @Required()
      */
     private $addTime;
 
     /**
      * @var int $stars 星星
-     * @Column(name="stars", type=Types::INT)
-     * @Required()
+     * @Column(name="stars", type="integer", default=0)
      */
-    private $stars = 0;
+    private $stars;
 
     /**
-     * @var mixed $editTime 
-     * @Column(name="edit_time", type="string")
+     * @var string $editTime 
+     * @Column(name="edit_time", type="timestamp")
      * @Required()
      */
     private $editTime;
@@ -146,10 +141,10 @@ class Article extends Model
 
     /**
      * 内容
-     * @param $value
+     * @param string $value
      * @return $this
      */
-    public function setContent($value): self
+    public function setContent(string $value): self
     {
         $this->content = $value;
 
@@ -169,10 +164,10 @@ class Article extends Model
     }
 
     /**
-     * @param $value
+     * @param string $value
      * @return $this
      */
-    public function setAddTime($value): self
+    public function setAddTime(string $value): self
     {
         $this->addTime = $value;
 
@@ -192,10 +187,10 @@ class Article extends Model
     }
 
     /**
-     * @param $value
+     * @param string $value
      * @return $this
      */
-    public function setEditTime($value): self
+    public function setEditTime(string $value): self
     {
         $this->editTime = $value;
 
@@ -212,7 +207,7 @@ class Article extends Model
 
     /**
      * 标题
-     * @return mixed
+     * @return string
      */
     public function getTitle()
     {
@@ -221,7 +216,7 @@ class Article extends Model
 
     /**
      * 副标题
-     * @return mixed
+     * @return string
      */
     public function getSubheading()
     {
@@ -230,7 +225,7 @@ class Article extends Model
 
     /**
      * 标签
-     * @return mixed
+     * @return string
      */
     public function getTags()
     {
@@ -238,7 +233,7 @@ class Article extends Model
     }
 
     /**
-     * @return mixed
+     * @return int
      */
     public function getCategory()
     {
@@ -247,7 +242,7 @@ class Article extends Model
 
     /**
      * 内容
-     * @return mixed
+     * @return string
      */
     public function getContent()
     {
@@ -256,15 +251,15 @@ class Article extends Model
 
     /**
      * 作者
-     * @return string
+     * @return mixed
      */
-    public function getAuthor(): string
+    public function getAuthor()
     {
         return $this->author;
     }
 
     /**
-     * @return mixed
+     * @return string
      */
     public function getAddTime()
     {
@@ -273,7 +268,7 @@ class Article extends Model
 
     /**
      * 星星
-     * @return mixed
+     * @return int
      */
     public function getStars()
     {
@@ -281,7 +276,7 @@ class Article extends Model
     }
 
     /**
-     * @return mixed
+     * @return string
      */
     public function getEditTime()
     {

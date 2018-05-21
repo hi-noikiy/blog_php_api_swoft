@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Models\Entity;
 
 use Swoft\Db\Model;
@@ -16,68 +15,67 @@ use Swoft\Db\Types;
  * @Entity()
  * @Table(name="admin_menu")
  * @uses      AdminMenu
- * @version   2018年04月29日
  */
 class AdminMenu extends Model
 {
     /**
      * @var int $id 菜单ID
      * @Id()
-     * @Column(name="id", type=Types::INT)
+     * @Column(name="id", type="integer")
      */
     private $id;
 
     /**
      * @var int $pid 上级菜单ID
-     * @Column(name="pid", type=Types::INT)
+     * @Column(name="pid", type="integer", default=0)
      */
-    private $pid = 0;
+    private $pid;
 
     /**
      * @var string $title 菜单名称
-     * @Column(name="title", type=Types::STRING, length=32)
+     * @Column(name="title", type="string", length=32, default="")
      */
     private $title;
 
     /**
      * @var string $url 链接地址
-     * @Column(name="url", type=Types::STRING, length=127)
+     * @Column(name="url", type="string", length=127, default="")
      */
     private $url;
 
     /**
      * @var string $icon 图标
-     * @Column(name="icon", type=Types::STRING, length=64)
+     * @Column(name="icon", type="string", length=64, default="")
      */
     private $icon;
 
     /**
      * @var int $menuType 菜单类型
-     * @Column(name="menu_type", type=Types::INT)
+     * @Column(name="menu_type", type="tinyint", default=1)
      */
-    private $menuType = 1;
+    private $menuType;
 
     /**
      * @var int $sort 排序（同级有效）
-     * @Column(name="sort", type=Types::INT)
+     * @Column(name="sort", type="tinyint", default=0)
      */
-    private $sort = 0;
+    private $sort;
 
     /**
      * @var int $status 状态
-     * @Column(name="status", type=Types::INT)
+     * @Column(name="status", type="tinyint", default=1)
      */
-    private $status = 1;
+    private $status;
 
     /**
      * @var int $ruleId 权限id
-     * @Column(name="rule_id", type=Types::INT)
+     * @Column(name="rule_id", type="integer", default=61)
      */
-    private $ruleId = 61;
+    private $ruleId;
 
     /**
      * @var string $class 
-     * @Column(name="class", type=Types::STRING, length=255)
+     * @Column(name="class", type="string", length=255)
      */
     private $class;
 
@@ -211,7 +209,7 @@ class AdminMenu extends Model
 
     /**
      * 上级菜单ID
-     * @return mixed
+     * @return int
      */
     public function getPid()
     {
@@ -220,7 +218,7 @@ class AdminMenu extends Model
 
     /**
      * 菜单名称
-     * @return mixed
+     * @return string
      */
     public function getTitle()
     {
@@ -229,7 +227,7 @@ class AdminMenu extends Model
 
     /**
      * 链接地址
-     * @return mixed
+     * @return string
      */
     public function getUrl()
     {
@@ -238,7 +236,7 @@ class AdminMenu extends Model
 
     /**
      * 图标
-     * @return mixed
+     * @return string
      */
     public function getIcon()
     {
@@ -247,16 +245,16 @@ class AdminMenu extends Model
 
     /**
      * 菜单类型
-     * @return int
+     * @return mixed
      */
-    public function getMenuType(): int
+    public function getMenuType()
     {
         return $this->menuType;
     }
 
     /**
      * 排序（同级有效）
-     * @return mixed
+     * @return int
      */
     public function getSort()
     {
@@ -265,24 +263,24 @@ class AdminMenu extends Model
 
     /**
      * 状态
-     * @return int
+     * @return mixed
      */
-    public function getStatus(): int
+    public function getStatus()
     {
         return $this->status;
     }
 
     /**
      * 权限id
-     * @return int
+     * @return mixed
      */
-    public function getRuleId(): int
+    public function getRuleId()
     {
         return $this->ruleId;
     }
 
     /**
-     * @return mixed
+     * @return string
      */
     public function getClass()
     {

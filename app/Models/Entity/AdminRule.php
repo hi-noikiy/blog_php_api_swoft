@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Models\Entity;
 
 use Swoft\Db\Model;
@@ -14,58 +13,52 @@ use Swoft\Db\Types;
  * @Entity()
  * @Table(name="admin_rule")
  * @uses      AdminRule
- * @version   2018年04月29日
  */
 class AdminRule extends Model
 {
     /**
      * @var int $ruleId 
      * @Id()
-     * @Column(name="rule_id", type=Types::INT)
+     * @Column(name="rule_id", type="integer")
      */
     private $ruleId;
 
     /**
      * @var string $title 名称
-     * @Column(name="title", type=Types::STRING, length=100)
-     * @Required()
+     * @Column(name="title", type="string", length=100, default="")
      */
     private $title;
 
     /**
      * @var string $name 定义
-     * @Column(name="name", type=Types::STRING, length=30)
-     * @Required()
+     * @Column(name="name", type="char", length=30, default="")
      */
     private $name;
 
     /**
      * @var int $level 级别。1模块,2控制器,3操作
-     * @Column(name="level", type=Types::INT)
+     * @Column(name="level", type="tinyint")
      * @Required()
      */
-    private $level = 0;
+    private $level;
 
     /**
      * @var int $pid 父id，默认0
-     * @Column(name="pid", type=Types::INT)
-     * @Required()
+     * @Column(name="pid", type="integer", default=0)
      */
-    private $pid = 0;
+    private $pid;
 
     /**
      * @var int $connect 同级编辑
-     * @Column(name="connect", type=Types::INT)
-     * @Required()
+     * @Column(name="connect", type="integer", default=0)
      */
-    private $connect = 0;
+    private $connect;
 
     /**
      * @var int $status 状态，1启用，0禁用
-     * @Column(name="status", type=Types::INT)
-     * @Required()
+     * @Column(name="status", type="tinyint", default=1)
      */
-    private $status = 1;
+    private $status;
 
     /**
      * @param int $value
@@ -160,7 +153,7 @@ class AdminRule extends Model
 
     /**
      * 名称
-     * @return mixed
+     * @return string
      */
     public function getTitle()
     {
@@ -169,7 +162,7 @@ class AdminRule extends Model
 
     /**
      * 定义
-     * @return mixed
+     * @return string
      */
     public function getName()
     {
@@ -178,7 +171,7 @@ class AdminRule extends Model
 
     /**
      * 级别。1模块,2控制器,3操作
-     * @return mixed
+     * @return int
      */
     public function getLevel()
     {
@@ -187,7 +180,7 @@ class AdminRule extends Model
 
     /**
      * 父id，默认0
-     * @return mixed
+     * @return int
      */
     public function getPid()
     {
@@ -196,7 +189,7 @@ class AdminRule extends Model
 
     /**
      * 同级编辑
-     * @return mixed
+     * @return int
      */
     public function getConnect()
     {
@@ -205,9 +198,9 @@ class AdminRule extends Model
 
     /**
      * 状态，1启用，0禁用
-     * @return int
+     * @return mixed
      */
-    public function getStatus(): int
+    public function getStatus()
     {
         return $this->status;
     }

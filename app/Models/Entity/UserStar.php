@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Models\Entity;
 
 use Swoft\Db\Model;
@@ -14,34 +13,33 @@ use Swoft\Db\Types;
  * @Entity()
  * @Table(name="user_star")
  * @uses      UserStar
- * @version   2018年04月29日
  */
 class UserStar extends Model
 {
     /**
      * @var int $usId 
      * @Id()
-     * @Column(name="us_id", type=Types::INT)
+     * @Column(name="us_id", type="integer")
      */
     private $usId;
 
     /**
      * @var int $userId 
-     * @Column(name="user_id", type=Types::INT)
+     * @Column(name="user_id", type="integer")
      * @Required()
      */
-    private $userId = 0;
+    private $userId;
 
     /**
      * @var int $articleId 
-     * @Column(name="article_id", type=Types::INT)
+     * @Column(name="article_id", type="integer")
      * @Required()
      */
-    private $articleId = 0;
+    private $articleId;
 
     /**
-     * @var mixed $addTime 
-     * @Column(name="add_time", type="string")
+     * @var string $addTime 
+     * @Column(name="add_time", type="timestamp")
      * @Required()
      */
     private $addTime;
@@ -80,10 +78,10 @@ class UserStar extends Model
     }
 
     /**
-     * @param $value
+     * @param string $value
      * @return $this
      */
-    public function setAddTime($value): self
+    public function setAddTime(string $value): self
     {
         $this->addTime = $value;
 
@@ -99,7 +97,7 @@ class UserStar extends Model
     }
 
     /**
-     * @return mixed
+     * @return int
      */
     public function getUserId()
     {
@@ -107,7 +105,7 @@ class UserStar extends Model
     }
 
     /**
-     * @return mixed
+     * @return int
      */
     public function getArticleId()
     {
@@ -115,7 +113,7 @@ class UserStar extends Model
     }
 
     /**
-     * @return mixed
+     * @return string
      */
     public function getAddTime()
     {

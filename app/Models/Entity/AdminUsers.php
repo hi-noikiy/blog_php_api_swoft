@@ -11,10 +11,10 @@ use Swoft\Db\Types;
 
 /**
  * @Entity()
- * @Table(name="users")
- * @uses      Users
+ * @Table(name="admin_users")
+ * @uses      AdminUsers
  */
-class Users extends Model
+class AdminUsers extends Model
 {
     /**
      * @var int $userId 
@@ -24,10 +24,10 @@ class Users extends Model
     private $userId;
 
     /**
-     * @var string $nick 昵称
-     * @Column(name="nick", type="string", length=50, default="")
+     * @var string $account 昵称
+     * @Column(name="account", type="string", length=50, default="")
      */
-    private $nick;
+    private $account;
 
     /**
      * @var string $avatar 头像
@@ -37,23 +37,11 @@ class Users extends Model
     private $avatar;
 
     /**
-     * @var string $mobile 手机号 唯一标识符
-     * @Column(name="mobile", type="string", length=20)
+     * @var int $salt 盐值
+     * @Column(name="salt", type="integer")
      * @Required()
      */
-    private $mobile;
-
-    /**
-     * @var int $age 
-     * @Column(name="age", type="integer", default=0)
-     */
-    private $age;
-
-    /**
-     * @var int $sex 
-     * @Column(name="sex", type="tinyint", default=0)
-     */
-    private $sex;
+    private $salt;
 
     /**
      * @var string $password 密码
@@ -61,13 +49,6 @@ class Users extends Model
      * @Required()
      */
     private $password;
-
-    /**
-     * @var int $salt 盐值
-     * @Column(name="salt", type="integer")
-     * @Required()
-     */
-    private $salt;
 
     /**
      * @var string $regTime 注册时间
@@ -117,9 +98,9 @@ class Users extends Model
      * @param string $value
      * @return $this
      */
-    public function setNick(string $value): self
+    public function setAccount(string $value): self
     {
-        $this->nick = $value;
+        $this->account = $value;
 
         return $this;
     }
@@ -137,35 +118,13 @@ class Users extends Model
     }
 
     /**
-     * 手机号 唯一标识符
-     * @param string $value
-     * @return $this
-     */
-    public function setMobile(string $value): self
-    {
-        $this->mobile = $value;
-
-        return $this;
-    }
-
-    /**
+     * 盐值
      * @param int $value
      * @return $this
      */
-    public function setAge(int $value): self
+    public function setSalt(int $value): self
     {
-        $this->age = $value;
-
-        return $this;
-    }
-
-    /**
-     * @param int $value
-     * @return $this
-     */
-    public function setSex(int $value): self
-    {
-        $this->sex = $value;
+        $this->salt = $value;
 
         return $this;
     }
@@ -178,18 +137,6 @@ class Users extends Model
     public function setPassword(string $value): self
     {
         $this->password = $value;
-
-        return $this;
-    }
-
-    /**
-     * 盐值
-     * @param int $value
-     * @return $this
-     */
-    public function setSalt(int $value): self
-    {
-        $this->salt = $value;
 
         return $this;
     }
@@ -265,9 +212,9 @@ class Users extends Model
      * 昵称
      * @return string
      */
-    public function getNick()
+    public function getAccount()
     {
-        return $this->nick;
+        return $this->account;
     }
 
     /**
@@ -280,28 +227,12 @@ class Users extends Model
     }
 
     /**
-     * 手机号 唯一标识符
-     * @return string
-     */
-    public function getMobile()
-    {
-        return $this->mobile;
-    }
-
-    /**
+     * 盐值
      * @return int
      */
-    public function getAge()
+    public function getSalt()
     {
-        return $this->age;
-    }
-
-    /**
-     * @return int
-     */
-    public function getSex()
-    {
-        return $this->sex;
+        return $this->salt;
     }
 
     /**
@@ -311,15 +242,6 @@ class Users extends Model
     public function getPassword()
     {
         return $this->password;
-    }
-
-    /**
-     * 盐值
-     * @return int
-     */
-    public function getSalt()
-    {
-        return $this->salt;
     }
 
     /**

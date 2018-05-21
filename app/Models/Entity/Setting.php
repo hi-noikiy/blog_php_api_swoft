@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Models\Entity;
 
 use Swoft\Db\Model;
@@ -16,27 +15,26 @@ use Swoft\Db\Types;
  * @Entity()
  * @Table(name="setting")
  * @uses      Setting
- * @version   2018年04月29日
  */
 class Setting extends Model
 {
     /**
      * @var int $settingId 
      * @Id()
-     * @Column(name="setting_id", type=Types::INT)
+     * @Column(name="setting_id", type="integer")
      */
     private $settingId;
 
     /**
      * @var string $settingKey 
-     * @Column(name="setting_key", type=Types::STRING, length=255)
+     * @Column(name="setting_key", type="string", length=255)
      * @Required()
      */
     private $settingKey;
 
     /**
      * @var string $settingValue 
-     * @Column(name="setting_value", type=Types::STRING, length=255)
+     * @Column(name="setting_value", type="string", length=255)
      * @Required()
      */
     private $settingValue;
@@ -83,7 +81,7 @@ class Setting extends Model
     }
 
     /**
-     * @return mixed
+     * @return string
      */
     public function getSettingKey()
     {
@@ -91,7 +89,7 @@ class Setting extends Model
     }
 
     /**
-     * @return mixed
+     * @return string
      */
     public function getSettingValue()
     {

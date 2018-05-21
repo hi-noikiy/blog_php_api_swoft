@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Models\Entity;
 
 use Swoft\Db\Model;
@@ -14,30 +13,28 @@ use Swoft\Db\Types;
  * @Entity()
  * @Table(name="rooms")
  * @uses      Rooms
- * @version   2018年04月29日
  */
 class Rooms extends Model
 {
     /**
      * @var int $roomId 
      * @Id()
-     * @Column(name="room_id", type=Types::INT)
+     * @Column(name="room_id", type="integer")
      */
     private $roomId;
 
     /**
      * @var string $roomName 房间名字
-     * @Column(name="room_name", type=Types::STRING, length=255)
+     * @Column(name="room_name", type="string", length=255)
      * @Required()
      */
     private $roomName;
 
     /**
      * @var int $isShow 
-     * @Column(name="is_show", type=Types::INT)
-     * @Required()
+     * @Column(name="is_show", type="tinyint", default=1)
      */
-    private $isShow = 1;
+    private $isShow;
 
     /**
      * @param int $value
@@ -83,7 +80,7 @@ class Rooms extends Model
 
     /**
      * 房间名字
-     * @return mixed
+     * @return string
      */
     public function getRoomName()
     {
@@ -91,9 +88,9 @@ class Rooms extends Model
     }
 
     /**
-     * @return int
+     * @return mixed
      */
-    public function getIsShow(): int
+    public function getIsShow()
     {
         return $this->isShow;
     }

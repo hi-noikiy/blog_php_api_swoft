@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Models\Entity;
 
 use Swoft\Db\Model;
@@ -14,44 +13,42 @@ use Swoft\Db\Types;
  * @Entity()
  * @Table(name="nav")
  * @uses      Nav
- * @version   2018年04月29日
  */
 class Nav extends Model
 {
     /**
      * @var int $navId 
      * @Id()
-     * @Column(name="nav_id", type=Types::INT)
+     * @Column(name="nav_id", type="integer")
      */
     private $navId;
 
     /**
      * @var string $navName 导航栏名称
-     * @Column(name="nav_name", type=Types::STRING, length=20)
+     * @Column(name="nav_name", type="string", length=20)
      * @Required()
      */
     private $navName;
 
     /**
      * @var string $icon 图标
-     * @Column(name="icon", type=Types::STRING, length=20)
+     * @Column(name="icon", type="string", length=20)
      * @Required()
      */
     private $icon;
 
     /**
      * @var string $router 路由
-     * @Column(name="router", type=Types::STRING, length=20)
+     * @Column(name="router", type="string", length=20)
      * @Required()
      */
     private $router;
 
     /**
      * @var int $sort 排序
-     * @Column(name="sort", type=Types::INT)
-     * @Required()
+     * @Column(name="sort", type="integer", default=0)
      */
-    private $sort = 0;
+    private $sort;
 
     /**
      * @param int $value
@@ -122,7 +119,7 @@ class Nav extends Model
 
     /**
      * 导航栏名称
-     * @return mixed
+     * @return string
      */
     public function getNavName()
     {
@@ -131,7 +128,7 @@ class Nav extends Model
 
     /**
      * 图标
-     * @return mixed
+     * @return string
      */
     public function getIcon()
     {
@@ -140,7 +137,7 @@ class Nav extends Model
 
     /**
      * 路由
-     * @return mixed
+     * @return string
      */
     public function getRouter()
     {
@@ -149,7 +146,7 @@ class Nav extends Model
 
     /**
      * 排序
-     * @return mixed
+     * @return int
      */
     public function getSort()
     {

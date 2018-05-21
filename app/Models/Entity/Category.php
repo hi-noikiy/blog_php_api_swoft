@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Models\Entity;
 
 use Swoft\Db\Model;
@@ -14,51 +13,48 @@ use Swoft\Db\Types;
  * @Entity()
  * @Table(name="category")
  * @uses      Category
- * @version   2018年04月29日
  */
 class Category extends Model
 {
     /**
      * @var int $catId 
      * @Id()
-     * @Column(name="cat_id", type=Types::INT)
+     * @Column(name="cat_id", type="integer")
      */
     private $catId;
 
     /**
      * @var string $catName 分类名字
-     * @Column(name="cat_name", type=Types::STRING, length=20)
+     * @Column(name="cat_name", type="string", length=20)
      * @Required()
      */
     private $catName;
 
     /**
      * @var string $icon 图标
-     * @Column(name="icon", type=Types::STRING, length=20)
+     * @Column(name="icon", type="string", length=20)
      * @Required()
      */
     private $icon;
 
     /**
      * @var string $router 路由
-     * @Column(name="router", type=Types::STRING, length=20)
+     * @Column(name="router", type="string", length=20)
      * @Required()
      */
     private $router;
 
     /**
      * @var int $sort 降序
-     * @Column(name="sort", type=Types::INT)
-     * @Required()
+     * @Column(name="sort", type="integer", default=0)
      */
-    private $sort = 0;
+    private $sort;
 
     /**
      * @var int $able 0禁用|1启动
-     * @Column(name="able", type=Types::INT)
-     * @Required()
+     * @Column(name="able", type="tinyint", default=1)
      */
-    private $able = 1;
+    private $able;
 
     /**
      * @param int $value
@@ -141,7 +137,7 @@ class Category extends Model
 
     /**
      * 分类名字
-     * @return mixed
+     * @return string
      */
     public function getCatName()
     {
@@ -150,7 +146,7 @@ class Category extends Model
 
     /**
      * 图标
-     * @return mixed
+     * @return string
      */
     public function getIcon()
     {
@@ -159,7 +155,7 @@ class Category extends Model
 
     /**
      * 路由
-     * @return mixed
+     * @return string
      */
     public function getRouter()
     {
@@ -168,7 +164,7 @@ class Category extends Model
 
     /**
      * 降序
-     * @return mixed
+     * @return int
      */
     public function getSort()
     {
@@ -177,9 +173,9 @@ class Category extends Model
 
     /**
      * 0禁用|1启动
-     * @return int
+     * @return mixed
      */
-    public function getAble(): int
+    public function getAble()
     {
         return $this->able;
     }

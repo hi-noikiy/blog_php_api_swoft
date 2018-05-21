@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Models\Entity;
 
 use Swoft\Db\Model;
@@ -14,27 +13,26 @@ use Swoft\Db\Types;
  * @Entity()
  * @Table(name="system_trace")
  * @uses      SystemTrace
- * @version   2018年04月29日
  */
 class SystemTrace extends Model
 {
     /**
      * @var int $traceId 
      * @Id()
-     * @Column(name="trace_id", type=Types::INT)
+     * @Column(name="trace_id", type="integer")
      */
-    private $trace_id;
+    private $traceId;
 
     /**
      * @var int $slId 
-     * @Column(name="sl_id", type=Types::INT)
+     * @Column(name="sl_id", type="integer")
      * @Required()
      */
-    private $slId = 0;
+    private $slId;
 
     /**
      * @var string $trace 
-     * @Column(name="trace", type=Types::STRING, length=65535)
+     * @Column(name="trace", type="text", length=65535)
      */
     private $trace;
 
@@ -44,7 +42,7 @@ class SystemTrace extends Model
      */
     public function setTraceId(int $value)
     {
-        $this->trace_id = $value;
+        $this->traceId = $value;
 
         return $this;
     }
@@ -76,11 +74,11 @@ class SystemTrace extends Model
      */
     public function getTraceId()
     {
-        return $this->trace_id;
+        return $this->traceId;
     }
 
     /**
-     * @return mixed
+     * @return int
      */
     public function getSlId()
     {
@@ -88,7 +86,7 @@ class SystemTrace extends Model
     }
 
     /**
-     * @return mixed
+     * @return string
      */
     public function getTrace()
     {

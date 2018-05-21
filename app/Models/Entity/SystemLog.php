@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Models\Entity;
 
 use Swoft\Db\Model;
@@ -14,42 +13,40 @@ use Swoft\Db\Types;
  * @Entity()
  * @Table(name="system_log")
  * @uses      SystemLog
- * @version   2018年04月29日
  */
 class SystemLog extends Model
 {
     /**
-     * @var int $sl_id
+     * @var int $slId 
      * @Id()
-     * @Column(name="sl_id", type=Types::INT)
-     * @var null|int
+     * @Column(name="sl_id", type="integer")
      */
-    private $sl_id;
+    private $slId;
 
     /**
      * @var string $message 错误消息
-     * @Column(name="message", type=Types::STRING, length=255)
+     * @Column(name="message", type="string", length=255)
      * @Required()
      */
     private $message;
 
     /**
      * @var string $file 所在文件
-     * @Column(name="file", type=Types::STRING, length=255)
+     * @Column(name="file", type="string", length=255)
      * @Required()
      */
     private $file;
 
     /**
-     * @var int $line
-     * @Column(name="line", type=Types::INT)
+     * @var int $line 
+     * @Column(name="line", type="integer")
      * @Required()
      */
-    private $line = 0;
+    private $line;
 
     /**
-     * @var mixed $recordTime
-     * @Column(name="record_time", type="string")
+     * @var string $recordTime 
+     * @Column(name="record_time", type="timestamp")
      */
     private $recordTime;
 
@@ -59,7 +56,7 @@ class SystemLog extends Model
      */
     public function setSlId(int $value)
     {
-        $this->sl_id = $value;
+        $this->slId = $value;
 
         return $this;
     }
@@ -100,10 +97,10 @@ class SystemLog extends Model
     }
 
     /**
-     * @param $value
+     * @param string $value
      * @return $this
      */
-    public function setRecordTime($value): self
+    public function setRecordTime(string $value): self
     {
         $this->recordTime = $value;
 
@@ -115,12 +112,12 @@ class SystemLog extends Model
      */
     public function getSlId()
     {
-        return $this->sl_id;
+        return $this->slId;
     }
 
     /**
      * 错误消息
-     * @return mixed
+     * @return string
      */
     public function getMessage()
     {
@@ -129,7 +126,7 @@ class SystemLog extends Model
 
     /**
      * 所在文件
-     * @return mixed
+     * @return string
      */
     public function getFile()
     {
@@ -137,7 +134,7 @@ class SystemLog extends Model
     }
 
     /**
-     * @return mixed
+     * @return int
      */
     public function getLine()
     {
@@ -145,7 +142,7 @@ class SystemLog extends Model
     }
 
     /**
-     * @return mixed
+     * @return string
      */
     public function getRecordTime()
     {
