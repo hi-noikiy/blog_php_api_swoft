@@ -75,5 +75,4 @@ class AuthLogic
 //        ], ['user_id' => $user_id])->getResult();
 //        var_dump($res);
     }
-
 }

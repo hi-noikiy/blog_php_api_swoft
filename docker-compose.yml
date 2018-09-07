@@ -4,9 +4,10 @@ services:
         container_name: swoft
         image: swoft/swoft:latest
         ports:
-            - "80:80"
+            - "9501:9501"
+            - "8099:8099"
         volumes:
-            - ./:/var/www/swoft
+            - /data/wwwroot/blog_api_swoft:/var/www/swoft
         stdin_open: true
         tty: true
         command: php /var/www/swoft/bin/swoft start

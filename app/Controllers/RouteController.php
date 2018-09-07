@@ -40,7 +40,7 @@ class RouteController
         $router = \bean('httpRouter');
 
         return [
-            'static' => $router->getStaticRoutes(),
+//            'static' => $router->getStaticRoutes(),
             'regular' => $router->getRegularRoutes(),
             'vague' => $router->getVagueRoutes(),
             'cached' => $router->getCacheRoutes(),

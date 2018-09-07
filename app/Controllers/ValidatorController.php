@@ -10,12 +10,13 @@
 
 namespace App\Controllers;
 
+use Swoft\Http\Server\Bean\Annotation\RequestMapping;
 use Swoft\Http\Server\Bean\Annotation\Controller;
+use Swoft\Http\Server\Bean\Annotation\RequestMethod;
 use Swoft\Bean\Annotation\Enum;
 use Swoft\Bean\Annotation\Floats;
 use Swoft\Bean\Annotation\Integer;
 use Swoft\Bean\Annotation\Number;
-use Swoft\Http\Server\Bean\Annotation\RequestMapping;
 use Swoft\Bean\Annotation\Strings;
 use Swoft\Bean\Annotation\ValidatorFrom;
 use Swoft\Http\Message\Server\Request;

@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div id="id_video_container" style="width:100%; height:auto;"></div>
+</body>
+<script src="//qzonestyle.gtimg.cn/open/qcloud/video/live/h5/live_connect.js" charset="utf-8"></script>
+<script>
+    var option = {
+        "live_url" : "http://31212.liveplay.myqcloud.com/31212_test.m3u8",
+        "live_url2" : "http://31212.liveplay.myqcloud.com/live/31212_test.flv",
+        "width" : 480,
+        "height" : 320
+
+//...可选填其他属性
+    };
+    var barrage = [
+        {"type":"content", "content":"hello world", "time":"1"},
+        {"type":"content", "content":"居中显示", "time":"1", "style":"C64B03;30","position":"center"}
+    ];
+
+    var player = new qcVideo.Player("id_video_container", option);
+    player.addBarrage(barrage);
+</script>
+</html>

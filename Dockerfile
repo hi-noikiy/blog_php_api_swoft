@@ -37,14 +37,14 @@ RUN wget https://github.com/redis/hiredis/archive/v0.13.3.tar.gz -O hiredis.tar.
     ) \
     && rm -r hiredis
     
-RUN wget https://github.com/swoole/swoole-src/archive/v2.1.1.tar.gz -O swoole.tar.gz \
+RUN wget https://github.com/swoole/swoole-src/archive/v4.0.1.tar.gz -O swoole.tar.gz \
     && mkdir -p swoole \
     && tar -xf swoole.tar.gz -C swoole --strip-components=1 \
     && rm swoole.tar.gz \
     && ( \
         cd swoole \
         && phpize \
-        && ./configure --enable-async-redis --enable-mysqlnd --enable-coroutine --enable-openssl --enable-http2 \
+        && ./configure --enable-async-redis --enable-mysqlnd --enable-coroutine --enable-openssl  \
         && make -j$(nproc) \
         && make install \
     ) \
@@ -58,6 +58,7 @@ RUN composer install --no-dev \
     && composer dump-autoload -o \
     && composer clearcache
 
-EXPOSE 80
+EXPOSE 9501
+EXPOSE 8099
 
 CMD ["php", "/var/www/swoft/bin/swoft", "start"]

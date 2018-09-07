@@ -12,6 +12,7 @@ namespace App\Controllers;
 
 use Swoft\Http\Server\Bean\Annotation\Controller;
 use Swoft\Task\Task;
+use Swoole\Coroutine;
 
 /**
  * @Controller("task")
@@ -25,8 +26,12 @@ class TaskController
      */
     public function co()
     {
+
         $result  = Task::deliver('sync', 'deliverCo', ['p', 'p2'], Task::TYPE_CO);
 
+        Coroutine::create(function(){
+           sleep(1);
+        });
         return [$result];
     }
 

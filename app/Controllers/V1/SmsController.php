@@ -127,6 +127,4 @@ class SmsController extends ApiController
             }
         }
     }
-
-
 }
