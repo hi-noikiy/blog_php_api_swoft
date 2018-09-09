@@ -75,7 +75,6 @@ class Tree{
 
                 if($parent_id === null || $root === (int)$parent_id){
                     $tree[] =& $list[$key];
-                    var_dump($tree);
                 }else{
                     if(isset($refer[$parent_id])){
                         $parent =& $refer[$parent_id];
