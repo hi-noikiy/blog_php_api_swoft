@@ -31,11 +31,12 @@ class SmsController extends ApiController
      */
     public function send(Request $request)
     {
-
         $this->validate('App\Common\Validate\SmsValidate.send');
+        $type = $request->input('type');
+        $mobile = $request->input('mobile');
 
-        $string = sprintf('SMS:%d:%s', $request->input('type'), $request->input('mobile'));
-        if ($this->redis->has($string)) {
+        $string = sprintf('SMS:%d:%s', $type, $mobile);
+        if ($this->redis->exists($string)) {
             $sms_ttl = $this->redis->ttl($string);
             if (600 - intval($sms_ttl) < 60) {
                 return $this->setStatusCode(Code::ERROR)->respondWithError('请求频繁!');
@@ -43,9 +44,9 @@ class SmsController extends ApiController
         }
         $this->risk(ip());
         $this->risk($this->data['mobile']);
-        $template_code = $this->transformType($this->data['type']);
+        $template_code = $this->transformType($type);
         $sms_code = rand(10000, 99999);
-        $flag = $this->Ali_sms($this->data['mobile'], $template_code, $sms_code);
+        $flag = $this->Ali_sms($mobile, $template_code, $sms_code);
 
         if ($flag) {
             $array['ttl'] = 3;
@@ -59,6 +60,19 @@ class SmsController extends ApiController
             return $this->respondWithArray(null, '短信发送成功');
         }
         return $this->setStatusCode(Code::ERROR)->respondWithError('请稍后重试');
+    }
+
+    /**
+     * @RequestMapping(route="notify", method={RequestMethod::GET,RequestMethod::POST})
+     * @param Request $request
+     * @return string
+     * @throws Exception
+     */
+    public function notify(Request $request)
+    {
+        var_dump($request->input());
+        $this->redis->rPush('sms-notify', json_encode($request->input()));
+        return $this->respondWithArray($request->input());
     }
 
 

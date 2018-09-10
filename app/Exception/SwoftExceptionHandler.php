@@ -10,6 +10,7 @@
 
 namespace App\Exception;
 
+use App\Common\Code\Code;
 use App\Controllers\TaskController;
 use App\Models\Entity\SystemLog;
 use App\Models\Entity\SystemTrace;
@@ -55,7 +56,7 @@ class SwoftExceptionHandler
 //        $data = ['msg' => $exception, 'file' => $file, 'line' => $line, 'code' => $code];
         $data = ['code' => $code, 'data' => null, 'msg' => $message];
 
-        if ($code === 0) {
+        if (in_array($code, [Code::ERROR_NO_DEFINED],true)) {
             Task::deliver('Log', 'record', [$throwable->getMessage(), $throwable->getLine(), $throwable->getFile(), $throwable->getTraceAsString()], Task::TYPE_ASYNC);
         }
 //        App::error(json_encode($data));

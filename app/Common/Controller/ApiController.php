@@ -7,6 +7,7 @@ use App\Models\Token;
 use Swoft\Http\Message\Server\Response;
 use Swoft\Bean\Annotation\Inject;
 use Exception;
+use think\Validate;
 
 class ApiController
 {
@@ -14,7 +15,7 @@ class ApiController
 
     /**
      * @Inject("demoRedis")
-     * @var \Swoft\Redis\Redis
+     * @var \Redis
      */
     protected $redis;
 
@@ -78,6 +79,7 @@ class ApiController
             // 支持场景
             list($validate, $scene) = explode('.', $validate);
         }
+        /* @var Validate $v*/
         $v = new $validate;
         if (!empty($scene)) {
             $v->scene($scene);

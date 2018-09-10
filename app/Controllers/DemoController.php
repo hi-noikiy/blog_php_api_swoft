@@ -13,6 +13,7 @@ namespace App\Controllers;
 use App\Common\Code\Code;
 use App\Common\Controller\ApiController;
 use App\Common\Utility\Qiniu;
+use App\Models\Entity\SystemLog;
 use App\Models\Logic\IndexLogic;
 use Swoft\App;
 use Swoft\Core\Coroutine;
@@ -29,7 +30,7 @@ use Swoole\WebSocket\Server;
 
 /**
  * 控制器demo
- * @Controller(prefix="/demo2")
+ * @Controller(prefix="/demo")
  */
 class DemoController extends ApiController
 {
@@ -67,12 +68,15 @@ class DemoController extends ApiController
      * @RequestMapping(route="index", method={RequestMethod::GET, RequestMethod::POST})
      *
      * @param Request $request
-     * @param Server $server
      *
      * @return object
      */
     public function index(Request $request)
     {
+
+        $page = $request->input('page',1);
+        $limit = $request->input('limit',10);
+        return $this->respondWithArray(SystemLog::getPageList([],[],$page,$limit));
 
         return $this->redis->keys('*');
 

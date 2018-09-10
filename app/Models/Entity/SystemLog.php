@@ -14,7 +14,7 @@ use Swoft\Db\Types;
  * @Table(name="system_log")
  * @uses      Log
  */
-class SystemLog extends Model
+class SystemLog extends BaseModel
 {
     /**
      * @var int $slId 
