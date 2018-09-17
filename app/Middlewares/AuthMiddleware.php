@@ -19,13 +19,13 @@ class AuthMiddleware implements MiddlewareInterface
 {
     /**
      * @Inject()
-     * @var \Swoft\Redis\Redis
+     * @var \Swoft\Redis\Redis $redis
      */
     private $redis;
 
     /**
      * @Inject()
-     * @var Token
+     * @var Token $token
      */
     private $token;
 

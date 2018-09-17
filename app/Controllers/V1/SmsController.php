@@ -71,7 +71,8 @@ class SmsController extends ApiController
     public function notify(Request $request)
     {
         var_dump($request->input());
-        $this->redis->rPush('sms-notify', json_encode($request->input()));
+        $x = $this->redis->rPush('sms-notify', json_encode($request->input()));
+        var_dump($x);
         return $this->respondWithArray($request->input());
     }
 
