@@ -36,7 +36,8 @@
         "qiniu/php-sdk": "^7.2",
         "google/protobuf": "v3.6.0.1",
         "php-amqplib/php-amqplib": "^2.7",
-        "elasticsearch/elasticsearch": "^6.0"
+        "elasticsearch/elasticsearch": "^6.0",
+        "sunra/php-simple-html-dom-parser": "^1.5"
     },
     "require-dev": {
         "eaglewu/swoole-ide-helper": "dev-master",

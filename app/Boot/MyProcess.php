@@ -13,7 +13,7 @@ use Swoft\Bean\Annotation\Inject;
 /**
  * Custom process
  *
- * @Process(boot=true)
+ * @Process(boot=false)
  */
 class MyProcess implements ProcessInterface
 {

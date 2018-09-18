@@ -3,6 +3,7 @@
 
 namespace App\Common\Utility;
 
+use App\Common\Code\Code;
 use Qiniu\Storage\BucketManager;
 use Qiniu\Storage\UploadManager;
 use Qiniu\Auth;
@@ -10,6 +11,7 @@ use Exception;
 
 class Qiniu
 {
+    const BUCKET = 'losingbattle';
     protected $uploadManager;
     protected $BucketManager;
     protected $auth;
@@ -18,7 +20,7 @@ class Qiniu
         'accesskey' => 'ktvVle4hNOk_qJSTYHC5FI5Ed7au9_bKnmc2Wnwc',
         'secretkey' => 'eR0PGcIXsXB9tmMENJWT9colY2jnaZaO6UB-s8QE',
         'bucket' => 'losingbattle',
-        'host'=>'https://img.losingbattle.site/'
+        'host' => 'https://img.losingbattle.site/'
     ];
 
     public function __construct()
@@ -45,7 +47,7 @@ class Qiniu
         if ($err !== null) {
             return $err;
         } else {
-            return $this->QiNiu_config['host'].$ret['key'];
+            return $this->QiNiu_config['host'] . $ret['key'];
         }
 
     }
@@ -67,6 +69,18 @@ class Qiniu
             return $ret['key'];
         }
 
+    }
+
+
+    public function single_upload_url($url, $prefix = '')
+    {
+        if (!$url) {
+            throw  new Exception('图片不能为空', Code::INVALID_PARAMETER);
+        }
+        $ext = pathinfo($url, PATHINFO_EXTENSION);
+        $this->isImage($ext);
+        $key = $this->file_path($ext, $prefix);
+        return $this->BucketManager->fetch($url, self::BUCKET, $key);
     }
 
     public function multi_arrange($img)

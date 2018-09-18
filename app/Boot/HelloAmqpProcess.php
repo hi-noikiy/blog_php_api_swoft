@@ -14,7 +14,7 @@ use  AMQPConnection;
 /**
  * Custom process
  *
- * @Process(boot=true)
+ * @Process(boot=false)
  */
 class HelloAmqpProcess implements ProcessInterface
 {
