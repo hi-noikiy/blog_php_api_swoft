@@ -11,6 +11,7 @@ use Exception;
 
 class Qiniu
 {
+    const HOST = 'https://img.losingbattle.site/';
     const BUCKET = 'losingbattle';
     protected $uploadManager;
     protected $BucketManager;
@@ -77,10 +78,16 @@ class Qiniu
         if (!$url) {
             throw  new Exception('图片不能为空', Code::INVALID_PARAMETER);
         }
-        $ext = pathinfo($url, PATHINFO_EXTENSION);
+        $pathinfo = pathinfo($url);
+        $filename = $pathinfo['filename'];
+        $ext = $pathinfo['extension'];
         $this->isImage($ext);
-        $key = $this->file_path($ext, $prefix);
-        return $this->BucketManager->fetch($url, self::BUCKET, $key);
+        $key = $this->file_path($ext, $prefix, $filename);
+        list($ret, $err) = $this->BucketManager->fetch($url, self::BUCKET, $key);
+        if ($err != null) {
+            throw new \Exception($ext, Code::SYSTEM_ERROR);
+        }
+        return self::HOST . $key;
     }
 
     public function multi_arrange($img)
@@ -114,13 +121,26 @@ class Qiniu
 
         $res = $this->BucketManager->delete($this->QiNiu_config['bucket'], $key);
         if ($res !== null) {
-            throw  new Exception('该文件不存在或已被删除', 400);
+            throw  new Exception('该文件不存在或已被删除', Code::ERROR_NOT_FOUND);
         }
         return true;
     }
 
-    private function file_path($ext, $prefix = 'default')
+    /**
+     *
+     * 返回图片上传key
+     * @access public
+     * @param string $ext 文件后缀
+     * @param string $prefix 文件前缀
+     * @param string $filename 文件名称 为null时自动生成格式化时间
+     * @return string
+     *
+     */
+    private function file_path(string $ext, string $prefix = 'default', string $filename = null): string
     {
+        if ($filename) {
+            return sprintf('%s/%s.%s', $prefix, $filename, $ext);
+        }
         return sprintf('%s/%s/%s.%s', $prefix, date('Y-m-d'), md5(uniqid(rand())), $ext);
     }
 

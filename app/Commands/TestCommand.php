@@ -109,7 +109,8 @@ class TestCommand
      */
     public function task()
     {
-        $result = Task::deliver('sync', 'console', ['console']);
+        var_dump(123);
+        $result = Task::deliver('sync', 'console', ['console'],Task::TYPE_ASYNC);
         var_dump($result);
     }
 }
