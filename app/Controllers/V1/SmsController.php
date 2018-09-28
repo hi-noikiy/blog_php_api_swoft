@@ -36,9 +36,9 @@ class SmsController extends ApiController
         $type = $request->input('type');
         $mobile = $request->input('mobile');
 
-        $string = sprintf('SMS:%d:%s', $type, $mobile);
-        if ($this->redis->exists($string)) {
-            $sms_ttl = $this->redis->ttl($string);
+        $sms_send_type = sprintf(Sms::SMS_SEND_TYPE, $type, $mobile);
+        if ($this->redis->exists($sms_send_type)) {
+            $sms_ttl = $this->redis->ttl($sms_send_type);
             if (600 - intval($sms_ttl) < 60) {
                 return $this->setStatusCode(Code::ERROR)->respondWithError('请求频繁!');
             }
@@ -53,8 +53,12 @@ class SmsController extends ApiController
             $array['ttl'] = 3;
             $array['sms_code'] = $sms_code;
             try {
-                $this->redis->hMset($string, $array);
-                $this->redis->expireAt($string, time() + 600);
+                $this->redis->hMset($sms_send_type, $array);
+                $this->redis->expireAt($sms_send_type, time() + 600);
+
+                $sms_day_risk = sprintf(Sms::SMS_DAY_RISK, $mobile);
+                $this->redis->incrBy($sms_day_risk, 1);
+                $this->redis->expireAt($sms_day_risk, time() + 600);
             } catch (Exception $e) {
                 throw new Exception($e->getMessage(), Code::SYSTEM_ERROR);
             }
@@ -66,20 +70,26 @@ class SmsController extends ApiController
     /**
      * @RequestMapping(route="notify", method={RequestMethod::GET,RequestMethod::POST})
      * @param Request $request
-     * @return string
+     * @return array
      * @throws Exception
      */
     public function notify(Request $request)
     {
 
+        $res = json_decode($request->raw(), true);
 
-        $this->redis->set(123, 123);
-        $this->redis->call('expire', [123, 123]);
-        return;
+        if ($res) {
+            foreach ($res as $item) {
+                SmsRecord::updateOne([
+                    'send_time' => $item['send_time'],
+                    'report_time' => $item['report_time'],
+                    'err_msg' => $item['err_msg'],
+                    'status' => $item['success'] ? 1 : 2
+                ], ['biz_id' => $item['biz_id']]);
+            }
+        }
 
-
-        var_dump(json_decode($request->raw(), true));
-        $x = $this->redis->rPush('sms-notify', $request->raw());
+        return ['code' => 0, 'msg' => '接受成功'];
     }
 
 
@@ -95,9 +105,12 @@ class SmsController extends ApiController
         var_dump($res);
         if (isset($res) && $res->Code == 'OK') {
             $SmsRecord = new SmsRecord();
-            $SmsRecord->setMobile($mobile)->setTemplateCode($template_code)->setMobile($template_code)->setRequestId($res->RequestId)->setIp(ip())->setDate(date('Y-m-d H:i:s'))->save();
+            $SmsRecord->setMobile($mobile)->setTemplateCode($template_code)
+                ->setRequestId($res->RequestId)->setBizId($res->BizId)
+                ->setIp(ip())->setDate(date('Y-m-d H:i:s'))
+                ->save();
         } else {
-
+            return false;
         }
         return true;
     }
@@ -119,6 +132,8 @@ class SmsController extends ApiController
             case Sms::THIRD_BINDING:
                 $template_code = $config['template']['binding'];
                 break;   //第三方绑定 短信一样 不验证手机号码是否存在
+            default:
+                break;
         }
         return $template_code;
     }
