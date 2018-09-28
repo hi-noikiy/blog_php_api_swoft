@@ -17,13 +17,6 @@ function ip()
     return \Swoft\Core\RequestContext::getRequest()->getHeaders()['x-real-ip'][0];
 }
 
-function page(int $page = 1, int $limit = 20)
-{
-    $page = $page > 0 ? $page : 1;
-    return $offset = $limit * ($page - 1);
-//    return $limit . ',' . $offset;
-//    return $offset . ',' . $limit;
-}
 /**
  * 获取推流地址
  * 如果不传key和过期时间，将返回不含防盗链的url
@@ -47,4 +40,16 @@ function getPushUrl($bizId, $streamId, $key)
 
     return "rmtp://{$bizId}.livepush.myqcloud.com/live/{$livecode}.{$ext_str}";
 
+}
+
+
+function characet($data)
+{
+    if (!empty($data)) {
+        $fileType = mb_detect_encoding($data, array('UTF-8', 'GBK', 'LATIN1', 'BIG5'));
+        if ($fileType != 'UTF-8') {
+            $data = mb_convert_encoding($data, 'utf-8', $fileType);
+        }
+    }
+    return $data;
 }

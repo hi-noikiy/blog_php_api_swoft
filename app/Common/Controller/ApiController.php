@@ -15,7 +15,7 @@ class ApiController
 
     /**
      * @Inject("demoRedis")
-     * @var \Redis
+     * @var \Swoft\Redis\Redis
      */
     protected $redis;
 

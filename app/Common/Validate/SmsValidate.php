@@ -2,8 +2,8 @@
 
 namespace App\Common\Validate;
 
-use App\Common\Model\Users;
-use think\Exception;
+use App\Common\Enums\Sms;
+use App\Models\Entity\Users;
 use think\Validate;
 
 
@@ -34,16 +34,15 @@ class SmsValidate extends Validate
 
         $arr = $this->findUser($data['mobile']);
 
-        if ($data['type'] == 2 && $arr) {
+        if ($data['type'] == Sms::REGISTER && $arr) {
             return '您已经注册过了';
         }
 
-        if ($data['type'] == 4 && $arr) {
+        if ($data['type'] == Sms::BINDING && $arr) {
             return '该手机已经被绑定过了';
         }
 
-        if (($data['type'] == 1 || $data['type'] == 3) && !$arr) {
-
+        if (($data['type'] == Sms::LOGIN || $data['type'] == Sms::MODIFY) && !$arr) {
             return '该账号不存在';
         }
 
@@ -53,7 +52,7 @@ class SmsValidate extends Validate
 
     private function findUser($mobile)
     {
-        return (new Users())->findUser($mobile);
+        Users::findOne(['mobile' => $mobile])->getResult();
     }
 
 }

@@ -64,7 +64,7 @@ class Users extends Model
 
     /**
      * @var int $salt 盐值
-     * @Column(name="salt", type="integer")
+     * @Column(name="salt", type="string", length=4)
      * @Required()
      */
     private $salt;

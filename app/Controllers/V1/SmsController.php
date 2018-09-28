@@ -2,6 +2,9 @@
 
 namespace App\Controllers\V1;
 
+use App\Common\Enums\Sms;
+use App\Common\Validate\SmsValidate;
+use App\Models\Entity\SmsRecord;
 use Swoft\Http\Server\Bean\Annotation\Controller;
 use Swoft\Http\Server\Bean\Annotation\RequestMapping;
 use Swoft\Http\Server\Bean\Annotation\RequestMethod;
@@ -9,8 +12,6 @@ use Swoft\Http\Message\Bean\Annotation\Middleware;
 use App\Middlewares\SignMiddleware;
 use App\Common\Code\Code;
 use App\Common\Controller\ApiController;
-use Flc\Alidayu\Client;
-use Flc\Alidayu\Requests\IRequest;
 use Swoft\Http\Message\Server\Request;
 use Exception;
 
@@ -21,7 +22,6 @@ use Exception;
 class SmsController extends ApiController
 {
 
-    private $config;
 
     /**
      * @RequestMapping(route="send", method=RequestMethod::POST)
@@ -31,6 +31,7 @@ class SmsController extends ApiController
      */
     public function send(Request $request)
     {
+        /* @var SmsValidate */
         $this->validate('App\Common\Validate\SmsValidate.send');
         $type = $request->input('type');
         $mobile = $request->input('mobile');
@@ -43,7 +44,7 @@ class SmsController extends ApiController
             }
         }
         $this->risk(ip());
-        $this->risk($this->data['mobile']);
+        $this->risk($mobile);
         $template_code = $this->transformType($type);
         $sms_code = rand(10000, 99999);
         $flag = $this->Ali_sms($mobile, $template_code, $sms_code);
@@ -53,9 +54,9 @@ class SmsController extends ApiController
             $array['sms_code'] = $sms_code;
             try {
                 $this->redis->hMset($string, $array);
-                $this->redis->expire($string, 600);
+                $this->redis->expireAt($string, time() + 600);
             } catch (Exception $e) {
-                throw new Exception($e->getMessage(), 500);
+                throw new Exception($e->getMessage(), Code::SYSTEM_ERROR);
             }
             return $this->respondWithArray(null, '短信发送成功');
         }
@@ -70,48 +71,53 @@ class SmsController extends ApiController
      */
     public function notify(Request $request)
     {
-        var_dump($request->input());
-        $x = $this->redis->rPush('sms-notify', json_encode($request->input()));
-        var_dump($x);
-        return $this->respondWithArray($request->input());
+
+
+        $this->redis->set(123, 123);
+        $this->redis->call('expire', [123, 123]);
+        return;
+
+
+        var_dump(json_decode($request->raw(), true));
+        $x = $this->redis->rPush('sms-notify', $request->raw());
     }
 
 
     private function Ali_sms($mobile, $template_code, $sms_code)
     {
-        Client::configure($this->config);
-        $resp = Client::request('alibaba.aliqin.fc.sms.num.send', function (IRequest $req) use ($sms_code, $mobile, $template_code) {
-            $req->setRecNum($mobile)
-                ->setSmsParam([
-                    'code' => $sms_code
-                ])
-                ->setSmsFreeSignName('为伴')
-                ->setSmsTemplateCode($template_code);
-        });
-        if (!isset($resp->result)) {
-            return false;
-        }
-        if (isset($resp->result) && $resp->result->success) {
-            Db::name('sms_record')->insert(['mobile' => $mobile, 'template_code' => $template_code, 'request_id' => $resp->request_id, 'ip' => ip(), 'date' => date('Y-m-d H:i:s', time())]);
+
+        $config = config('alisms');
+
+        $aliYunSms = new \Aliyun\Sms($config['AccessKeyID'], $config['AccessKeySecret']);
+        $aliYunSms->setSignName($config['sign']);
+        $aliYunSms->setTemplateCode($template_code);
+        $res = $aliYunSms->send($mobile, ['code' => $sms_code]);
+        var_dump($res);
+        if (isset($res) && $res->Code == 'OK') {
+            $SmsRecord = new SmsRecord();
+            $SmsRecord->setMobile($mobile)->setTemplateCode($template_code)->setMobile($template_code)->setRequestId($res->RequestId)->setIp(ip())->setDate(date('Y-m-d H:i:s'))->save();
+        } else {
+
         }
         return true;
     }
 
     private function transformType($type)
     {
+        $config = config('alisms');
         switch ($type) {
-            case 1:
-                $template_code = $this->config['template']['login'];
+            case Sms::LOGIN:
+                $template_code = $config['template']['login'];
                 break;  //账号登陆
-            case 2:
-                $template_code = $this->config['template']['register'];
+            case Sms::REGISTER:
+                $template_code = $config['template']['register'];
                 break; //注册
 //            case 3: $template_code = self::TEMPLATE_REG; break;    //修改密码
-            case 4:
-                $template_code = $this->config['template']['binding'];
+            case Sms::BINDING:
+                $template_code = $config['template']['binding'];
                 break;   //绑定
-            case 5:
-                $template_code = $this->config['template']['binding'];
+            case Sms::THIRD_BINDING:
+                $template_code = $config['template']['binding'];
                 break;   //第三方绑定 短信一样 不验证手机号码是否存在
         }
         return $template_code;
@@ -119,27 +125,31 @@ class SmsController extends ApiController
 
     /**
      * 风控
-     * @param $mobile
+     * @param string $mobile |$ip 手机号|ip
      *
-     * @return bool
+     * @return void
      * @throws Exception
      */
-    private function risk($mobile)
+    private function risk(string $mobile)
     {
 
-        $key = sprintf('SMS_RISK:%s', $mobile);
-        $limit = 10;
+        $key = sprintf(Sms::SMS_DAY_RISK, $mobile);
         // 不存在数据
         $dataCount = $this->redis->get($key);
-        if (empty($dataCount)) {
-            $this->redis->incrBy($key, 1);
-            $this->redis->expire($key, today_rest());
-        } else {
-            if ($dataCount < $limit) {
-                $this->redis->incrBy($key, 1);
-            } else {
-                throw new Exception('手机短信发送次数超出当天限制', Code::SYSTEM_ERROR);
-            }
+
+        if ($dataCount && $dataCount > Sms::DAY_LIMIT) {
+            throw new Exception('手机短信发送次数超出当天限制', Code::SYSTEM_ERROR);
         }
+
+//        if (empty($dataCount)) {
+//            $this->redis->incrBy($key, 1);
+//            $this->redis->expireAt($key, time() + 600);
+//        } else {
+//            if ($dataCount < Sms::DAY_LIMIT) {
+//                $this->redis->incrBy($key, 1);
+//            } else {
+//                throw new Exception('手机短信发送次数超出当天限制', Code::SYSTEM_ERROR);
+//            }
+//        }
     }
 }
