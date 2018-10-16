@@ -12,7 +12,7 @@ use Swoft\Db\Types;
 /**
  * @Entity()
  * @Table(name="system_log")
- * @uses      Log
+ * @uses      SystemLog
  */
 class SystemLog extends BaseModel
 {

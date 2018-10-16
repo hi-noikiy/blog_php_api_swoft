@@ -3,16 +3,17 @@
 namespace App\Controllers\Dashboard;
 
 use App\Common\Controller\ApiController;
-use App\Common\Utility\Qiniu;
 use App\Models\Dao\Log;
 use Swoft\Http\Server\Bean\Annotation\Controller;
 use Swoft\Http\Server\Bean\Annotation\RequestMapping;
 use Swoft\Http\Server\Bean\Annotation\RequestMethod;
-use Swoft\Http\Message\Server\Request;
 use Swoft\Bean\Annotation\Inject;
+use Swoft\Http\Message\Bean\Annotation\Middleware;
+use App\Middlewares\JwtMiddleware;
 
 /**
  * @Controller(prefix="/dashboard/log")
+ * @Middleware(JwtMiddleware::class)
  */
 class LogController extends ApiController
 {
@@ -25,25 +26,31 @@ class LogController extends ApiController
 
     /**
      *
-     * @RequestMapping(route="/dashboard/log/{$page}", method={RequestMethod::GET})
+     * @RequestMapping(route="/dashboard/log", method={RequestMethod::GET})
      *
-     * @param Request $request
-     * @param int $page
-     * @param int $limit
+     * @return string
      */
-    public function list(Request $request,int $page,int $limit)
+    public function list()
     {
-        return $this->respondWithArray($this->log->list(request()->input('page', 1), request()->input('limit', 10)));
+        $page = \request()->input('page', 1);
+        $limit = \request()->input('limit', 15);
+
+        $lists = $this->log->list($page, $limit);
+
+        return $this->respondWithArray($lists);
     }
 
-/**
- * 查询trace
- * @RequestMapping(route="/dashboard/log/x", method={RequestMethod::GET})
- * @param int $id
- */
-public
-function trace(int $id)
-{
-    return $this->respondWithArray($id);
-}
+    /**
+     * 查询trace
+     * @RequestMapping(route="{id}", method={RequestMethod::GET})
+     *
+     * @param int $id
+     * @return string
+     */
+    public function trace(int $id)
+    {
+
+        $trane_info = $this->log->trace($id);
+        return $this->respondWithArray($trane_info);
+    }
 }

@@ -56,7 +56,7 @@ class SwoftExceptionHandler
 //        $data = ['msg' => $exception, 'file' => $file, 'line' => $line, 'code' => $code];
         $data = ['code' => $code, 'data' => null, 'msg' => $message];
 
-        if (in_array($code, [Code::ERROR_NO_DEFINED],true)) {
+        if (in_array($code, [Code::ERROR_NO_DEFINED], true)) {
             Task::deliver('Log', 'record', [$throwable->getMessage(), $throwable->getLine(), $throwable->getFile(), $throwable->getTraceAsString()], Task::TYPE_ASYNC);
         }
 //        App::error(json_encode($data));

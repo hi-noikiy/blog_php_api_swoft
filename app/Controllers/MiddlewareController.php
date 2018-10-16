@@ -19,7 +19,7 @@ use App\Middlewares\ActionTestMiddleware;
 use App\Middlewares\SubMiddleware;
 use App\Middlewares\ControllerSubMiddleware;
 use App\Middlewares\ControllerTestMiddleware;
-
+use App\Middlewares\JwtMiddleware;
 
 /**
  * @Controller("middleware")
@@ -33,7 +33,7 @@ class MiddlewareController
     /**
      * @RequestMapping()
      * @Middlewares({
-     *     @Middleware(GroupTestMiddleware::class),
+     *     @Middleware(JwtMiddleware::class),
      *     @Middleware(ActionTestMiddleware::class)
      * })
      * @Middleware(SubMiddleware::class)

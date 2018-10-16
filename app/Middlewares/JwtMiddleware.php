@@ -3,6 +3,7 @@
 namespace App\Middlewares;
 
 use App\Common\Code\Code;
+use Doctrine\Instantiator\Exception\UnexpectedValueException;
 use Firebase\JWT\ExpiredException;
 use Firebase\JWT\JWT;
 use Psr\Http\Server\RequestHandlerInterface;
@@ -38,18 +39,17 @@ class JwtMiddleware implements MiddlewareInterface
             $decode = JWT::decode(end($accessToken), $this->jwt_key, ['HS256']);
         } catch (ExpiredException $e) {
             throw new ExpiredException('请重新登录', Code::INVALID_TOKEN);
+        } catch (UnexpectedValueException $e){
+            throw new ExpiredException('请重新登录', Code::INVALID_TOKEN);
+        }catch (Exception $exception){
+            throw new ExpiredException('请重新登录', Code::INVALID_TOKEN);
         }
 
-        if($route[1] == 'dashboard'){
-            if(!$decode->is_admin){
-                throw new ExpiredException('该用户无权限', Code::ACCOUNT_BAD);
-            }
+        if(current($decode->role) != '-1'){
+            throw new ExpiredException('该用户无权限', Code::ACCOUNT_BAD);
+        }
             //权限管理代码 restful风格根据 method区分一个模块的验证
-
-        }
-
-
-        $request = $request->withAttribute('uid',$decode->uid);
+        $request = $request->withAttribute('user_id',$decode->user_id);
 //        return response()->raw(Encrypt::encrypt(json_encode($request->getParsedBody() + $request->getQueryParams())))->withoutHeader('Content-Type')->withAddedHeader('Content-Type', 'application/octet-stream');
         // 委托给下一个中间件处理
         $response = $handler->handle($request);

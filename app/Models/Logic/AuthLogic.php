@@ -41,7 +41,7 @@ class AuthLogic
     public function checkManager(string $account, string $password)
     {
         /* @var AdminUsers $user */
-        $user = AdminUsers::findOne(['account' => $account], ['fields' => ['user_id', 'password', 'salt', 'avatar', 'account']])->getResult();
+        $user = AdminUsers::findOne(['account' => $account], ['fields' => ['user_id', 'password', 'salt', 'avatar', 'account', 'role']])->getResult();
         if (!$user) {
             throw new Exception('该用户不存在', Code::INVALID_PARAMETER);
         }
@@ -51,7 +51,8 @@ class AuthLogic
             return [
                 'user_id' => $user->getUserId(),
                 'account' => $user->getAccount(),
-                'avatar' => $user->getAvatar()
+                'avatar' => $user->getAvatar(),
+                'role' => $user->getRole()
             ];
         } else {
             throw new Exception('用户或密码错误', Code::INVALID_PARAMETER);

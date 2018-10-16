@@ -102,7 +102,6 @@ class SmsController extends ApiController
         $aliYunSms->setSignName($config['sign']);
         $aliYunSms->setTemplateCode($template_code);
         $res = $aliYunSms->send($mobile, ['code' => $sms_code]);
-        var_dump($res);
         if (isset($res) && $res->Code == 'OK') {
             $SmsRecord = new SmsRecord();
             $SmsRecord->setMobile($mobile)->setTemplateCode($template_code)

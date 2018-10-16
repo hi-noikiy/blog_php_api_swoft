@@ -90,6 +90,10 @@ class Qiniu
         return self::HOST . $key;
     }
 
+    public function single_upload_base64($base64,$prefix = ''){
+//     $this->uploadManager->put()
+    }
+
     public function multi_arrange($img)
     {
 

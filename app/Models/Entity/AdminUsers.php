@@ -17,7 +17,7 @@ use Swoft\Db\Types;
 class AdminUsers extends Model
 {
     /**
-     * @var int $userId 
+     * @var int $user_id 
      * @Id()
      * @Column(name="user_id", type="integer")
      */
@@ -51,6 +51,12 @@ class AdminUsers extends Model
     private $password;
 
     /**
+     * @var string $role 权限集合
+     * @Column(name="role", type="string", length=255, default="-1")
+     */
+    private $role;
+
+    /**
      * @var string $regTime 注册时间
      * @Column(name="reg_time", type="timestamp")
      * @Required()
@@ -65,7 +71,7 @@ class AdminUsers extends Model
     private $loginTime;
 
     /**
-     * @var string $lastIp 
+     * @var string $lastIp
      * @Column(name="last_ip", type="string", length=20, default="0")
      */
     private $lastIp;
@@ -137,6 +143,18 @@ class AdminUsers extends Model
     public function setPassword(string $value): self
     {
         $this->password = $value;
+
+        return $this;
+    }
+
+    /**
+     * 权限集合
+     * @param string $value
+     * @return $this
+     */
+    public function setRole(string $value): self
+    {
+        $this->role = $value;
 
         return $this;
     }
@@ -242,6 +260,15 @@ class AdminUsers extends Model
     public function getPassword()
     {
         return $this->password;
+    }
+
+    /**
+     * 权限集合
+     * @return mixed
+     */
+    public function getRole()
+    {
+        return $this->role;
     }
 
     /**

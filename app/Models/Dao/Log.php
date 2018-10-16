@@ -3,6 +3,7 @@
 namespace App\Models\Dao;
 
 use App\Models\Entity\SystemLog;
+use App\Models\Entity\SystemTrace;
 use Swoft\Bean\Annotation\Bean;
 use Swoft\Db\QueryBuilder;
 
@@ -13,12 +14,15 @@ class Log
 {
     public function list(int $page, int $limit)
     {
+        return SystemLog::getPageList(
+            [],
+            ['orderby' => ['sl_id' => QueryBuilder::ORDER_BY_DESC]],
+            $page, $limit);
+    }
 
-        return [
-            'item' => SystemLog::query()->orderBy('record_time', QueryBuilder::ORDER_BY_DESC)->limit($limit,page($page,$limit))->get()->getResult(),
-            'count' => (int)SystemLog::query()->count()->getResult(),
-            'pagecount' => ceil((int)SystemLog::query()->count()->getResult() / $limit),
-        ];
+    public function trace($id)
+    {
+        return SystemTrace::findOne(['sl_id'=>$id])->getResult();
     }
 
 }

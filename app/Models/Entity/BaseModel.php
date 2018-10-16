@@ -34,7 +34,7 @@ class BaseModel extends Model
         // 判断是否为object
         $data['list'] = is_object($data['list']) ? $data['list']->toArray() : [];
         // 进行count查询
-        $data['count'] = self::count('*', $condition)->getResult();
+        $data['count'] = (int)self::count('*', $condition)->getResult();
         // 增加总页数
         $data['totalPage'] = bcdiv($data['count'], $limit, 0) + ($data['count'] % $limit == 0 ? 0 : 1);
         // 返回数据

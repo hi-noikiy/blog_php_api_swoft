@@ -49,14 +49,18 @@ class TestCommand
      */
     public function test(Input $input, Output $output)
     {
-        App::error('this is eror');
-        App::trace('this is trace');
-        Coroutine::create(function (){
-            App::error('this is eror child');
-            App::trace('this is trace child');
-        });
 
-        var_dump('test', $input, $output, Coroutine::id(),Coroutine::tid());
+        $arr = [-1, 0, 1, 2, -1, -4];
+        $count  = count($arr);
+        if($count < 3){
+            return;
+        }
+        $new_arr =  [];
+        for($i=0;$i<$count-2;$i++){
+            array_push($new_arr,[$i,$i+1,$i+2]);
+        }
+        var_dump($new_arr);
+        return ;
     }
 
     /**

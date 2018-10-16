@@ -24,50 +24,55 @@ class Users extends Model
     private $userId;
 
     /**
-     * @var string $nick 昵称
-     * @Column(name="nick", type="string", length=50, default="")
-     */
-    private $nick;
-
-    /**
-     * @var string $avatar 头像
-     * @Column(name="avatar", type="text", length=65535)
-     * @Required()
-     */
-    private $avatar;
-
-    /**
-     * @var string $mobile 手机号 唯一标识符
-     * @Column(name="mobile", type="string", length=20)
+     * @var string $mobile 手机号
+     * @Column(name="mobile", type="string", length=50)
      * @Required()
      */
     private $mobile;
 
     /**
-     * @var int $age 
+     * @var string $nick 昵称
+     * @Column(name="nick", type="string", length=255)
+     */
+    private $nick;
+
+    /**
+     * @var string $avatar 头像
+     * @Column(name="avatar", type="string", length=255)
+     */
+    private $avatar;
+
+    /**
+     * @var int $age 年龄
      * @Column(name="age", type="integer", default=0)
      */
     private $age;
 
     /**
-     * @var int $sex 
+     * @var int $sex 性别
      * @Column(name="sex", type="tinyint", default=0)
      */
     private $sex;
 
     /**
      * @var string $password 密码
-     * @Column(name="password", type="string", length=50)
+     * @Column(name="password", type="string", length=255)
      * @Required()
      */
     private $password;
 
     /**
-     * @var int $salt 盐值
-     * @Column(name="salt", type="string", length=4)
+     * @var string $salt 盐值
+     * @Column(name="salt", type="char", length=4)
      * @Required()
      */
     private $salt;
+
+    /**
+     * @var string $lastIp 
+     * @Column(name="last_ip", type="string", length=20, default="")
+     */
+    private $lastIp;
 
     /**
      * @var string $regTime 注册时间
@@ -77,17 +82,10 @@ class Users extends Model
     private $regTime;
 
     /**
-     * @var string $loginTime 登陆时间
+     * @var string $loginTime 最后一次登陆时间
      * @Column(name="login_time", type="timestamp")
-     * @Required()
      */
     private $loginTime;
-
-    /**
-     * @var string $lastIp 
-     * @Column(name="last_ip", type="string", length=20, default="0")
-     */
-    private $lastIp;
 
     /**
      * @var int $visitCount 登陆次数
@@ -97,6 +95,7 @@ class Users extends Model
 
     /**
      * @var int $isDelete 是否禁用
+
      * @Column(name="is_delete", type="tinyint", default=0)
      */
     private $isDelete;
@@ -108,6 +107,18 @@ class Users extends Model
     public function setUserId(int $value)
     {
         $this->userId = $value;
+
+        return $this;
+    }
+
+    /**
+     * 手机号
+     * @param string $value
+     * @return $this
+     */
+    public function setMobile(string $value): self
+    {
+        $this->mobile = $value;
 
         return $this;
     }
@@ -137,18 +148,7 @@ class Users extends Model
     }
 
     /**
-     * 手机号 唯一标识符
-     * @param string $value
-     * @return $this
-     */
-    public function setMobile(string $value): self
-    {
-        $this->mobile = $value;
-
-        return $this;
-    }
-
-    /**
+     * 年龄
      * @param int $value
      * @return $this
      */
@@ -160,6 +160,7 @@ class Users extends Model
     }
 
     /**
+     * 性别
      * @param int $value
      * @return $this
      */
@@ -184,12 +185,23 @@ class Users extends Model
 
     /**
      * 盐值
-     * @param int $value
+     * @param string $value
      * @return $this
      */
-    public function setSalt(int $value): self
+    public function setSalt(string $value): self
     {
         $this->salt = $value;
+
+        return $this;
+    }
+
+    /**
+     * @param string $value
+     * @return $this
+     */
+    public function setLastIp(string $value): self
+    {
+        $this->lastIp = $value;
 
         return $this;
     }
@@ -207,24 +219,13 @@ class Users extends Model
     }
 
     /**
-     * 登陆时间
+     * 最后一次登陆时间
      * @param string $value
      * @return $this
      */
     public function setLoginTime(string $value): self
     {
         $this->loginTime = $value;
-
-        return $this;
-    }
-
-    /**
-     * @param string $value
-     * @return $this
-     */
-    public function setLastIp(string $value): self
-    {
-        $this->lastIp = $value;
 
         return $this;
     }
@@ -243,6 +244,7 @@ class Users extends Model
 
     /**
      * 是否禁用
+
      * @param int $value
      * @return $this
      */
@@ -259,6 +261,15 @@ class Users extends Model
     public function getUserId()
     {
         return $this->userId;
+    }
+
+    /**
+     * 手机号
+     * @return string
+     */
+    public function getMobile()
+    {
+        return $this->mobile;
     }
 
     /**
@@ -280,15 +291,7 @@ class Users extends Model
     }
 
     /**
-     * 手机号 唯一标识符
-     * @return string
-     */
-    public function getMobile()
-    {
-        return $this->mobile;
-    }
-
-    /**
+     * 年龄
      * @return int
      */
     public function getAge()
@@ -297,6 +300,7 @@ class Users extends Model
     }
 
     /**
+     * 性别
      * @return int
      */
     public function getSex()
@@ -315,11 +319,19 @@ class Users extends Model
 
     /**
      * 盐值
-     * @return int
+     * @return string
      */
     public function getSalt()
     {
         return $this->salt;
+    }
+
+    /**
+     * @return string
+     */
+    public function getLastIp()
+    {
+        return $this->lastIp;
     }
 
     /**
@@ -332,20 +344,12 @@ class Users extends Model
     }
 
     /**
-     * 登陆时间
+     * 最后一次登陆时间
      * @return string
      */
     public function getLoginTime()
     {
         return $this->loginTime;
-    }
-
-    /**
-     * @return string
-     */
-    public function getLastIp()
-    {
-        return $this->lastIp;
     }
 
     /**
@@ -359,6 +363,7 @@ class Users extends Model
 
     /**
      * 是否禁用
+
      * @return int
      */
     public function getIsDelete()

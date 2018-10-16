@@ -2,19 +2,17 @@
 
 namespace App\Controllers\Dashboard;
 
-use App\Common\Code\Code;
 use App\Common\Utility\Tree;
 use App\Common\Validate\AuthValidate;
 use App\Models\Entity\AdminMenu;
-use Firebase\JWT\ExpiredException;
 use Firebase\JWT\JWT;
 use Swoft\Http\Server\Bean\Annotation\Controller;
 use Swoft\Http\Server\Bean\Annotation\RequestMapping;
 use Swoft\Http\Server\Bean\Annotation\RequestMethod;
 use Swoft\Http\Message\Bean\Annotation\Middleware;
+use App\Middlewares\JwtMiddleware;
 use App\Common\Controller\ApiController;
 use Swoft\Http\Message\Server\Request;
-use Exception;
 use Swoft\Bean\Annotation\Value;
 use Swoft\Bean\Annotation\Inject;
 
@@ -41,15 +39,17 @@ class AuthController extends ApiController
      */
     public function login()
     {
-        /* @var AuthValidate*/
+        /* @var AuthValidate */
         $this->validate('App\Common\Validate\Dashboard\AuthValidate.login');
         $info = $this->AuthLogic->checkManager(request()->post('account'), request()->post('password'));
 
         $this->AuthLogic->updateUserInfo($info['user_id']);
         $arr = [
-            'access-token' => JWT::encode(
-                array_merge(['user_id' => $info['user_id']], ['exp' => time() + 3600 * 2])
-                , $this->jwt_key),
+            'access-token' => JWT::encode([
+                'user_id' => $info['user_id'],
+                'exp' => time() + 3600 * 2,
+                'role' => explode(',', $info['role'])
+            ], $this->jwt_key),
             'info' => [
                 'avatar' => $info['avatar'],
                 'account' => $info['account']

@@ -25,7 +25,7 @@ class VirtualUser extends Model
 
     /**
      * @var string $virtualNick 
-     * @Column(name="virtual_nick", type="string", length=255)
+     * @Column(name="virtual_nick", type="string", length=255, default="")
      */
     private $virtualNick;
 
