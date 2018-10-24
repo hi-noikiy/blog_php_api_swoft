@@ -9,6 +9,7 @@ use App\Models\Entity\VirtualUser;
 use Swoft\Task\Bean\Annotation\Task;
 use Swoft\HttpClient\Client;
 use Sunra\PhpSimple\HtmlDomParser;
+use Swoft\Task\Task as TaskD;
 
 /**
  *
@@ -19,13 +20,13 @@ class CitySpiderTask
 
     private $data = [];
 
-
     public function city(string $url, string $city_name, Client $client)
     {
-        var_dump("task start");
-        var_dump($city_name . ":start");
+        echo "-------\n";
+        $start_time = microtime(true);
+        var_dump("task_城市 start");
         //省
-
+        $this->data = [];
         try {
             $psAreaAli = new PsAreaAli();
             $areaParentId = current(explode('.', $url));
@@ -35,16 +36,14 @@ class CitySpiderTask
 
             $areaType = CityEnums::CITY;
             $class = '.citytr';
-            $data = [];
+//            $data = [];
             $contents = $client->request("get", $url)->getResponse()->getBody()->getContents();
 
             $dom = HtmlDomParser::str_get_html($contents);
             foreach ($dom->find($class) as $item) {
 
                 $areaCode = strip_tags($item->find('td', 0)->innertext());
-                $areaName = strip_tags(characet($item->find('td', 1)->innertext()));
-                var_dump($areaCode);
-                var_dump($areaName);
+                $areaName = strip_tags($item->find('td', 1)->innertext());
                 //塞入数组批量插入
                 $this->data[] = [
                     'areaCode' => $areaCode,
@@ -56,31 +55,39 @@ class CitySpiderTask
                 if (isset($item->find('td', 0)->find('a', 0)->href)) {
                     $district_url = $item->find('td', 0)->find('a', 0)->href;
                     $this->district($district_url, $areaCode, $client);
+//                    var_dump("投递district.url:" . $district_url);
+//                    echo "\n";
+//                    TaskD::deliver('citySpider', 'district', [$district_url, $areaCode, $client]);
                 }
             }
-
-            $res = PsAreaAli::batchInsert($this->data)->getResult();
-            var_dump($res);
-//        var_dump($thiss->data);
-
+            var_dump($city_name . "总共:" . count($this->data));
+            PsAreaAli::batchInsert($this->data);
         } catch (\Exception $exception) {
             var_dump($exception->getFile());
             var_dump($exception->getLine());
+            var_dump($exception->getMessage());
         }
 
+
+        $end_time = microtime(true);
+        $second = round($end_time - $start_time, 3);
+        var_dump($city_name . "耗时:" . $second . "秒");
     }
 
     /*
     * 市到区到街道 三次循环
     */
-    private function district($url, $areaParentId, Client $client)
+    public function district($url, $areaParentId, Client $client)
     {
+//        echo "-------\n";
+//        $start_time = microtime(true);
+//        var_dump("task_区 start");
 
         $areaType = CityEnums::DISTRICT;
         $class = '.countytr';
 
         $contents = $client->request("get", $url)->getResponse()->getBody()->getContents();
-
+//        $data = [];
         $dom = HtmlDomParser::str_get_html($contents);
         foreach ($dom->find($class) as $item) {
 
@@ -97,21 +104,32 @@ class CitySpiderTask
             if (isset($item->find('td', 0)->find('a', 0)->href)) {
                 $district_url = $item->find('td', 0)->find('a', 0)->href;
                 $district_url = current(explode('/', $url)) . '/' . $district_url;
+//                var_dump("街区投递.url:" . $district_url);
                 $this->street($district_url, $areaCode, $client);
+//                TaskD::deliver('citySpider', 'street', [$district_url, $areaCode, $client]);
             }
         }
 
+//        var_dump("task_区:".$areaParentId . "总共:" . count($data));
+//        PsAreaAli::batchInsert($data);
+//
+//        $end_time = microtime(true);
+//        $second = round($end_time - $start_time, 3);
+//        var_dump("task_区:".$areaParentId . "耗时:" . $second . "秒");
 
     }
 
-    private function street($url, $areaParentId, Client $client)
+    public function street($url, $areaParentId, Client $client)
     {
+//        echo "-------\n";
+//        $start_time = microtime(true);
+//        var_dump("task_街区 start");
 
         $areaType = CityEnums::ROAD;
         $class = '.towntr';
 
         $contents = $client->request("get", $url)->getResponse()->getBody()->getContents();
-
+        $data = [];
         $dom = HtmlDomParser::str_get_html($contents);
         foreach ($dom->find($class) as $item) {
 
@@ -126,6 +144,12 @@ class CitySpiderTask
             ];
         }
 
+//        var_dump("task_街区:".$areaParentId . "总共:" . count($data));
+//        PsAreaAli::batchInsert($data);
+//
+//        $end_time = microtime(true);
+//        $second = round($end_time - $start_time, 3);
+//        var_dump("task_街区:".$areaParentId . "耗时:" . $second . "秒");
     }
 
 }

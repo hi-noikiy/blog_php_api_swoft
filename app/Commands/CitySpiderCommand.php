@@ -41,14 +41,38 @@ class CitySpiderCommand
             $content = $client->request('get', "index.html")->getResponse()->getBody()->getContents();
             $dom = HtmlDomParser::str_get_html($content, true, true, 'gbk');
 
-            $gxlist = $dom->find('.provincetr', 0);
+            $gxlist = $dom->find('.provincetr',3);
 
 
             foreach ($gxlist->find('a') as $item) {
                 $city_href = $item->href;
                 $city_name = characet(strip_tags($item->innertext()));
+                var_dump($city_name);
                 Task::deliver('citySpider', 'city', [$city_href, $city_name, $client]);
             }
+
+            return;
+
+
+//            $city_href = "61.html";
+//            $city_name = "陕西test";
+//            Task::deliver('citySpider', 'city', [$city_href, $city_name, $client]);
+            $gxlist = $dom->find('.provincetr');
+
+            foreach ($gxlist as $key => $elements) {
+//                var_dump($key);
+                if ($key == 1) {
+                    var_dump($elements);
+                    foreach ($elements->find('a') as $item) {
+                        $city_href = $item->href;
+                        $city_name = characet(strip_tags($item->innertext()));
+                        var_dump($city_name);
+//                        Task::deliver('citySpider', 'city', [$city_href, $city_name, $client]);
+                    }
+                }
+                break;
+            }
+
 
             $end_time = microtime(true);
             $second = round($end_time - $start_time, 3);

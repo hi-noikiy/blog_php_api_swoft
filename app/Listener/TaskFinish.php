@@ -14,13 +14,19 @@ use Swoft\Task\Event\TaskEvent;
  */
 class TaskFinish implements EventHandlerInterface
 {
+    private $count = 0;
+    private $time = 0;
+
     /**
      * @param \Swoft\Event\EventInterface $event
      */
     public function handle(EventInterface $event)
     {
-        var_dump($event->getName());
-
-        var_dump('task finish! ', $event->getParams());
+//        var_dum
+//        $params = current($event->getParams());
+//        $this->count += $params['count'];
+//        $this->time += $params['time'];
+//
+//        var_dump($this->count, $this->time);
     }
 }

@@ -122,9 +122,7 @@ class SyncTask
 
     public function console(string $data)
     {
-        var_dump(1234);
-        var_dump('console', $data);
-        return ['console'];
+        return ['time'=>'123','count'=>'123'];
     }
 
     /**
