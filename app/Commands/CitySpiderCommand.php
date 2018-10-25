@@ -48,30 +48,30 @@ class CitySpiderCommand
             $client = new Client([
                 'base_uri' => 'http://www.stats.gov.cn/tjsj/tjbz/tjyqhdmhcxhfdm/2017/',
                 'adapter' => 'curl',
-                'timeout' => 2
+                'timeout' => 5
             ]);
             $content = $client->request('get', "index.html")->getResponse()->getBody()->getContents();
             $dom = HtmlDomParser::str_get_html($content, true, true, 'gbk');
 
-            $gxlist = $dom->find('.provincetr',3);
+//            $gxlist = $dom->find('.provincetr',3);
 
 
-            foreach ($gxlist->find('a') as $item) {
-                $city_href = $item->href;
-                $city_name = characet(strip_tags($item->innertext()));
-                $this->cityS($city_href,$city_name,$client);
-//                sleep(1);
-//                var_dump($city_name);
-//                Task::deliver('citySpider', 'city', [$city_href, $city_name, $client]);
-            }
+//            foreach ($gxlist->find('a') as $item) {
+//                $city_href = $item->href;
+//                $city_name = characet(strip_tags($item->innertext()));
+//                $this->cityS($city_href,$city_name,$client);
+////                sleep(1);
+////                var_dump($city_name);
+////                Task::deliver('citySpider', 'city', [$city_href, $city_name, $client]);
+//            }
 
-            return;
-//
-//            $city_href = "11.html";
-//            $city_name = "北京市";
-//            $this->cityS($city_href,$city_name,$client);
-//            Task::deliver('citySpider', 'city', [$city_href, $city_name, $client]);
 //            return;
+//
+            $city_href = "65.html";
+            $city_name = "新疆维吾尔自治区";
+//            $this->cityS($city_href,$city_name,$client);
+            Task::deliver('citySpider', 'city', [$city_href, $city_name, $client]);
+            return;
 
 
             $gxlist = $dom->find('.provincetr');

@@ -76,15 +76,30 @@ class DemoController extends ApiController
      */
     public function index(Request $request)
     {
+//
+//        App::error('123');
 
 
+        $arr = array_combine($this->redis->hKeys('HASH_CITY_ONCE_COUNT_tmp'), $this->redis->hVals('HASH_CITY_ONCE_COUNT_tmp'));
 
-        $res = $this->redis->hVals('HASH_CITY_ONCE_COUNT');
-        return $this->respondWithArray(array_sum($res));
+
+        $arr2 = array_combine($this->redis->hKeys('HASH_CITY_ONCE_COUNT'), $this->redis->hVals('HASH_CITY_ONCE_COUNT'));
+
+
+//        $cha = array_sum($this->redis->hVals('HASH_CITY_ONCE_COUNT')) - array_sum($this->redis->hVals('HASH_CITY_ONCE_COUNT_tmp'));
+
+//        return $cha;
+//
+//        $arr3 = [];
+        foreach ($arr2 as $key => $value) {
+            $arr3[$key] = $arr2[$key] - $arr[$key];
+        }
+
+        return $this->respondWithArray(['a' => $arr, 'b' => $arr2, 'c' => $arr3]);
 
         $ffmeg = FFMpeg::create();
         $file = 'http://mp4.vjshi.com/2018-09-21/d5a88ce26f84c6fdf6de8db499e1ea40.mp4';
-        $video  =$ffmeg->open($file);
+        $video = $ffmeg->open($file);
         var_dump($video->getFormat()->get('duration'));
         return;
 //        $frame  = $video->frame(TimeCode::fromSeconds(1));
