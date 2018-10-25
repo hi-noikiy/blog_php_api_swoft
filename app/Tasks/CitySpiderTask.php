@@ -153,6 +153,7 @@ class CitySpiderTask
         $class = '.towntr';
 
         $contents = $client->request("get", $url)->getResponse()->getBody()->getContents();
+        var_dump($contents);
         $data = [];
         $dom = HtmlDomParser::str_get_html($contents);
         foreach ($dom->find($class) as $item) {
