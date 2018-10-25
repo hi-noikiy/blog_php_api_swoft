@@ -11,4 +11,6 @@ class CityEnums
     const CITY = 3;
     const DISTRICT = 4;
     const ROAD = 5;
+
+    const CITY_URL_LIST = 'CITY_URL_LIST';
 }

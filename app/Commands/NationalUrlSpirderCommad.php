@@ -3,20 +3,12 @@
 namespace App\Commands;
 
 use App\Common\Enums\CityEnums;
-use App\Common\Utility\Qiniu;
 use App\Models\Entity\PsAreaAli;
-use App\Models\Entity\VirtualUser;
-use App\Models\Logic\UserLogic;
 use Sunra\PhpSimple\HtmlDomParser;
 use Swoft\App;
 use Swoft\Console\Bean\Annotation\Command;
 use Swoft\Console\Bean\Annotation\Mapping;
-use Swoft\Console\Input\Input;
-use Swoft\Console\Output\Output;
-use Swoft\Core\Coroutine;
 use Swoft\HttpClient\Client;
-use Swoft\Log\Log;
-use Swoft\Process\ProcessBuilder;
 use Swoft\Redis\Redis;
 use Swoft\Task\Task;
 
@@ -25,17 +17,16 @@ use Swoft\Task\Task;
  *
  * @Command(coroutine=false)
  */
-class CitySpiderCommand
+class NationalUrlSpirderCommad
 {
     private $data = [];
-    const ONCE_TIME = 'ONCE_TIME';
-    const ONCE_BEGIN_TIME = 'ONCE_BEGIN_TIME';
-    const HASH_CITY_ONCE_TIME = 'HASH_CITY_ONCE_TIME';
-    const HASH_CITY_ONCE_COUNT = 'HASH_CITY_ONCE_COUNT';
+
+    const base_uri = 'http://www.stats.gov.cn/tjsj/tjbz/tjyqhdmhcxhfdm/2017/';
+
     /**
-     * @Mapping("city")
+     * @Mapping("start")
      */
-    public function city()
+    public function start()
     {
         /* @var Redis $cache */
         $cache = App::getBean(Redis::class);
@@ -47,39 +38,20 @@ class CitySpiderCommand
                 'base_uri' => 'http://www.stats.gov.cn/tjsj/tjbz/tjyqhdmhcxhfdm/2017/',
                 'adapter' => 'curl'
             ]);
-            var_dump(123);
+
             $content = $client->request('get', "index.html")->getResponse()->getBody()->getContents();
             $dom = HtmlDomParser::str_get_html($content, true, true, 'gbk');
 
-//            $gxlist = $dom->find('.provincetr',3);
-//
-//
-//            foreach ($gxlist->find('a') as $item) {
-//                $city_href = $item->href;
-//                $city_name = characet(strip_tags($item->innertext()));
-//                var_dump($city_name);
-//                Task::deliver('citySpider', 'city', [$city_href, $city_name, $client]);
-//            }
-//
-//            return;
-//
-            $city_href = "11.html";
-            $city_name = "北京市";
-            $this->cityS($city_href,$city_name,$client);
-//            Task::deliver('citySpider', 'city', [$city_href, $city_name, $client]);
-//            return;
+            $gxlist = $dom->find('.provincetr');
 
-
-//            $gxlist = $dom->find('.provincetr');
-//
-//            foreach ($gxlist as $key => $elements) {
-////                var_dump($elements);
-//                foreach ($elements->find('a') as $item) {
-//                    $city_href = $item->href;
-//                    $city_name = characet(strip_tags($item->innertext()));
-//                    Task::deliver('citySpider', 'city', [$city_href, $city_name, $client]);
-//                }
-//            }
+            foreach ($gxlist as $key => $elements) {
+//                var_dump($elements);
+                foreach ($elements->find('a') as $item) {
+                    $city_href = $item->href;
+                    $city_name = characet(strip_tags($item->innertext()));
+                    Task::deliver('citySpider', 'city', [$city_href, $city_name, $client]);
+                }
+            }
 
             $end_time = microtime(true);
             $second = round($end_time - $start_time, 3);
@@ -89,7 +61,6 @@ class CitySpiderCommand
         }
         var_dump($second, $memory);
     }
-
 
 
     public function cityS(string $url, string $city_name, Client $client)

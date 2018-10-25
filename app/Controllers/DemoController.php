@@ -78,6 +78,10 @@ class DemoController extends ApiController
     {
 
 
+
+        $res = $this->redis->hVals('HASH_CITY_ONCE_COUNT');
+        return $this->respondWithArray(array_sum($res));
+
         $ffmeg = FFMpeg::create();
         $file = 'http://mp4.vjshi.com/2018-09-21/d5a88ce26f84c6fdf6de8db499e1ea40.mp4';
         $video  =$ffmeg->open($file);
