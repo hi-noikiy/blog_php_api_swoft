@@ -20,13 +20,13 @@ return [
         'maxWaitTime' => 3,
         'maxIdleTime' => 60,
         'timeout'     => 8,
-        'db'          => 1,
+        'db'          => 0,
         'auth'        => '',
         'prefix'      => 'BO:',
         'serialize'   => 0,
     ],
     'demoRedis' => [
-        'db'     => 2,
+        'db'     => 0,
         'prefix' => 'BO:',
     ],
 ];

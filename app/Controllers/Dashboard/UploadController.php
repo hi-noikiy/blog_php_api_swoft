@@ -32,17 +32,23 @@ class UploadController extends ApiController
     {
         /* @var UploadedFile $file */
         $file = $request->file('media');
+        $prefix = $request->post('prefix');
         if (!$file) {
             return $this->setStatusCode(Code::EMPTY_PARAMETER)->respondWithError('图片不能为空');
         }
+
         $upload = new Qiniu();
-        $file = $upload->single_upload($file->toArray(), 'test');
-        return $this->respondWithArray($file, Lang::UPLOAD_SUCCESS);
+        $upload->setPrefix($prefix);
+        if (is_array($file)) {
+            foreach ($file as $item) {
+                $imgs[] = $upload->single_upload($item->toArray());
+            }
+        } else {
+            $imgs = $upload->single_upload($file->toArray());
+        }
+
+        return $this->respondWithArray(['imgs' => $imgs], Lang::UPLOAD_SUCCESS);
     }
 
-
-    public function getToken(){
-
-    }
 
 }

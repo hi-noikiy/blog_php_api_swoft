@@ -9,18 +9,25 @@ use App\Models\Entity\VirtualUser;
 use Swoft\App;
 use Swoft\Db\Db;
 use Swoft\Db\Exception\DbException;
+use Swoft\HttpClient\Exception\RuntimeException;
 use Swoft\Redis\Redis;
 use Swoft\Task\Bean\Annotation\Task;
 use Swoft\HttpClient\Client;
 use Sunra\PhpSimple\HtmlDomParser;
 use Swoft\Task\Task as TaskD;
-
+use Swoft\Bean\Annotation\Inject;
 /**
  *
  * @Task("citySpider")
  */
 class CitySpiderTask
 {
+
+    /**
+     * @Inject("demoRedis")
+     * @var \Swoft\Redis\Redis
+     */
+    protected $redis;
 
     const ONCE_TIME = 'ONCE_TIME';
     const ONCE_BEGIN_TIME = 'ONCE_BEGIN_TIME';
@@ -63,7 +70,6 @@ class CitySpiderTask
                     'areaParentId' => $areaParentId,
                     'areaType' => $areaType
                 ];
-
                 if (isset($item->find('td', 0)->find('a', 0)->href)) {
                     $district_url = $item->find('td', 0)->find('a', 0)->href;
                     $this->district($district_url, $areaCode, $client);
@@ -75,11 +81,18 @@ class CitySpiderTask
                 }
             }
             var_dump($city_name . "总共:" . count($this->data));
-
+            foreach ($this->data as $value) {
+                $cache->sAdd('ssq', json_encode($value));
+            }
             PsAreaAli::batchInsert($this->data);
             Db::commit();
+        } catch (\RuntimeException $runtimeException) {
+            var_dump('runtimeex_city');
+            var_dump($url."重试");
+            return $this->city($url,$city_name,$client);
         } catch (\Exception $exception) {
             Db::rollback();
+            var_dump('ex');
             var_dump($exception->getFile());
             var_dump($exception->getLine());
             var_dump($exception->getMessage());
@@ -108,32 +121,59 @@ class CitySpiderTask
         $areaType = CityEnums::DISTRICT;
         $class = '.countytr';
 
-        $contents = $client->request("get", $url)->getResponse()->getBody()->getContents();
+        try{
+            $contents = $client->request("get", $url)->getResponse()->getBody()->getContents();
+        }catch (\RuntimeException $runtimeException){
+            var_dump('runtimeex_district');
+            var_dump($url."重试");
+            return $this->district($url, $areaParentId, $client);
+        }
+
+
 //        $data = [];
         $dom = HtmlDomParser::str_get_html($contents);
-        foreach ($dom->find($class) as $item) {
 
-            $areaCode = strip_tags($item->find('td', 0)->innertext());
-            $areaName = strip_tags(characet($item->find('td', 1)->innertext()));
-            //塞入数组批量插入
-            $this->data[] = [
-                'areaCode' => $areaCode,
-                'areaName' => $areaName,
-                'areaParentId' => $areaParentId,
-                'areaType' => $areaType
-            ];
+        //存在市下面直接是街道 比如东莞 class改成街区class
+        if ($dom->find($class)) {
+            foreach ($dom->find($class) as $item) {
+                $areaCode = strip_tags($item->find('td', 0)->innertext());
+                $areaName = strip_tags(characet($item->find('td', 1)->innertext()));
+                //塞入数组批量插入
+                $this->data[] = [
+                    'areaCode' => $areaCode,
+                    'areaName' => $areaName,
+                    'areaParentId' => $areaParentId,
+                    'areaType' => $areaType
+                ];
 
-            if (isset($item->find('td', 0)->find('a', 0)->href)) {
-                $district_url = $item->find('td', 0)->find('a', 0)->href;
+                if (isset($item->find('td', 0)->find('a', 0)->href)) {
+                    $district_url = $item->find('td', 0)->find('a', 0)->href;
 
-                $district_url = current(explode('/', $url)) . '/' . $district_url;
+                    $district_url = current(explode('/', $url)) . '/' . $district_url;
 //                var_dump("街区投递.url:" . $district_url);
-                $this->street($district_url, $areaCode, $client);
+                    $this->street($district_url, $areaCode, $client);
 //                TaskD::deliver('citySpider', 'street', [$district_url, $areaCode, $client]);
-            } else {
-                var_dump($areaParentId . $areaName . "无下一级");
+                } else {
+                    var_dump($areaParentId . $areaName . "无下一级");
+                }
+            }
+        } else {
+
+            $areaType = CityEnums::ROAD;
+            $class = '.towntr';
+            foreach ($dom->find($class) as $item) {
+                $areaCode = strip_tags($item->find('td', 0)->innertext());
+                $areaName = strip_tags(characet($item->find('td', 1)->innertext()));
+                //塞入数组批量插入
+                $this->data[] = [
+                    'areaCode' => $areaCode,
+                    'areaName' => $areaName,
+                    'areaParentId' => $areaParentId,
+                    'areaType' => $areaType
+                ];
             }
         }
+
 
 //        var_dump("task_区:".$areaParentId . "总共:" . count($data));
 //        PsAreaAli::batchInsert($data);
@@ -153,7 +193,13 @@ class CitySpiderTask
         $areaType = CityEnums::ROAD;
         $class = '.towntr';
 
-        $contents = $client->request("get", $url)->getResponse()->getBody()->getContents();
+        try{
+            $contents = $client->request("get", $url)->getResponse()->getBody()->getContents();
+        }catch (\RuntimeException $runtimeException){
+            var_dump('runtimeex_street');
+            var_dump($url."重试");
+            return $this->street($url, $areaParentId, $client);
+        }
 //        var_dump($contents);
         $data = [];
         $dom = HtmlDomParser::str_get_html($contents);

@@ -79,6 +79,11 @@ class DemoController extends ApiController
 //
 //        App::error('123');
 
+//        $this->redis->select(0);
+        $this->redis->set('123',123);
+var_dump($this->redis->keys('*'));
+        $res = $this->redis->hGetAll('HASH_CITY_ONCE_COUNT_tmp');
+        return $this->respondWithArray($res);
 
         $arr = array_combine($this->redis->hKeys('HASH_CITY_ONCE_COUNT_tmp'), $this->redis->hVals('HASH_CITY_ONCE_COUNT_tmp'));
 

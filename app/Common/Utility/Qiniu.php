@@ -4,6 +4,7 @@
 namespace App\Common\Utility;
 
 use App\Common\Code\Code;
+use phpDocumentor\Reflection\Types\Self_;
 use Qiniu\Storage\BucketManager;
 use Qiniu\Storage\UploadManager;
 use Qiniu\Auth;
@@ -13,10 +14,14 @@ class Qiniu
 {
     const HOST = 'https://img.losingbattle.site/';
     const BUCKET = 'losingbattle';
+    const PREFIX = 'common';
+
     protected $uploadManager;
     protected $BucketManager;
     protected $auth;
     private $token;
+    private $prefix;
+
     protected $QiNiu_config = [
         'accesskey' => 'ktvVle4hNOk_qJSTYHC5FI5Ed7au9_bKnmc2Wnwc',
         'secretkey' => 'eR0PGcIXsXB9tmMENJWT9colY2jnaZaO6UB-s8QE',
@@ -35,7 +40,7 @@ class Qiniu
     }
 
 
-    public function single_upload($img, $prefix)
+    public function single_upload($img)
     {
         if (!$img) {
             throw  new Exception('图片不能为空', 404);
@@ -43,7 +48,7 @@ class Qiniu
 
         $ext = pathinfo($img['name'], PATHINFO_EXTENSION);
         $this->isImage($ext);
-        $key = $this->file_path($ext, $prefix);
+        $key = $this->file_path($ext, $this->getPrefix());
         list($ret, $err) = $this->uploadManager->putFile($this->token, $key, $img['tmp_file']);
         if ($err !== null) {
             return $err;
@@ -73,7 +78,7 @@ class Qiniu
     }
 
 
-    public function single_upload_url($url, $prefix = '')
+    public function single_upload_url($url)
     {
         if (!$url) {
             throw  new Exception('图片不能为空', Code::INVALID_PARAMETER);
@@ -82,43 +87,46 @@ class Qiniu
         $filename = $pathinfo['filename'];
         $ext = $pathinfo['extension'];
         $this->isImage($ext);
-        $key = $this->file_path($ext, $prefix, $filename);
+        $key = $this->file_path($ext, $this->getPrefix(), $filename);
         list($ret, $err) = $this->BucketManager->fetch($url, self::BUCKET, $key);
         if ($err != null) {
-            throw new \Exception($ext, Code::SYSTEM_ERROR);
+            throw new \Exception($err, Code::SYSTEM_ERROR);
         }
         return self::HOST . $key;
     }
 
-    public function single_upload_base64($base64,$prefix = ''){
+    public function single_upload_base64($base64)
+    {
 //     $this->uploadManager->put()
     }
 
-    public function multi_arrange($img)
-    {
+    //fpm模式下数组格式化
+//    public function multi_arrange($img)
+//    {
+//
+//        $i = 0;
+//        foreach ($img as $key => $file) {
+//
+//            //因为这时$_FILES是个三维数组，并且上传单文件或多文件时，数组的第一维的类型不同，这样就可以拿来判断上传的是单文件还是多文件
+//            if (is_string($file['name'])) {
+//                //如果是单文件
+//                $files[$i] = $file;
+//                $i++;
+//            } elseif (is_array($file['name'])) {
+//                //如果是多文件
+//                foreach ($file['name'] as $key => $val) {
+//                    $files[$i]['name'] = $file['name'][$key];
+//                    $files[$i]['type'] = $file['type'][$key];
+//                    $files[$i]['tmp_file'] = $file['tmp_file'][$key];
+//                    $files[$i]['error'] = $file['error'][$key];
+//                    $files[$i]['size'] = $file['size'][$key];
+//                    $i++;
+//                }
+//            }
+//        }
+//        return $files;
+//    }
 
-        $i = 0;
-        foreach ($img as $key => $file) {
-
-            //因为这时$_FILES是个三维数组，并且上传单文件或多文件时，数组的第一维的类型不同，这样就可以拿来判断上传的是单文件还是多文件
-            if (is_string($file['name'])) {
-                //如果是单文件
-                $files[$i] = $file;
-                $i++;
-            } elseif (is_array($file['name'])) {
-                //如果是多文件
-                foreach ($file['name'] as $key => $val) {
-                    $files[$i]['name'] = $file['name'][$key];
-                    $files[$i]['type'] = $file['type'][$key];
-                    $files[$i]['tmp_file'] = $file['tmp_file'][$key];
-                    $files[$i]['error'] = $file['error'][$key];
-                    $files[$i]['size'] = $file['size'][$key];
-                    $i++;
-                }
-            }
-        }
-        return $files;
-    }
 
     public function delete($key)
     {
@@ -158,5 +166,16 @@ class Qiniu
         return true;
     }
 
+
+    private function getPrefix()
+    {
+        return $this->prefix ?? self::PREFIX;
+    }
+
+    public function setPrefix(string $prefix)
+    {
+        $this->prefix = $prefix;
+        return $this;
+    }
 
 }

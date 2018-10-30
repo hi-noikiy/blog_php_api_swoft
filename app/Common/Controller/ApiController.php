@@ -15,7 +15,7 @@ class ApiController
 
     /**
      * @Inject("demoRedis")
-     * @var \Redis
+     * @var \Swoft\Redis\Redis
      */
     protected $redis;
 
@@ -79,7 +79,7 @@ class ApiController
             // 支持场景
             list($validate, $scene) = explode('.', $validate);
         }
-        /* @var Validate $v*/
+        /* @var Validate $v */
         $v = new $validate;
         if (!empty($scene)) {
             $v->scene($scene);

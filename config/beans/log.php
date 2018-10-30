@@ -34,7 +34,7 @@ return [
         'flushInterval' => 100,
         'flushRequest'  => true,
         'handlers'      => [
-            '${noticeHandler}',
+//            '${noticeHandler}',
             '${applicationHandler}',
         ],
     ],
