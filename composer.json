@@ -40,7 +40,8 @@
         "sunra/php-simple-html-dom-parser": "^1.5",
         "wtwei/aliyun-dysms": "^0.2.2",
         "php-ffmpeg/php-ffmpeg": "^0.12.0",
-        "ramsey/uuid": "^3.7"
+        "ramsey/uuid": "^3.7",
+        "swoft/auth": "^1.0"
     },
     "require-dev": {
         "eaglewu/swoole-ide-helper": "dev-master",

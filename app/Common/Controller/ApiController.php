@@ -8,6 +8,7 @@ use Swoft\Http\Message\Server\Response;
 use Swoft\Bean\Annotation\Inject;
 use Exception;
 use think\Validate;
+use Swoft\Http\Message\Server\Request;
 
 class ApiController
 {

@@ -28,7 +28,7 @@ class AuthController extends ApiController
 
     /**
      * @Inject()
-     * @var \App\Models\Logic\AuthLogic
+     * @var \App\Models\Logic\DashBoardAuthLogic
      */
     private $AuthLogic;
 

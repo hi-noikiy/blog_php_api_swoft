@@ -40,4 +40,10 @@ return [
     'provider' => require __DIR__ . DS . 'provider.php',
     'jwt' => require __DIR__ . DS . 'jwt.php',
     'opendota' => require __DIR__ . DS . 'opendota.php',
+    'auth' => [
+        'jwt' => [
+            'algorithm' => 'HS256',
+            'secret' => '1231231'
+        ],
+    ],
 ];
