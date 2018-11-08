@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Models\Service;
 
 
@@ -6,6 +7,7 @@ use Swoft\Auth\AuthManager;
 use Swoft\Auth\Mapping\AuthManagerInterface;
 use Swoft\Bean\Annotation\Bean;
 use Swoft\Auth\Bean\AuthSession;
+
 /**
  * @Bean()
  */
@@ -21,7 +23,7 @@ class AuthManagerService extends AuthManager implements AuthManagerInterface
      */
     protected $cacheEnable = true;
 
-    public function adminBasicLogin(string $identity, string $credential) : AuthSession
+    public function adminBasicLogin(string $identity, string $credential): AuthSession
     {
         return $this->login(AdminNormalAccount::class, [
             'identity' => $identity,

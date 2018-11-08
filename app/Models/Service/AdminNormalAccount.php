@@ -7,38 +7,30 @@ use App\Models\Dao\AdminUserDao;
 use Swoft\Auth\Bean\AuthResult;
 use Swoft\Auth\Mapping\AccountTypeInterface;
 use Swoft\Bean\Annotation\Inject;
+use Swoft\Bean\Annotation\Bean;
 
+/**
+ * @Bean()
+ */
 class AdminNormalAccount implements AccountTypeInterface
 {
-    /**
-     * @Inject()
-     * @var AdminUserDao
-     */
-    protected $dao;
 
     const ROLE = 'role';
 
-    /**
-     * @throws \Swoft\Db\Exception\DbException
-     */
     public function login(array $data): AuthResult
     {
-        $identity = $data['identity'];
-        $credential = $data['credential'];
-        $user = $this->dao::findOneByUsername($identity);
+        $identity = 'youke';
+        $credential = '123456';;
         $result = new AuthResult();
-        if ($user instanceof AdminUserBean && $user->verify($credential)) {
-            $result->setExtendedData([self::ROLE => $user->getIsAdministrator()]);
-            $result->setIdentity($user->getId());
-        }
+
+        $result->setExtendedData([self::ROLE => 'test']);
+        $result->setIdentity(1);
+
         return $result;
     }
 
-    /**
-     * @throws \Swoft\Db\Exception\DbException
-     */
     public function authenticate(string $identity): bool
     {
-        return $this->dao::issetUserById($identity);
+        return __CLASS__;
     }
 }

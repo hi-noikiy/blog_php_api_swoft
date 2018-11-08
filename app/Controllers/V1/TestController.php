@@ -26,6 +26,7 @@ use Swoft\Bean\Annotation\Inject;
 
 /**
  * @Controller(prefix="/v1/test")
+ * @Middleware(class=ControllerTestMiddleware::class)
  */
 class TestController extends ApiController
 {

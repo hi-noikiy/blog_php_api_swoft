@@ -4,30 +4,27 @@ namespace App\Controllers\V1;
 
 
 use App\Common\Controller\ApiController;
+use App\Common\Validate\AuthValidate;
 use App\Models\Service\AuthService;
-use App\Models\Token;
-use Swoft\App;
-use Swoft\Bean\BeanFactory;
-use Swoft\Db\Query;
 use Swoft\Http\Message\Server\Request;
 use Swoft\Http\Server\Bean\Annotation\Controller;
 use Swoft\Http\Server\Bean\Annotation\RequestMapping;
 use Swoft\Http\Server\Bean\Annotation\RequestMethod;
-use Swoft\Http\Message\Bean\Annotation\Middlewares;
 use Swoft\Http\Message\Bean\Annotation\Middleware;
 use App\Middlewares\SignMiddleware;
-use App\Middlewares\AuthMiddleware;
 use Swoft\Bean\Annotation\Inject;
 
 /**
  * @Controller(prefix="/v1/auth")
- * @Middlewares({
- *     @Middleware(SignMiddleware::class),
- *     @Middleware(AuthMiddleware::class)
- * })
+ * @Middleware(SignMiddleware::class)
  */
 class AuthController extends ApiController
 {
+    /**
+     * @Inject()
+     * @var AuthService
+     */
+    private $AuthService;
 
 
     /**
@@ -37,11 +34,15 @@ class AuthController extends ApiController
      */
     public function signin(Request $request)
     {
+        /* @var AuthValidate */
         $this->validate('App\Common\Validate\AuthValidate.signin_first');
+        $login_type = $request->post('login_type');
+        $mobile = $request->post('mobile');
 
+        return $this->respondWithArray('success');
+        $data = $this->AuthService->auth();
 
-        return $this->respondWithArray(AuthService::service()->check());
-
+        return $this->respondWithArray($data);
     }
 
     /**

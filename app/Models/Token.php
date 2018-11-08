@@ -60,17 +60,15 @@ class Token
     {
 
         if ($rank == false) {
-            if ($hkeys = $this->redis->hKeys($accessToken)) {
-                $hvals = $this->redis->hVals($accessToken);
-                return array_combine($hkeys, $hvals);
+            if ($hData = $this->redis->hGetAll($accessToken)) {
+                return $hData;
             } else {
                 return null;
             }
         } else {
             if (!empty($accessToken)) {
-                if ($hkeys = $this->redis->hKeys($accessToken)) {
-                    $hvals = $this->redis->hVals($accessToken);
-                    return array_combine($hkeys, $hvals);
+                if ($hData = $this->redis->hGetAll($accessToken)) {
+                    return $hData;
                 } else {
                     throw new Exception('账号异常,请重新登录', Code::INVALID_TOKEN);
                 }

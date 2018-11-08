@@ -16,25 +16,32 @@ return [
 //             \Swoft\Session\Middleware\SessionMiddleware::class,
         ]
     ],
-    'httpRouter'       => [
-        'ignoreLastSlash'  => false,
+    'httpRouter' => [
+        'ignoreLastSlash' => false,
         'tmpCacheNumber' => 1000,
-        'matchAll'       => '',
+        'matchAll' => '',
     ],
-    'requestParser'    => [
+    'requestParser' => [
         'parsers' => [
 
         ],
     ],
-    'view'             => [
+    'view' => [
         'viewsPath' => '@resources/views/',
-        'suffixes'  => ['php','html']
+        'suffixes' => ['php', 'html']
     ],
-    'cache'            => [
+    'cache' => [
         'driver' => 'redis',
     ],
     'demoRedis' => [
         'class' => \Swoft\Redis\Redis::class,
         'poolName' => 'demoRedis'
+    ],
+    \Swoft\Auth\Mapping\AuthServiceInterface::class => [
+        // 你的 AuthService 的完整命名空间
+        'class' => \App\Models\Service\AuthService::class,
+    ],
+    \Swoft\Auth\Mapping\AuthManagerInterface::class => [
+        'class' => \App\Models\Service\AuthManagerService::class
     ],
 ];

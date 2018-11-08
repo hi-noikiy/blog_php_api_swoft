@@ -1,4 +1,11 @@
 <?php
+
+/* @return \Swoft\Redis\Redis */
+function redis()
+{
+    return \Swoft\App::getBean(\Swoft\Redis\Redis::class);
+}
+
 /*-返回今天剩余时间戳-*/
 function today_rest()
 {
@@ -9,12 +16,6 @@ function today_rest()
     $surplus = $endtime - time();
 
     return $surplus;
-}
-
-
-function ip()
-{
-    return \Swoft\Core\RequestContext::getRequest()->getHeaders()['x-real-ip'][0];
 }
 
 /**

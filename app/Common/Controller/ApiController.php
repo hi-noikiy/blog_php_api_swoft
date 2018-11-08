@@ -32,7 +32,7 @@ class ApiController
     {
         $data = [
             "code" => Code::SUCCESS,
-            "data" => is_array($array) ? (count($array) ? $array : null) : $array,
+            "data" => is_array($array) ? (count($array) ? $array : new \stdClass()) : $array,
             "msg" => $msg
         ];
         return response()->json($data);
@@ -50,7 +50,7 @@ class ApiController
 
         $data = [
             "code" => $this->statusCode,
-            "data" => null,
+            "data" => new \stdClass(),
             "msg" => $msg
         ];
         return response()->json($data);

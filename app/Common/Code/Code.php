@@ -9,7 +9,7 @@ class Code
     const ERROR_NO_DEFINED = 0; //未定义的错误类型
     const SUCCESS = 200; //请求成功
     const ERROR = 400; //失败
-    const ERROR_NOT_FOUND = 404; //页面丢失
+    const ERROR_NOT_FOUND = 404; //找不到该数据
     const ERROR_NO_AUTH = 1000; //签名失败
     const EMPTY_PARAMETER = 450;
     const UNLOGIN = 2001; //未登录
