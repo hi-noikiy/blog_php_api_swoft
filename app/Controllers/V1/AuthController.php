@@ -3,9 +3,15 @@
 namespace App\Controllers\V1;
 
 
+use App\Common\Code\Code;
 use App\Common\Controller\ApiController;
+use App\Common\Factory\AuthFactory;
+use App\Common\Mapping\AuthInterface;
+use App\Common\Utility\Token;
 use App\Common\Validate\AuthValidate;
-use App\Models\Service\AuthService;
+use App\Exception\InvaildTokenException;
+use App\Models\Services\AuthServices\PasswordAuthService;
+use Swoft\App;
 use Swoft\Http\Message\Server\Request;
 use Swoft\Http\Server\Bean\Annotation\Controller;
 use Swoft\Http\Server\Bean\Annotation\RequestMapping;
@@ -20,11 +26,6 @@ use Swoft\Bean\Annotation\Inject;
  */
 class AuthController extends ApiController
 {
-    /**
-     * @Inject()
-     * @var AuthService
-     */
-    private $AuthService;
 
 
     /**
@@ -35,12 +36,12 @@ class AuthController extends ApiController
     public function signin(Request $request)
     {
         /* @var AuthValidate */
-        $this->validate('App\Common\Validate\AuthValidate.signin_first');
+        $this->validate('App\Common\Validate\AuthValidate.signin');
         $login_type = $request->post('login_type');
-        $mobile = $request->post('mobile');
 
-        return $this->respondWithArray('success');
-        $data = $this->AuthService->auth();
+        /* @var AuthInterface $auth */
+        $auth = AuthFactory::getService($login_type);
+        $data = $auth->auth($request->post());
 
         return $this->respondWithArray($data);
     }
@@ -59,14 +60,35 @@ class AuthController extends ApiController
 
 
     /**
-     * @RequestMapping(route="/refresh", method=RequestMethod::POST)
+     * @RequestMapping(route="/v1/refresh", method=RequestMethod::POST)
      * @param Request $request
      * @return string
      */
     public function refresh(Request $request)
     {
+        /* @var AuthValidate */
+        $this->validate('App\Common\Validate\AuthValidate.refresh');
+        $refresh_token = $request->post('refresh_token');
 
-        return $this->respondWithArray($request->input());
+        $refresh_token_key = sprintf("%s:%s", Token::REFRESH_TOKEN, $refresh_token);
+
+        $ttl = redis()->ttl($refresh_token_key);
+
+        if ($ttl == -2) {
+            throw new InvaildTokenException('refresh_token已失效', Code::INVALID_TOKEN);
+        }
+        $hData = redis()->hgetall($refresh_token_key);
+        //refresh_token小于一个半小时 则不刷新返回原来的token
+        if ($ttl < Token::refresh_expires - Token::expires + 1800) {
+
+        } else {
+            $data = [
+                'access_token' => $hData['access_token'],
+                'refresh_token' => $refresh_token
+            ];
+        }
+
+        return $this->respondWithArray($data);
 
     }
 }

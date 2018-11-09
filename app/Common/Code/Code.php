@@ -15,8 +15,8 @@ class Code
     const UNLOGIN = 2001; //未登录
     const INVALID_PARAMETER = 2002; //不合法的参数,缺少参数
     const INVALID_REQUEST = 2003; //不合法的请求格式
-    const INVALID_TOKEN = 2004; //不合法TOKEN
-    const REFRESH_TOKEN = 2005;//刷新token值标识符
+    const INVALID_TOKEN = 2004; //access_token不存在||access_token和refresh_token都已经失效
+    const REFRESH_TOKEN = 2005;//access_token失效,refresh_token未失效|刷新access_token值标识符
     const CHECK_CODE_ERROR = 2006; //验证码错误
     const UN_REGISTERED = 2007; //未注册
     const INVALID_SIGN = 2008;//不合法的签名

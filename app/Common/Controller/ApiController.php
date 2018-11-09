@@ -3,7 +3,6 @@
 namespace App\Common\Controller;
 
 use App\Common\Code\Code;
-use App\Models\Token;
 use Swoft\Http\Message\Server\Response;
 use Swoft\Bean\Annotation\Inject;
 use Exception;
@@ -19,12 +18,6 @@ class ApiController
      * @var \Swoft\Redis\Redis
      */
     protected $redis;
-
-    /**
-     * @Inject()
-     * @var Token
-     */
-    protected $token;
 
     protected $statusCode = 200;
 

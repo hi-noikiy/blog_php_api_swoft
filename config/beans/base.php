@@ -37,11 +37,4 @@ return [
         'class' => \Swoft\Redis\Redis::class,
         'poolName' => 'demoRedis'
     ],
-    \Swoft\Auth\Mapping\AuthServiceInterface::class => [
-        // 你的 AuthService 的完整命名空间
-        'class' => \App\Models\Service\AuthService::class,
-    ],
-    \Swoft\Auth\Mapping\AuthManagerInterface::class => [
-        'class' => \App\Models\Service\AuthManagerService::class
-    ],
 ];

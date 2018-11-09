@@ -23,17 +23,12 @@ class AuthMiddleware implements MiddlewareInterface
      */
     private $redis;
 
-    /**
-     * @Inject()
-     * @var Token $token
-     */
-    private $token;
 
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
 
         $accessToken = $request->getHeader('access-token');
-        $clientinfo = $this->token->checkBasicAuth(end($accessToken));
+//        $clientinfo = $this->token->checkBasicAuth(end($accessToken));
 
         $request = $request->withAttribute('uid', $clientinfo['user_id'] ?? 0);
 //        return response()->raw(Encrypt::encrypt(json_encode($request->getParsedBody() + $request->getQueryParams())))->withoutHeader('Content-Type')->withAddedHeader('Content-Type', 'application/octet-stream');

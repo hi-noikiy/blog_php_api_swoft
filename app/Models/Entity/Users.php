@@ -91,7 +91,7 @@ class Users extends Model
      * @var int $visitCount 登陆次数
      * @Column(name="visit_count", type="integer", default=0)
      */
-    private $visitCount;
+    public $visitCount;
 
     /**
      * @var int $isDelete 是否禁用

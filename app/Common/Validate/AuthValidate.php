@@ -17,6 +17,7 @@ class AuthValidate extends Validate
         'repassword' => 'require|confirm:password',
         'openid' => 'require',
         'type' => 'require|between:1,5',
+        'refresh_token' => 'require'
     ];
 
     protected $message = [
@@ -25,14 +26,15 @@ class AuthValidate extends Validate
         'login_type.require' => '请选择登陆方式',
         'login_type.between' => '登陆方式不正确',
         'unionid.require' => 'unionid不能为空',
-        'type.require' => 'oauth2类型不能为空'
+        'type.require' => 'oauth2类型不能为空',
     ];
     protected $scene = [
-        'signin_first' => ['login_type'],
+        'signin' => ['login_type'],
         'signup' => ['mobile', 'password', 'sms_code'],
         'forget' => ['mobile', 'password', 'repassword', 'sms_code'],
         'oauth2' => ['openid', 'type'],
-        'oauth2_binding' => ['mobile', 'sms_code', 'openid', 'type']
+        'oauth2_binding' => ['mobile', 'sms_code', 'openid', 'type'],
+        'refresh' => ['refresh_token']
     ];
 
     public function login_validate($value, $rule, $data)
