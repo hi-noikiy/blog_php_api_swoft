@@ -10,5 +10,16 @@
 
 class Swoft extends \Swoft\App
 {
-
+    /**
+     *
+     *
+     * @access public
+     * @param
+     * @return \Swoft\Redis\Redis
+     *
+     */
+    public static function redis()
+    {
+        return self::getBean(\Swoft\Redis\Redis::class);
+    }
 }

@@ -44,7 +44,7 @@
  *          description="Example extended response",
  *          ref="$/responses/Json",
  *          @SWG\Schema(
- *              ref="#/definitions/ApiResponse",
+ *              ref="#/definitions/authResponse",
  *              @SWG\Property(
  *                  property="data",
  *                  ref="#/definitions/user_info"

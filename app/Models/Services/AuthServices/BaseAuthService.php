@@ -18,23 +18,22 @@ class BaseAuthService
 
     public function generateToken(Users $users): array
     {
-        $token_index = sprintf('%s:%d', Token::TOKEN_INDEX, $users->getUserId());
+        $token_index = Token::getTokenIndex($users->getUserId());
 
         $info = [
             'user_id' => $users->getUserId(),
             'mobile' => $users->getMobile()
         ];
-        //不存在则生成
+        //不存在则生成 1.第一次登录 2.彻底失效 token_index的ttl和refresh_token的失效时间都为30天 token_index失效时 refresh_token同时失效
         if (!$hData = redis()->hGetAll($token_index)) {
-//            Token:
-            $token_arr = Token::setToken($info);
+            $token_arr = Token::Generate($info);
         } else {
-            $access_token_ttl = redis()->ttl(sprintf("%s:%s", Token::ACCESS_TOKEN, $hData['access_token']));
-            if ($access_token_ttl == -2) {
-                $token_arr = Token::setToken($info);
-//            else if ($access_token_ttl < 3600) {
-//                    redis()->del();
-//                }
+            $old_access_token_key = Token::getAccessTokenKey($hData['access_token']);
+            $old_refresh_token_key = Token::getRefreshTokenKey($hData['refresh_token']);
+            $access_token_ttl = redis()->ttl($old_access_token_key);
+            //access_token已经过期失效 失效是-2 也是<600 ..||access_token生存失效小于10分钟  刷新
+            if ($access_token_ttl < 600) {
+                $token_arr = Token::Generate($info, $old_access_token_key, $old_refresh_token_key);
             } else {
                 $token_arr = ['access_token' => $hData['access_token'], 'refresh_token' => $hData['refresh_token']];
             }

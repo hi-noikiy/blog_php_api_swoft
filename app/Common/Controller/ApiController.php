@@ -24,7 +24,7 @@ class ApiController
     public function respondWithArray($array = null, $msg = '请求成功'): Response
     {
         $data = [
-            "code" => Code::SUCCESS,
+            "code" => $this->getStatusCode(),
             "data" => is_array($array) ? (count($array) ? $array : new \stdClass()) : $array,
             "msg" => $msg
         ];
@@ -42,7 +42,7 @@ class ApiController
         }
 
         $data = [
-            "code" => $this->statusCode,
+            "code" => $this->getStatusCode(),
             "data" => new \stdClass(),
             "msg" => $msg
         ];

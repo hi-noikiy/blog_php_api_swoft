@@ -35,7 +35,7 @@ class Token
         return $random_str;
     }
 
-    public static function setToken(array $data): array
+    public static function Generate(array $data, string $old_access_token_key = null, string $old_refresh_token_key = null): array
     {
         $access_token = self::buildRandom(self::ACCESS_TOKEN);
         $refresh_token = self::buildRandom(self::REFRESH_TOKEN);
@@ -43,10 +43,20 @@ class Token
         $access_token_key = self::getAccessTokenKey($access_token);
         redis()->hMset($access_token_key, $data);
         redis()->expire($access_token_key, self::expires);
+        //维护旧的access_token5分钟 防止前端并发请求
+        if ($old_access_token_key) {
+            redis()->hMset($old_access_token_key, $data);
+            redis()->expire($old_access_token_key, 300);
+        }
 
-        $refresh_token_key = self::getRefreshTokenKey($access_token);
+
+        $refresh_token_key = self::getRefreshTokenKey($refresh_token);
         redis()->hMset($refresh_token_key, ['access_token' => $access_token, 'user_id' => $data['user_id']]);
         redis()->expire($refresh_token_key, self::refresh_expires);
+        //refresh时 删除旧的refresh_token
+        if ($old_refresh_token_key) {
+            redis()->del($old_refresh_token_key);
+        }
 
 
         $token_index = sprintf('%s:%s', self::TOKEN_INDEX, $data['user_id']);
@@ -64,6 +74,11 @@ class Token
     public static function getAccessTokenKey($access_token)
     {
         return sprintf("%s:%s", Token::ACCESS_TOKEN, $access_token);
+    }
+
+    public static function getTokenIndex(int $user_id)
+    {
+        return sprintf("%s:%s", Token::TOKEN_INDEX, $user_id);
     }
 
     /**

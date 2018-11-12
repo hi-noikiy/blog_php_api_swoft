@@ -3,19 +3,29 @@
 namespace App\Models\Services;
 
 use App\Common\Utility\Token;
+use App\Models\Data\UserData;
+use App\Models\Entity\Users;
+use App\Models\Services\AuthServices\BaseAuthService;
 use Swoft\Bean\Annotation\Bean;
+use Swoft\Bean\Annotation\Inject;
 
 /**
  * @Bean()
  */
-class TokenService
+class TokenService extends BaseAuthService
 {
-    public function refresh(string $refresh_token): array
+    /**
+     *
+     * @Inject()
+     * @var UserData
+     */
+    private $UserData;
+
+    public function refresh(array $hData): array
     {
-
-        Token::getRefreshTokenKey($refresh_token);
-
-//        $this->getRefreshTokenKey($refresh_token)
+        $user_id = $hData['user_id'];
+        $user = $this->UserData->getUserInfo($user_id);
+        return $this->generateToken($user);
     }
 
 }

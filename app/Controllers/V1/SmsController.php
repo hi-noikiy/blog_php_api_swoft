@@ -37,13 +37,13 @@ class SmsController extends ApiController
         $mobile = $request->input('mobile');
 
         $sms_send_type = sprintf(Sms::SMS_SEND_TYPE, $type, $mobile);
-        if ($this->redis->exists($sms_send_type)) {
-            $sms_ttl = $this->redis->ttl($sms_send_type);
+        if (redis()->exists($sms_send_type)) {
+            $sms_ttl = redis()->ttl($sms_send_type);
             if (600 - intval($sms_ttl) < 60) {
-                return $this->setStatusCode(Code::ERROR)->respondWithError('请求频繁!');
+                return $this->setStatusCode(Code::ERROR)->respondWithArray(['ttl' => 600 - intval($sms_ttl)], '请求频繁!');
             }
         }
-        $this->risk(ip());
+        $this->risk(swoole_header('remote-host'));
         $this->risk($mobile);
         $template_code = $this->transformType($type);
         $sms_code = rand(10000, 99999);
@@ -53,12 +53,12 @@ class SmsController extends ApiController
             $array['ttl'] = 3;
             $array['sms_code'] = $sms_code;
             try {
-                $this->redis->hMset($sms_send_type, $array);
-                $this->redis->expireAt($sms_send_type, time() + 600);
+                redis()->hMset($sms_send_type, $array);
+                redis()->expire($sms_send_type, 600);
 
                 $sms_day_risk = sprintf(Sms::SMS_DAY_RISK, $mobile);
-                $this->redis->incrBy($sms_day_risk, 1);
-                $this->redis->expireAt($sms_day_risk, time() + 600);
+                redis()->incrBy($sms_day_risk, 1);
+                redis()->expire($sms_day_risk, 600);
             } catch (Exception $e) {
                 throw new Exception($e->getMessage(), Code::SYSTEM_ERROR);
             }
@@ -106,7 +106,7 @@ class SmsController extends ApiController
             $SmsRecord = new SmsRecord();
             $SmsRecord->setMobile($mobile)->setTemplateCode($template_code)
                 ->setRequestId($res->RequestId)->setBizId($res->BizId)
-                ->setIp(ip())->setDate(date('Y-m-d H:i:s'))
+                ->setIp(swoole_header('remote-host'))->setDate(date('Y-m-d H:i:s'))
                 ->save();
         } else {
             return false;
@@ -149,18 +149,18 @@ class SmsController extends ApiController
 
         $key = sprintf(Sms::SMS_DAY_RISK, $mobile);
         // 不存在数据
-        $dataCount = $this->redis->get($key);
+        $dataCount = redis()->get($key);
 
         if ($dataCount && $dataCount > Sms::DAY_LIMIT) {
             throw new Exception('手机短信发送次数超出当天限制', Code::SYSTEM_ERROR);
         }
 
 //        if (empty($dataCount)) {
-//            $this->redis->incrBy($key, 1);
-//            $this->redis->expireAt($key, time() + 600);
+//            redis()->incrBy($key, 1);
+//            redis()->expireAt($key, time() + 600);
 //        } else {
 //            if ($dataCount < Sms::DAY_LIMIT) {
-//                $this->redis->incrBy($key, 1);
+//                redis()->incrBy($key, 1);
 //            } else {
 //                throw new Exception('手机短信发送次数超出当天限制', Code::SYSTEM_ERROR);
 //            }

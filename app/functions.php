@@ -20,6 +20,20 @@ function today_rest()
     return $surplus;
 }
 
+function swoole_headers(): array
+{
+    return request()->getSwooleRequest()->header;
+}
+
+function swoole_header($key = ''): string
+{
+    $headers = swoole_headers();
+    if (!isset($headers[$key])) {
+        throw new \App\Exception\NotDefinedException("{$key}未定义");
+    }
+    return $headers[$key];
+}
+
 /**
  * 获取推流地址
  * 如果不传key和过期时间，将返回不含防盗链的url

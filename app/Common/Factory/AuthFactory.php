@@ -2,9 +2,9 @@
 
 namespace App\Common\Factory;
 
-
 use App\Common\Enums\LoginTypeEnums;
 use Swoft\App;
+use App\Models\Services\AuthServices\SmsCodeAuthService;
 use App\Models\Services\AuthServices\PasswordAuthService;
 
 class AuthFactory
@@ -17,7 +17,7 @@ class AuthFactory
                 return App::getBean(PasswordAuthService::class);
                 break;
             case LoginTypeEnums::MOBILE_SMS:
-//                return App::getBean();
+                return App::getBean(SmsCodeAuthService::class);
                 break;
         }
 

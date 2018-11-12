@@ -11,6 +11,7 @@ use App\Common\Utility\Token;
 use App\Common\Validate\AuthValidate;
 use App\Exception\InvaildTokenException;
 use App\Models\Services\AuthServices\PasswordAuthService;
+use App\Models\Services\TokenService;
 use Swoft\App;
 use Swoft\Http\Message\Server\Request;
 use Swoft\Http\Server\Bean\Annotation\Controller;
@@ -40,22 +41,33 @@ class AuthController extends ApiController
         $login_type = $request->post('login_type');
 
         /* @var AuthInterface $auth */
-        $auth = AuthFactory::getService($login_type);
-        $data = $auth->auth($request->post());
+        $authService = AuthFactory::getService($login_type);
+        $data = $authService->auth($request->post());
 
         return $this->respondWithArray($data);
     }
 
     /**
-     * @RequestMapping(route="signup", method=RequestMethod::GET)
+     * @RequestMapping(route="signup", method=RequestMethod::POST)
      * @param Request $request
      * @return string
      */
     public function signup(Request $request)
     {
+        /* @var AuthValidate */
+        $this->validate('App\Common\Validate\AuthValidate.signup');
 
-        return $request->getAttribute('uid');
-        return $this->respondWithArray();
+
+    }
+
+    /**
+     * @RequestMapping(route="forget", method=RequestMethod::POST)
+     * @param Request $request
+     * @return string
+     */
+    public function forget(Request $request){
+        /* @var AuthValidate */
+        $this->validate('App\Common\Validate\AuthValidate.forget');
     }
 
 
@@ -75,18 +87,14 @@ class AuthController extends ApiController
         $ttl = redis()->ttl($refresh_token_key);
 
         if ($ttl == -2) {
-            throw new InvaildTokenException('refresh_token已失效', Code::INVALID_TOKEN);
+            throw new InvaildTokenException('refresh_token已失效,请重新登录', Code::INVALID_TOKEN);
         }
         $hData = redis()->hgetall($refresh_token_key);
-        //refresh_token小于一个半小时 则不刷新返回原来的token
-        if ($ttl < Token::refresh_expires - Token::expires + 1800) {
 
-        } else {
-            $data = [
-                'access_token' => $hData['access_token'],
-                'refresh_token' => $refresh_token
-            ];
-        }
+        //刷新access_token和refresh_token 旧access_token保留5分钟 防止已过期的情况下页面的并发请求
+        /* @var TokenService $tokenService */
+        $tokenService = App::getBean(TokenService::class);
+        $data = $tokenService->refresh($hData);
 
         return $this->respondWithArray($data);
 
