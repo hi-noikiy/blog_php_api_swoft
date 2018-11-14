@@ -14,10 +14,10 @@ use Swoft\Bean\Annotation\Inject;
 class UserData
 {
     /**
-    *
-    * @Inject()
-    * @var UserDao
-    */
+     *
+     * @Inject()
+     * @var UserDao
+     */
     private $UserDao;
 
     public function getUserInfo(int $user_id)
@@ -27,5 +27,10 @@ class UserData
             throw new AuthException(Code::ERROR_NOT_FOUND, '该账号不存在');
         }
         return $user_info;
+    }
+
+    public function createUser(array $data)
+    {
+        return $this->UserDao->createUser($data);
     }
 }

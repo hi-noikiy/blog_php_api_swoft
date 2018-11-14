@@ -11,6 +11,7 @@ use App\Common\Utility\Token;
 use App\Common\Validate\AuthValidate;
 use App\Exception\InvaildTokenException;
 use App\Models\Services\AuthServices\PasswordAuthService;
+use App\Models\Services\AuthServices\RegisterService;
 use App\Models\Services\TokenService;
 use Swoft\App;
 use Swoft\Http\Message\Server\Request;
@@ -56,7 +57,10 @@ class AuthController extends ApiController
     {
         /* @var AuthValidate */
         $this->validate('App\Common\Validate\AuthValidate.signup');
-
+        /* @var RegisterService $registerService */
+        $registerService = App::getBean(RegisterService::class);
+        $data = $registerService->register($request->post());
+        return $this->respondWithArray($data);
 
     }
 
@@ -65,7 +69,8 @@ class AuthController extends ApiController
      * @param Request $request
      * @return string
      */
-    public function forget(Request $request){
+    public function forget(Request $request)
+    {
         /* @var AuthValidate */
         $this->validate('App\Common\Validate\AuthValidate.forget');
     }

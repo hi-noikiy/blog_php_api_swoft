@@ -22,4 +22,11 @@ class UserDao
     {
         return Users::findById($user_id)->getResult();
     }
+
+
+    public function createUser(array $data): Users
+    {
+        $user = new Users();
+        return $user->fill($data)->save()->getResult();
+    }
 }
