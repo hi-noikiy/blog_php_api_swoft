@@ -3,6 +3,9 @@
 namespace App\Common\Validate;
 
 use App\Common\Enums\LoginTypeEnums;
+use App\Models\Entity\Users;
+use Swoft\App;
+use SwoftTest\Db\Testing\Entity\User;
 use think\Validate;
 use think\validate\ValidateRule;
 
@@ -65,6 +68,12 @@ class AuthValidate extends Validate
         $validate = Validate::make($rule, $msg);
         if (!$validate->check($data)) {
             return $validate->getError();
+        }
+        /* @var Users $user */
+//        $user = App::getBean(Users::class);
+        $user = Users::findOne(['mobile' => $data['mobile']])->getResult();
+        if (!$user) {
+            return '该账号已被注册';
         }
 
         return true;

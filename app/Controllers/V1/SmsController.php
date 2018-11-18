@@ -5,6 +5,8 @@ namespace App\Controllers\V1;
 use App\Common\Enums\Sms;
 use App\Common\Validate\SmsValidate;
 use App\Models\Entity\SmsRecord;
+use App\Models\Services\SmsService;
+use Swoft\Bean\Annotation\Inject;
 use Swoft\Http\Server\Bean\Annotation\Controller;
 use Swoft\Http\Server\Bean\Annotation\RequestMapping;
 use Swoft\Http\Server\Bean\Annotation\RequestMethod;
@@ -22,6 +24,11 @@ use Exception;
 class SmsController extends ApiController
 {
 
+    /**
+     * @Inject()
+     * @var SmsService
+     */
+    private $SmsService;
 
     /**
      * @RequestMapping(route="send", method=RequestMethod::POST)

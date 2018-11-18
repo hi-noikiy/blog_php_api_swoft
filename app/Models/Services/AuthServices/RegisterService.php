@@ -7,6 +7,7 @@ use App\Common\Code\Code;
 use App\Exception\AuthException;
 use App\Models\Data\UserData;
 use App\Models\Entity\Users;
+use App\Models\Services\SmsService;
 use PhpAmqpLib\Exception\AMQPOutOfBoundsException;
 use Swoft\App;
 use Swoft\Bean\Annotation\Bean;
@@ -25,16 +26,13 @@ class RegisterService extends BaseAuthService
             throw new AuthException(Code::INVALID_PARAMETER, '该账号已被注册');
         }
 
+        /* @var SmsService $SmsService */
+        $SmsService = App::getBean(SmsService::class);
+        $SmsService->check($data['mobile'], $data['sms_code'], $data['type']);
 
         $this->update_user_info($user);
 
         return $this->generateToken($user);
     }
 
-    public function check()
-    {
-        /* @var UserData $userData */
-        $userData = App::getBean(UserData::class);
-        $userData->createUser($data);
-    }
 }
