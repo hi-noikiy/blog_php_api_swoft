@@ -5,7 +5,7 @@ namespace App\Models\Services;
 use App\Common\Utility\Token;
 use App\Models\Data\UserData;
 use App\Models\Entity\Users;
-use App\Models\Services\AuthServices\BaseAuthService;
+use App\Models\Services\Auth\BaseAuthService;
 use Swoft\Bean\Annotation\Bean;
 use Swoft\Bean\Annotation\Inject;
 

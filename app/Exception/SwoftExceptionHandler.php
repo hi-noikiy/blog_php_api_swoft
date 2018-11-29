@@ -50,12 +50,21 @@ class SwoftExceptionHandler
     {
 //        $file      = $throwable->getFile();
 //        $line      = $throwable->getLine();
+
+
         $code = $throwable->getCode();
         $message = $throwable->getMessage();
 
+        if ($throwable instanceof ExtendDataException) {
+            $bodyData = $throwable->getData();
+        } else {
+            $bodyData = new \stdClass();
+        }
+
+
         $data = [
             'code' => $code,
-            'data' => new \stdClass(),
+            'data' => $bodyData,
             'msg' => $message,
             'file' => $throwable->getFile(),
             'line' => $throwable->getLine(),

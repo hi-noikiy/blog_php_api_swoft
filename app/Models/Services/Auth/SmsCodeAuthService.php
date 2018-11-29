@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models\Services\AuthServices;
+namespace App\Models\Services\Auth;
 
 
 use App\Common\Enums\Sms;
@@ -14,8 +14,8 @@ class SmsCodeAuthService extends BaseAuthService implements AuthInterface
         // TODO: Implement auth() method.
         //能发送验证 已经保证了账号的存在性
 
-        $hData = \Swoft::redis()->hGetAll(sprintf(Sms::SMS_SEND_TYPE,$data['mobile'],$data['type']));
-        if ($hData){
+        $hData = \Swoft::redis()->hGetAll(sprintf(Sms::SMS_SEND_TYPE, $data['mobile'], $data['type']));
+        if ($hData) {
 
         }
         $data['type'];
@@ -26,7 +26,13 @@ class SmsCodeAuthService extends BaseAuthService implements AuthInterface
         return $this->generateToken($user);
     }
 
-    private function check(){
+    private function check(string $mobile, int $type,int $sms_code)
+    {
+        $hData = \Swoft::redis()->hGetAll(sprintf(Sms::SMS_SEND_TYPE, $mobile, $type));
+
+
+        $hData['ttl'];
+        $hData['sms_code'];
 
     }
 }

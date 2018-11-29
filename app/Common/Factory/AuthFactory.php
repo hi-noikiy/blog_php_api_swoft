@@ -4,8 +4,8 @@ namespace App\Common\Factory;
 
 use App\Common\Enums\LoginTypeEnums;
 use Swoft\App;
-use App\Models\Services\AuthServices\SmsCodeAuthService;
-use App\Models\Services\AuthServices\PasswordAuthService;
+use App\Models\Services\Auth\SmsCodeAuthService;
+use App\Models\Services\Auth\PasswordAuthService;
 
 class AuthFactory
 {

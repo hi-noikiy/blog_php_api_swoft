@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models\Services\AuthServices;
+namespace App\Models\Services\Auth;
 
 
 use App\Common\Code\Code;

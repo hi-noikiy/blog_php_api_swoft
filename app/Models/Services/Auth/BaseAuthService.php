@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models\Services\AuthServices;
+namespace App\Models\Services\Auth;
 
 use App\Models\Entity\Users;
 use App\Common\Utility\Token;
