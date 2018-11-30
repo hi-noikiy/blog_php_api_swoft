@@ -22,4 +22,14 @@ class Swoft extends \Swoft\App
     {
         return self::getBean(\Swoft\Redis\Redis::class);
     }
+
+
+    public static function param($key = "", $default = "")
+    {
+        $param = array_merge(request()->post(), request()->json());
+        if (is_null($key)) {
+            return $param;
+        }
+        return $param[$key] ?? $default;
+    }
 }

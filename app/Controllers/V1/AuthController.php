@@ -55,6 +55,7 @@ class AuthController extends ApiController
      */
     public function signup(Request $request)
     {
+        var_dump(\Swoft::param());
         /* @var AuthValidate */
         $this->validate('App\Common\Validate\AuthValidate.signup');
         /* @var RegisterService $registerService */

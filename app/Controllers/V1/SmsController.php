@@ -44,6 +44,8 @@ class SmsController extends ApiController
         $type = $request->input('type');
         $mobile = $request->input('mobile');
 
+        $this->SmsService->risk(swoole_header('remote-host'));
+        $this->SmsService->risk($mobile);
         $this->SmsService->send($mobile, $type);
         return $this->respondWithArray(null, '短信发送成功');
     }

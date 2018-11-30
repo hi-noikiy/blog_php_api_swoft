@@ -33,8 +33,7 @@ class SmsService
                 throw new ExtendDataException(['ttl' => 600 - intval($sms_ttl)], '请求频繁!', Code::ERROR);
             }
         }
-        $this->risk(swoole_header('remote-host'));
-        $this->risk($mobile);
+
         $template_code = $this->transformType($type);
         $sms_code = rand(10000, 99999);
         $flag = $this->Ali_sms($mobile, $template_code, $sms_code);
@@ -147,7 +146,7 @@ class SmsService
      * @return void
      * @throws CustomException
      */
-    private function risk(string $mobile)
+    public function risk(string $mobile)
     {
 
         $key = sprintf(Sms::SMS_DAY_RISK, $mobile);

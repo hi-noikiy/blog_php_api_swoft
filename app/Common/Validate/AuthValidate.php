@@ -14,7 +14,7 @@ class AuthValidate extends Validate
 {
     protected $rule = [
         'login_type' => 'require|between:1,2|login_validate',
-        'mobile' => 'require',
+        'mobile' => 'require|regex:/^1[34578]\d{9}$/',
         'sms_code' => 'require',
         'password' => 'require|length:6,20',
         'repassword' => 'require|confirm:password',
@@ -24,6 +24,9 @@ class AuthValidate extends Validate
     ];
 
     protected $message = [
+        'mobile.require' => '手机号不能为空',
+        'mobile.regex' => '手机号格式错误',
+        'sms_code.require' => '请输入短信验证码',
         'repassword.require' => '请再输入一次密码',
         'repassword.confirm' => '两次密码不一致',
         'login_type.require' => '请选择登陆方式',
@@ -31,6 +34,7 @@ class AuthValidate extends Validate
         'unionid.require' => 'unionid不能为空',
         'type.require' => 'oauth2类型不能为空',
     ];
+
     protected $scene = [
         'signin' => ['login_type'],
         'signup' => ['mobile', 'password', 'sms_code'],
@@ -73,7 +77,7 @@ class AuthValidate extends Validate
 //        $user = App::getBean(Users::class);
         $user = Users::findOne(['mobile' => $data['mobile']])->getResult();
         if (!$user) {
-            return '该账号已被注册';
+            return '该账号还未注册';
         }
 
         return true;
