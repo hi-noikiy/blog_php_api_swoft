@@ -12,7 +12,7 @@ use Swoft\Bean\Annotation\Bean;
  */
 class AdminUserDao
 {
-    public function getUserInfo(int $user_id)
+    public function getUserInfoById(int $user_id)
     {
         /* @var AdminUsers */
         return AdminUsers::findById($user_id,[

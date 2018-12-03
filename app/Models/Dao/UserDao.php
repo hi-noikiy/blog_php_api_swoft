@@ -18,9 +18,14 @@ class UserDao
      * @return Users
      *
      */
-    public function getUserInfo(int $user_id)
+    public function getUserInfoById(int $user_id)
     {
         return Users::findById($user_id)->getResult();
+    }
+
+    public function getInfoByMobile(string $mobile)
+    {
+        return Users::findOne(['mobile' => $mobile])->getResult();
     }
 
 

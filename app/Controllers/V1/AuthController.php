@@ -37,30 +37,30 @@ class AuthController extends ApiController
      */
     public function signin(Request $request)
     {
-        /* @var AuthValidate */
-        $this->validate('App\Common\Validate\AuthValidate.signin');
-        $login_type = $request->post('login_type');
+        /* @var AuthValidate $validate */
+        $validate = $this->validate('App\Common\Validate\AuthValidate', 'signin');
+        var_dump($validate->login_type);
+//        $validate->login_type;
+        $login_type = \Swoft::param('login_type');
 
         /* @var AuthInterface $auth */
         $authService = AuthFactory::getService($login_type);
-        $data = $authService->auth($request->post());
+        $data = $authService->auth(\Swoft::param());
 
         return $this->respondWithArray($data);
     }
 
     /**
      * @RequestMapping(route="signup", method=RequestMethod::POST)
-     * @param Request $request
      * @return string
      */
-    public function signup(Request $request)
+    public function signup()
     {
-        var_dump(\Swoft::param());
         /* @var AuthValidate */
-        $this->validate('App\Common\Validate\AuthValidate.signup');
+        $this->validate('App\Common\Validate\AuthValidate', 'signup');
         /* @var RegisterService $registerService */
         $registerService = App::getBean(RegisterService::class);
-        $data = $registerService->register($request->post());
+        $data = $registerService->register(\Swoft::param());
         return $this->respondWithArray($data);
 
     }
@@ -73,7 +73,7 @@ class AuthController extends ApiController
     public function forget(Request $request)
     {
         /* @var AuthValidate */
-        $this->validate('App\Common\Validate\AuthValidate.forget');
+        $this->validate('App\Common\Validate\AuthValidate', 'forget');
     }
 
 
@@ -85,8 +85,8 @@ class AuthController extends ApiController
     public function refresh(Request $request)
     {
         /* @var AuthValidate */
-        $this->validate('App\Common\Validate\AuthValidate.refresh');
-        $refresh_token = $request->post('refresh_token');
+        $this->validate('App\Common\Validate\AuthValidate', 'refresh');
+        $refresh_token = \Swoft::param('refresh_token');
 
         $refresh_token_key = sprintf("%s:%s", Token::REFRESH_TOKEN, $refresh_token);
 

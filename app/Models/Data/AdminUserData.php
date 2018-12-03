@@ -25,7 +25,7 @@ class AdminUserData
     public function getUserBaseInfo(int $user_id)
     {
         /* @var AdminUsers $info */
-        return $this->adminUserDao->getUserInfo($user_id);
+        return $this->adminUserDao->getUserInfoById($user_id);
 
     }
 }

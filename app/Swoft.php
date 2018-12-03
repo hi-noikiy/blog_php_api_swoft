@@ -24,12 +24,32 @@ class Swoft extends \Swoft\App
     }
 
 
-    public static function param($key = "", $default = "")
+    public static function param($key = null, $default = null)
     {
-        $param = array_merge(request()->post(), request()->json());
+        $jsonData = request()->json();
+        $requestData = request()->input();
+
+        if (is_array($jsonData)) {
+            $param = $jsonData + $requestData;
+        } else {
+            $param = $requestData;
+        }
+
         if (is_null($key)) {
             return $param;
         }
         return $param[$key] ?? $default;
+    }
+
+    protected function getInputData($content)
+    {
+        if (false !== strpos(request()->getContentType(), 'application/json') || 0 === strpos($content, '{"')) {
+            return (array)json_decode($content, true);
+        } elseif (strpos($content, '=')) {
+            parse_str($content, $data);
+            return $data;
+        }
+
+        return [];
     }
 }

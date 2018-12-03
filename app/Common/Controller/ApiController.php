@@ -3,6 +3,7 @@
 namespace App\Common\Controller;
 
 use App\Common\Code\Code;
+use App\Exception\ValidateException;
 use Swoft\Http\Message\Server\Response;
 use Swoft\Bean\Annotation\Inject;
 use Exception;
@@ -63,26 +64,27 @@ class ApiController
 
     /**
      * @param $validate string
-     * @return bool
+     * @param $scene string
+     * @return Validate
      * @throws  object
      */
-    protected function validate($validate)
+    protected function validate($validate,$scene)
     {
 
-        if (strpos($validate, '.')) {
-            // 支持场景
-            list($validate, $scene) = explode('.', $validate);
-        }
+//        if (strpos($validate, '.')) {
+//            // 支持场景
+//            list($validate, $scene) = explode('.', $validate);
+//        }
         /* @var Validate $v */
         $v = new $validate;
         if (!empty($scene)) {
             $v->scene($scene);
         }
-
-        if (!$v->check(request()->input())) {
-            throw new Exception($v->getError(), Code::INVALID_PARAMETER);
+var_dump(\Swoft::param());
+        if (!$v->check(\Swoft::param())) {
+            throw new ValidateException($v->getError());
         } else {
-            return true;
+            return $v;
         }
     }
 }

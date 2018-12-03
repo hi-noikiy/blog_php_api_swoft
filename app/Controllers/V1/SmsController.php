@@ -40,7 +40,7 @@ class SmsController extends ApiController
     public function send(Request $request)
     {
         /* @var SmsValidate */
-        $this->validate('App\Common\Validate\SmsValidate.send');
+        $this->validate('App\Common\Validate\SmsValidate', 'send');
         $type = $request->input('type');
         $mobile = $request->input('mobile');
 

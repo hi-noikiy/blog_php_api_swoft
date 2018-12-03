@@ -3,6 +3,7 @@
 namespace App\Common\Validate;
 
 use App\Common\Enums\LoginTypeEnums;
+use App\Models\Dao\UserDao;
 use App\Models\Entity\Users;
 use Swoft\App;
 use SwoftTest\Db\Testing\Entity\User;
@@ -12,6 +13,8 @@ use think\validate\ValidateRule;
 
 class AuthValidate extends Validate
 {
+    public $login_type;
+
     protected $rule = [
         'login_type' => 'require|between:1,2|login_validate',
         'mobile' => 'require|regex:/^1[34578]\d{9}$/',
@@ -73,9 +76,9 @@ class AuthValidate extends Validate
         if (!$validate->check($data)) {
             return $validate->getError();
         }
-        /* @var Users $user */
-//        $user = App::getBean(Users::class);
-        $user = Users::findOne(['mobile' => $data['mobile']])->getResult();
+        /* @var UserDao $userDao */
+        $userDao = App::getBean(UserDao::class);
+        $user = $userDao->getInfoByMobile($data['mobile']);;
         if (!$user) {
             return '该账号还未注册';
         }
