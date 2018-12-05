@@ -80,7 +80,6 @@ class ApiController
         if (!empty($scene)) {
             $v->scene($scene);
         }
-var_dump(\Swoft::param());
         if (!$v->check(\Swoft::param())) {
             throw new ValidateException($v->getError());
         } else {

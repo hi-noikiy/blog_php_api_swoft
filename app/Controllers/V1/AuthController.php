@@ -56,11 +56,12 @@ class AuthController extends ApiController
      */
     public function signup()
     {
-        /* @var AuthValidate */
-        $this->validate('App\Common\Validate\AuthValidate', 'signup');
+        /* @var AuthValidate $s */
+        $s = $this->validate('App\Common\Validate\AuthValidate', 'signup');
+        var_dump($s->login_type);
         /* @var RegisterService $registerService */
         $registerService = App::getBean(RegisterService::class);
-        $data = $registerService->register(\Swoft::param());
+        $data = $registerService->register();
         return $this->respondWithArray($data);
 
     }

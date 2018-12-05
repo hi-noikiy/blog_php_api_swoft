@@ -8,9 +8,9 @@
  */
 
 return [
-    'env'          => env('APP_ENV', 'test'),
-    'debug'        => env('APP_DEBUG', true),
-    'version'      => '1.0',
+    'env' => env('APP_ENV', 'test'),
+    'debug' => env('APP_DEBUG', true),
+    'version' => '1.0',
     'autoInitBean' => true,
     'bootScan' => [
         'App\Commands',
@@ -39,6 +39,7 @@ return [
     'breaker' => require __DIR__ . DS . 'breaker.php',
     'provider' => require __DIR__ . DS . 'provider.php',
     'jwt' => require __DIR__ . DS . 'jwt.php',
+    'github' => require __DIR__ . DS . 'github.php',
     'opendota' => require __DIR__ . DS . 'opendota.php',
     'auth' => [
         'jwt' => [
