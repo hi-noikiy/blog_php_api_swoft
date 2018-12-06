@@ -1,58 +1,54 @@
 <?php
+
 namespace App\Common\Utility;
 
-
+use App\Common\Enums\SmsEnum;
 use App\Models\Entity\SmsRecord;
-use Flc\Alidayu\Client;
-use Flc\Alidayu\Requests\IRequest;
 
 class Sms
 {
-    private $config;
 
-
-    private function Ali_sms($mobile, $template_code, $sms_code)
+    public static function send($mobile, $template_code, $sms_code)
     {
-        Client::configure($this->config);
-        $resp = Client::request('alibaba.aliqin.fc.sms.num.send', function (IRequest $req) use ($sms_code, $mobile, $template_code) {
-            $req->setRecNum($mobile)
-                ->setSmsParam([
-                    'code' => $sms_code
-                ])
-                ->setSmsFreeSignName('为伴')
-                ->setSmsTemplateCode($template_code);
-        });
+        $config = config('alisms');
+
+        $aliYunSms = new \Aliyun\Sms($config['AccessKeyID'], $config['AccessKeySecret']);
+        $aliYunSms->setSignName($config['sign']);
+        $aliYunSms->setTemplateCode($template_code);
+        $res = $aliYunSms->send($mobile, ['code' => $sms_code]);
         if (!isset($resp->result)) {
             return false;
         }
-        if (isset($resp->result) && $resp->result->success) {
+        if (isset($res) && $res->Code == 'OK') {
             $SmsRecord = new SmsRecord();
-            $SmsRecord->setMobile($mobile);
-            $SmsRecord->setTemplateCode($template_code);
-            $SmsRecord->setRequestId($resp->request_id);
-            $SmsRecord->setDate(date('Y-m-d H:i:s', time()));
-            $SmsRecord->save();
+            $SmsRecord->setMobile($mobile)->setTemplateCode($template_code)
+                ->setRequestId($res->RequestId)->setBizId($res->BizId)
+                ->setIp(swoole_header('remote-host'))->setDate(date('Y-m-d H:i:s'))
+                ->save();
+        } else {
+            return false;
         }
         return true;
     }
 
 
-    private function transformType($type)
+    public static function transformType($type)
     {
+        $config = config('alisms');
         switch ($type) {
-            case 1:
-                $template_code = $this->config['template']['login'];
+            case SmsEnum::LOGIN:
+                $template_code = $config['template']['login'];
                 break;  //账号登陆
-            case 2:
-                $template_code = $this->config['template']['register'];
+            case SmsEnum::REGISTER:
+                $template_code = $config['template']['register'];
                 break; //注册
 //            case 3: $template_code = self::TEMPLATE_REG; break;    //修改密码
-            case 4:
-                $template_code = $this->config['template']['binding'];
+            case SmsEnum::BINDING:
+                $template_code = $config['template']['binding'];
                 break;   //绑定
-            case 5:
-                $template_code = $this->config['template']['binding'];
-                break;   //第三方绑定 短信一样 不验证手机号码是否存在
+            case SmsEnum::THIRD_BINDING:
+                $template_code = $config['template']['binding'];
+//                break;   //第三方绑定 短信一样 不验证手机号码是否存在
         }
         return $template_code;
     }

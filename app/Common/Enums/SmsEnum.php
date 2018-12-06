@@ -3,7 +3,7 @@
 namespace App\Common\Enums;
 
 
-class Sms
+class SmsEnum
 {
     const LOGIN = 1;
     const REGISTER = 2;

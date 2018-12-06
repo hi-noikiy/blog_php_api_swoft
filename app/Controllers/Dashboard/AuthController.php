@@ -40,8 +40,8 @@ class AuthController extends ApiController
     public function login()
     {
         /* @var AuthValidate */
-        $this->validate('App\Common\Validate\Dashboard\AuthValidate.login');
-        $info = $this->AuthLogic->checkManager(request()->post('account'), request()->post('password'));
+        $this->validate('App\Common\Validate\Dashboard\AuthValidate', 'login');
+        $info = $this->AuthLogic->checkManager(\Swoft::param('account'), \Swoft::param('password'));
 
         $this->AuthLogic->updateUserInfo($info['user_id']);
         $arr = [

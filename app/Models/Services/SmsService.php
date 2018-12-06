@@ -3,11 +3,11 @@
 namespace App\Models\Services;
 
 use App\Common\Code\Code;
-use App\Common\Enums\Sms;
+use App\Common\Enums\SmsEnum;
+use App\Common\Utility\Sms;
 use App\Exception\CustomException;
 use App\Exception\ExtendDataException;
 use App\Exception\SystemException;
-use App\Models\Entity\SmsRecord;
 use Swoft\Bean\Annotation\Bean;
 use Swoft\Bean\Annotation\Inject;
 
@@ -26,7 +26,7 @@ class SmsService
     public function send(string $mobile, int $type): void
     {
 
-        $sms_send_type = sprintf(Sms::SMS_SEND_TYPE, $type, $mobile);
+        $sms_send_type = sprintf(SmsEnum::SMS_SEND_TYPE, $type, $mobile);
         if ($this->redis->exists($sms_send_type)) {
             $sms_ttl = $this->redis->ttl($sms_send_type);
             if (600 - intval($sms_ttl) < 60) {
@@ -34,9 +34,10 @@ class SmsService
             }
         }
 
-        $template_code = $this->transformType($type);
+        $template_code = Sms::transformType($type);
         $sms_code = rand(10000, 99999);
-        $flag = $this->Ali_sms($mobile, $template_code, $sms_code);
+
+        $flag = Sms::send($mobile, $template_code, $sms_code);
 
         if ($flag) {
             $array['ttl'] = 3;
@@ -44,10 +45,6 @@ class SmsService
             try {
                 $this->redis->hMset($sms_send_type, $array);
                 $this->redis->expire($sms_send_type, 600);
-
-                $sms_day_risk = sprintf(Sms::SMS_DAY_RISK, $mobile);
-                $this->redis->incrBy($sms_day_risk, 1);
-                $this->redis->expire($sms_day_risk, 600);
             } catch (\Exception $e) {
                 throw new SystemException($e->getMessage(), Code::SYSTEM_ERROR);
             }
@@ -64,7 +61,7 @@ class SmsService
      */
     public function check(string $mobile, int $sms_code, int $type)
     {
-        $sms_send_type_mobile = sprintf(Sms::SMS_SEND_TYPE, $type, $mobile);
+        $sms_send_type_mobile = sprintf(SmsEnum::SMS_SEND_TYPE, $type, $mobile);
         if (!$hashSmsData = $this->redis->hGetAll($sms_send_type_mobile)) {
             throw new CustomException("验证码失效,请重新获取");
         }
@@ -86,59 +83,6 @@ class SmsService
 
     }
 
-
-    /**
-     *
-     * 阿里大鱼发送验证码
-     * @access public
-     * @param string $mobile
-     * @param string $template_code
-     * @param int $sms_code
-     * @return bool
-     *
-     */
-    public function Ali_sms(string $mobile, string $template_code, int $sms_code)
-    {
-
-        $config = config('alisms');
-
-        $aliYunSms = new \Aliyun\Sms($config['AccessKeyID'], $config['AccessKeySecret']);
-        $aliYunSms->setSignName($config['sign']);
-        $aliYunSms->setTemplateCode($template_code);
-        $res = $aliYunSms->send($mobile, ['code' => $sms_code]);
-        if (isset($res) && $res->Code == 'OK') {
-            $SmsRecord = new SmsRecord();
-            $SmsRecord->setMobile($mobile)->setTemplateCode($template_code)
-                ->setRequestId($res->RequestId)->setBizId($res->BizId)
-                ->setIp(swoole_header('remote-host'))->setDate(date('Y-m-d H:i:s'))
-                ->save();
-        } else {
-            return false;
-        }
-        return true;
-    }
-
-    private function transformType($type)
-    {
-        $config = config('alisms');
-        switch ($type) {
-            case Sms::LOGIN:
-                $template_code = $config['template']['login'];
-                break;  //账号登陆
-            case Sms::REGISTER:
-                $template_code = $config['template']['register'];
-                break; //注册
-//            case 3: $template_code = self::TEMPLATE_REG; break;    //修改密码
-            case Sms::BINDING:
-                $template_code = $config['template']['binding'];
-                break;   //绑定
-            case Sms::THIRD_BINDING:
-                $template_code = $config['template']['binding'];
-//                break;   //第三方绑定 短信一样 不验证手机号码是否存在
-        }
-        return $template_code;
-    }
-
     /**
      * 风控
      * @param string $mobile |$ip 手机号|ip
@@ -149,11 +93,11 @@ class SmsService
     public function risk(string $mobile)
     {
 
-        $key = sprintf(Sms::SMS_DAY_RISK, $mobile);
+        $key = sprintf(SmsEnum::SMS_DAY_RISK, $mobile);
         // 不存在数据
         $dataCount = $this->redis->get($key);
 
-        if ($dataCount && $dataCount > Sms::DAY_LIMIT) {
+        if ($dataCount && $dataCount > SmsEnum::DAY_LIMIT) {
             throw new CustomException('手机短信发送次数超出当天限制');
         }
 
@@ -161,7 +105,7 @@ class SmsService
             $this->redis->incrBy($key, 1);
             $this->redis->expire($key, 600);
         } else {
-            if ($dataCount < Sms::DAY_LIMIT) {
+            if ($dataCount < SmsEnum::DAY_LIMIT) {
                 $this->redis->incrBy($key, 1);
             } else {
                 throw new CustomException('手机短信发送次数超出当天限制');

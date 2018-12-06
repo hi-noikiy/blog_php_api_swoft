@@ -3,7 +3,6 @@
 namespace App\Common\Validate\Dashboard;
 
 use App\Models\Entity\AdminUsers;
-use App\Models\Entity\User;
 use think\Validate;
 
 class AuthValidate extends Validate
@@ -24,10 +23,8 @@ class AuthValidate extends Validate
     protected function checkUser($value, $rule, $data)
     {
 
-        $arr = AdminUsers::findOne(['mobile' => $data['account']])->getResult();
-        var_dump(1);
-        return true;
-        var_dump(2);
+        $arr = AdminUsers::findOne(['account' => $data['account']])->getResult();
+
         if ($arr) {
             $md5Password = md5(md5($data['password']) . $arr['salt']);
             if ($md5Password == $arr['password']) {

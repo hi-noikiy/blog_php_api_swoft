@@ -2,7 +2,7 @@
 
 namespace App\Controllers\V1;
 
-use App\Common\Enums\Sms;
+use App\Common\Enums\SmsEnum;
 use App\Common\Validate\SmsValidate;
 use App\Models\Entity\SmsRecord;
 use App\Models\Services\SmsService;

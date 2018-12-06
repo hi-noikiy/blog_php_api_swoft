@@ -60,7 +60,7 @@ function getPushUrl($bizId, $streamId, $key)
 }
 
 
-function characet($data)
+function charset_encode($data)
 {
     if (!empty($data)) {
         $fileType = mb_detect_encoding($data, array('UTF-8', 'GBK', 'LATIN1', 'BIG5'));
@@ -69,4 +69,18 @@ function characet($data)
         }
     }
     return $data;
+}
+
+function password_encrypt(string $password, string $salt): string
+{
+    return md5(md5($password) . $salt);
+}
+
+function password_check(string $password, string $sale, string $encrypt_password): bool
+{
+    if (password_encrypt($password, $sale) == $encrypt_password) {
+        return true;
+    } else {
+        return false;
+    }
 }

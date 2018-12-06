@@ -14,7 +14,7 @@ use Swoft\Db\Types;
  * @Table(name="tags")
  * @uses      Tags
  */
-class Tags extends Model
+class Tags extends BaseModel
 {
     /**
      * @var int $tagId 

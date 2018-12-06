@@ -2,7 +2,7 @@
 
 namespace App\Common\Validate;
 
-use App\Common\Enums\Sms;
+use App\Common\Enums\SmsEnum;
 use App\Models\Entity\Users;
 use think\Validate;
 
@@ -34,15 +34,15 @@ class SmsValidate extends Validate
 
         $arr = $this->findUser($data['mobile']);
 
-        if ($data['type'] == Sms::REGISTER && $arr) {
+        if ($data['type'] == SmsEnum::REGISTER && $arr) {
             return '您已经注册过了';
         }
 
-        if ($data['type'] == Sms::BINDING && $arr) {
+        if ($data['type'] == SmsEnum::BINDING && $arr) {
             return '该手机已经被绑定过了';
         }
 
-        if (($data['type'] == Sms::LOGIN || $data['type'] == Sms::MODIFY) && !$arr) {
+        if (($data['type'] == SmsEnum::LOGIN || $data['type'] == SmsEnum::MODIFY) && !$arr) {
             return '该账号不存在';
         }
 

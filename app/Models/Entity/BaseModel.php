@@ -7,22 +7,24 @@ use Swoft\Db\Model;
 
 class BaseModel extends Model
 {
+
     /**
      * 进行分页查询
      *
      * @param array $condition
      * @param array $options
-     * @param int $page
-     * @param int $limit
      *
      * @return array
      */
-    public static function getPageList($condition = [], $options = [], $page = 1, $limit = 10)
+    public static function getPageList($condition = [], $options = [])
     {
         // 初始化变量
         $data = [];
 
+        $page = \Swoft::param('page', 1);
+        $limit = \Swoft::param('limit', 20);
         $page = $page > 0 ? $page : 1;
+        $limit = $limit > 0 ? $limit : 20;
         // 进行list查询
         $data['list'] = self::findAll($condition,
             array_merge($options, [

@@ -41,6 +41,20 @@ class Swoft extends \Swoft\App
         return $param[$key] ?? $default;
     }
 
+
+    public static function github($redirect_uri = null)
+    {
+        $config = config('github');
+
+        $github = new \League\OAuth2\Client\Provider\Github([
+            'clientId' => $config['client_id'],
+            'clientSecret' => $config['client_secret'],
+            'redirectUri' => $redirect_uri ?? $config['redirect_uri']
+        ]);
+
+        return $github;
+    }
+
     protected function getInputData($content)
     {
         if (false !== strpos(request()->getContentType(), 'application/json') || 0 === strpos($content, '{"')) {
