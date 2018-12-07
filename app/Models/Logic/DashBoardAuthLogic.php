@@ -10,6 +10,7 @@ use App\Common\Code\Code;
 use Exception;
 use Swoft\Bean\Annotation\Inject;
 use Swoft\Db\Db;
+use SwoftTest\Db\Testing\Entity\User;
 
 /**
  * @Bean()
@@ -49,12 +50,13 @@ class DashBoardAuthLogic
 
     public function checkManager(string $account, string $password)
     {
+        /* @var AdminUsers $user */
         $user = $this->AdminUserDao->getUserInfoByAccount($account);
 
         if (!password_check($password, $user->getSalt(), $user->getPassword())) {
             throw new Exception('用户或密码错误', Code::INVALID_PARAMETER);
         }
-
+        $this->updateUserInfo($user);
         return [
             'user_id' => $user->getUserId(),
             'account' => $user->getAccount(),
@@ -63,21 +65,11 @@ class DashBoardAuthLogic
         ];
     }
 
-    public function updateUserInfo(int $user_id)
+    public function updateUserInfo(AdminUsers $user)
     {
-
-        Db::query("update admin_users set last_ip = '" . ip() . "',login_time = '" . date('Y-m-d H:i:s') . "',visit_count = visit_count+1 where user_id = " . $user_id . " limit 1");
-//        Db::query('update admin_users set last_ip = :last_ip,login_time = :login_time,visit_count = :visit_count where user_id = :user_id',[
-//            'last_ip' => ip(),
-//            'login_time'=>date('Y-m-d H:i:s'),
-//            'visit_count' => 'visit_count+1',
-//            'user_id'=>$user_id
-//        ])->getResult();
-//        $res = AdminUsers::updateOne([
-//            'last_ip' => ip(),
-//            'login_time' => date('Y-m-d H:i:s'),
-//            'visit_count' => 'visit_count+1'
-//        ], ['user_id' => $user_id])->getResult();
-//        var_dump($res);
+        $user->visitCount++;
+        $user->setLoginTime(date('Y-m-d H:i:s'));
+        $user->setLastIp(ip());
+        $user->update();
     }
 }

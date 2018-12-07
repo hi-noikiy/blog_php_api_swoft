@@ -34,6 +34,11 @@ function swoole_header($key = ''): string
     return $headers[$key];
 }
 
+function ip()
+{
+    return swoole_header('remote-host');
+}
+
 /**
  * 获取推流地址
  * 如果不传key和过期时间，将返回不含防盗链的url

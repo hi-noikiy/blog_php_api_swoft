@@ -20,19 +20,20 @@ class ApiController
      */
     protected $redis;
 
-    protected $statusCode = 200;
+    private $statusCode = 200;
+    private $message = "请求成功";
 
-    public function respondWithArray($array = null, $msg = '请求成功'): Response
+    public function respondWithArray($array = null): Response
     {
         $data = [
             "code" => $this->getStatusCode(),
-            "data" => is_array($array) ? (count($array) ? $array : new \stdClass()) : $array,
-            "msg" => $msg
+            "data" => is_array($array) ? (count($array) ? $array : new \stdClass()) : new \stdClass(),
+            "msg" => $this->getMessage()
         ];
         return response()->json($data);
     }
 
-    public function respondWithError($msg): Response
+    public function respondWithError(): Response
     {
         if ($this->statusCode === 200) {
             throw new Exception("You better have a really good reason for erroring on a 200...", 500);
@@ -45,7 +46,7 @@ class ApiController
         $data = [
             "code" => $this->getStatusCode(),
             "data" => new \stdClass(),
-            "msg" => $msg
+            "msg" => $this->getMessage()
         ];
         return response()->json($data);
     }
@@ -62,13 +63,25 @@ class ApiController
         return $this;
     }
 
+
+    public function setMessage(string $message)
+    {
+        $this->message = $message;
+        return $this;
+    }
+
+    private function getMessage()
+    {
+        return $this->message;
+    }
+
     /**
      * @param $validate string
      * @param $scene string
      * @return Validate
      * @throws  object
      */
-    protected function validate($validate,$scene)
+    protected function validate($validate, $scene)
     {
 
 //        if (strpos($validate, '.')) {

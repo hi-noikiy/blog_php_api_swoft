@@ -32,21 +32,21 @@ class AdminUsers extends Model
     /**
      * @var string $avatar 头像
      * @Column(name="avatar", type="text", length=65535)
-     * @Required()
+     *
      */
     private $avatar;
 
     /**
      * @var int $salt 盐值
      * @Column(name="salt", type="integer")
-     * @Required()
+     *
      */
     private $salt;
 
     /**
      * @var string $password 密码
      * @Column(name="password", type="string", length=50)
-     * @Required()
+     *
      */
     private $password;
 
@@ -59,14 +59,14 @@ class AdminUsers extends Model
     /**
      * @var string $regTime 注册时间
      * @Column(name="reg_time", type="timestamp")
-     * @Required()
+     *
      */
     private $regTime;
 
     /**
      * @var string $loginTime 登陆时间
      * @Column(name="login_time", type="timestamp")
-     * @Required()
+     *
      */
     private $loginTime;
 
@@ -80,7 +80,7 @@ class AdminUsers extends Model
      * @var int $visitCount 登陆次数
      * @Column(name="visit_count", type="integer", default=0)
      */
-    private $visitCount;
+    public $visitCount;
 
     /**
      * @var int $isDelete 是否禁用

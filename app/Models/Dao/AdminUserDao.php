@@ -25,7 +25,7 @@ class AdminUserDao
     public function getUserInfoByAccount(string $account, array $field = [])
     {
         if (!$field) {
-            $field = ['user_id', 'password', 'salt', 'avatar', 'account', 'role'];
+            $field = ['user_id', 'password', 'salt', 'avatar', 'visit_count', 'account', 'role'];
         }
 
         $data = AdminUsers::findOne(['account' => $account], ['fields' => $field])->getResult();

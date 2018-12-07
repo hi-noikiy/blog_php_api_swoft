@@ -25,7 +25,7 @@ class PasswordAuthService extends BaseAuthService implements AuthInterface
         if ($user->getIsDelete() == 1) {
             throw new AuthException(Code::INVALID_PARAMETER, '该账号已经被禁用');
         }
-        if ($this->md5_salt($data['password'], $user->getSalt()) != $user->getPassword()) {
+        if (!password_check($data['password'], $user->getSalt(), $user->getPassword())) {
             throw new AuthException(Code::INVALID_PARAMETER, '密码错误');
         }
         $this->update_user_info($user);

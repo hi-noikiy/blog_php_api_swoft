@@ -52,9 +52,4 @@ class BaseAuthService
         ];
     }
 
-    public function md5_salt(string $password, string $salt): string
-    {
-        return md5(md5($password) . $salt);
-    }
-
 }

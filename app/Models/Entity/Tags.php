@@ -17,11 +17,11 @@ use Swoft\Db\Types;
 class Tags extends BaseModel
 {
     /**
-     * @var int $tagId 
+     * @var int $Id 
      * @Id()
-     * @Column(name="tag_id", type="integer")
+     * @Column(name="id", type="integer")
      */
-    private $tagId;
+    private $Id;
 
     /**
      * @var string $tagName 标签名字
@@ -31,19 +31,19 @@ class Tags extends BaseModel
     private $tagName;
 
     /**
-     * @var int $order 排序
-     * @Column(name="order", type="integer")
-     * @Required()
+     * @var int $sort 排序
+     * @Column(name="sort", type="integer")
+     *
      */
-    private $order;
+    private $sort;
 
     /**
      * @param int $value
      * @return $this
      */
-    public function setTagId(int $value)
+    public function setId(int $value)
     {
-        $this->tagId = $value;
+        $this->Id = $value;
 
         return $this;
     }
@@ -65,9 +65,9 @@ class Tags extends BaseModel
      * @param int $value
      * @return $this
      */
-    public function setOrder(int $value): self
+    public function setsort(int $value): self
     {
-        $this->order = $value;
+        $this->sort = $value;
 
         return $this;
     }
@@ -75,9 +75,9 @@ class Tags extends BaseModel
     /**
      * @return mixed
      */
-    public function getTagId()
+    public function getId()
     {
-        return $this->tagId;
+        return $this->Id;
     }
 
     /**
@@ -93,9 +93,9 @@ class Tags extends BaseModel
      * 排序
      * @return int
      */
-    public function getOrder()
+    public function getsort()
     {
-        return $this->order;
+        return $this->sort;
     }
 
 }

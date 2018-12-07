@@ -12,12 +12,11 @@ use Swoft\Db\QueryBuilder;
  */
 class Log
 {
-    public function list(int $page, int $limit)
+    public function list()
     {
         return SystemLog::getPageList(
             [],
-            ['orderby' => ['sl_id' => QueryBuilder::ORDER_BY_DESC]],
-            $page, $limit);
+            ['orderby' => ['sl_id' => QueryBuilder::ORDER_BY_DESC]]);
     }
 
     public function trace($id)

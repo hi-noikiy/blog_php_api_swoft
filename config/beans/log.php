@@ -8,6 +8,14 @@
  */
 
 return [
+    'infoHandler'      => [
+        'class'     => \Swoft\Log\FileHandler::class,
+        'logFile'   => '@runtime/logs/info.log',
+        'formatter' => '${lineFormatter}',
+        'levels'    => [
+            \Swoft\Log\Logger::INFO,
+        ],
+    ],
     'noticeHandler'      => [
         'class'     => \Swoft\Log\FileHandler::class,
         'logFile'   => '@runtime/logs/notice.log',
@@ -19,12 +27,12 @@ return [
             \Swoft\Log\Logger::TRACE,
         ],
     ],
-    'applicationHandler' => [
+    'warningHandler' => [
         'class'     => \Swoft\Log\FileHandler::class,
         'logFile'   => '@runtime/logs/error.log',
         'formatter' => '${lineFormatter}',
         'levels'    => [
-            \Swoft\Log\Logger::ERROR,
+//            \Swoft\Log\Logger::ERROR,
             \Swoft\Log\Logger::WARNING,
         ],
     ],
@@ -34,8 +42,8 @@ return [
         'flushInterval' => 100,
         'flushRequest'  => true,
         'handlers'      => [
-//            '${noticeHandler}',
-            '${applicationHandler}',
+            '${infoHandler}',
+            '${warningHandler}',
         ],
     ],
 ];

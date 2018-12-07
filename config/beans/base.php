@@ -11,8 +11,8 @@ return [
     'serverDispatcher' => [
         'middlewares' => [
 //            \Swoft\View\Middleware\ViewMiddleware::class,
-            \Swoft\Auth\Middleware\AuthMiddleware::class,
-//             \Swoft\Devtool\Middleware\DevToolMiddleware::class,
+//            \Swoft\Auth\Middleware\AuthMiddleware::class,
+             \Swoft\Devtool\Middleware\DevToolMiddleware::class,
 //             \Swoft\Session\Middleware\SessionMiddleware::class,
         ]
     ],

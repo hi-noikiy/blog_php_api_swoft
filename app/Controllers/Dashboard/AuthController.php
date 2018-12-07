@@ -43,7 +43,6 @@ class AuthController extends ApiController
         $this->validate('App\Common\Validate\Dashboard\AuthValidate', 'login');
         $info = $this->AuthLogic->checkManager(\Swoft::param('account'), \Swoft::param('password'));
 
-        $this->AuthLogic->updateUserInfo($info['user_id']);
         $arr = [
             'access-token' => JWT::encode([
                 'user_id' => $info['user_id'],

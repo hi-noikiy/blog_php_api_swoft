@@ -7,6 +7,9 @@ use Swoft\Db\Model;
 
 class BaseModel extends Model
 {
+    protected $condition;
+
+    protected $options;
 
     /**
      * 进行分页查询
@@ -41,5 +44,16 @@ class BaseModel extends Model
         $data['totalPage'] = bcdiv($data['count'], $limit, 0) + ($data['count'] % $limit == 0 ? 0 : 1);
         // 返回数据
         return $data;
+    }
+
+    protected function getCondition()
+    {
+        return $this->condition;
+    }
+
+    protected function setCondition(array $condition = [])
+    {
+        $this->condition = $condition;
+        return $this;
     }
 }

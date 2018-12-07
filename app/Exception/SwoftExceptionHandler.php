@@ -103,9 +103,13 @@ class SwoftExceptionHandler
      */
     public function handlerValidatorException(Response $response, \Throwable $throwable)
     {
-        $exception = $throwable->getMessage();
+        $data = [
+            'code' => Code::INVALID_PARAMETER,
+            'data' => new \stdClass(),
+            'msg' => $throwable->getMessage(),
+        ];
 
-        return $response->json(['message' => $exception]);
+        return $response->json($data);
     }
 
     /**
@@ -118,9 +122,12 @@ class SwoftExceptionHandler
      */
     public function handlerBadRequestException(Response $response, \Throwable $throwable)
     {
-        $exception = $throwable->getMessage();
-
-        return $response->json(['message' => $exception]);
+        $data = [
+            'code' => $throwable->getCode(),
+            'data' => new \stdClass(),
+            'msg' => $throwable->getMessage(),
+        ];
+        return $response->json($data);
     }
 
     /**
