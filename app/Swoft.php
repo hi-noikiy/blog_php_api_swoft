@@ -26,6 +26,7 @@ class Swoft extends \Swoft\App
 
     public static function param($key = null, $default = null)
     {
+
         $jsonData = request()->json();
         $requestData = request()->input();
 
@@ -39,6 +40,26 @@ class Swoft extends \Swoft\App
             return $param;
         }
         return $param[$key] ?? $default;
+    }
+
+    public static function swoole_headers(): array
+    {
+        return request()->getSwooleRequest()->header;
+    }
+
+    public static function swoole_header($key = ''): string
+    {
+        $headers = self::swoole_headers();
+
+        if (!isset($headers[$key])) {
+            throw new \App\Exception\NotDefinedException("{$key}未定义");
+        }
+        return $headers[$key];
+    }
+
+    public static function ip()
+    {
+        return self::swoole_header('remote-host') ?? self::swoole_header('x-real-ip');
     }
 
 

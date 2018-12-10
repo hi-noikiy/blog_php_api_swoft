@@ -23,7 +23,7 @@ class Sms
             $SmsRecord = new SmsRecord();
             $SmsRecord->setMobile($mobile)->setTemplateCode($template_code)
                 ->setRequestId($res->RequestId)->setBizId($res->BizId)
-                ->setIp(swoole_header('remote-host'))->setDate(date('Y-m-d H:i:s'))
+                ->setIp(\Swoft::ip())->setDate(date('Y-m-d H:i:s'))
                 ->save();
         } else {
             return false;

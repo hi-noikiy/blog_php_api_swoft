@@ -23,7 +23,7 @@ class TagService
      * @Inject()
      * @var TagDao
      */
-    public $TagDao;
+    public $tagDao;
 
     public function getList()
     {
@@ -32,21 +32,23 @@ class TagService
 
     public function getInfo(int $id)
     {
-        return $this->TagDao->getInfoById($id);
+        return $this->tagDao->getInfoById($id);
     }
 
     public function create(array $arr)
     {
-
         $tags = new Tags();
+        $tags->fill($arr)->save();
+    }
 
-        $tags->setTagName($arr['tag_name']);
-        $tags->save();
+    public function update(int $id, array $arr)
+    {
+        $this->tagDao->getInfoById($id)->fill($arr)->update();
     }
 
     public function delete(int $id)
     {
-        $this->TagDao->getInfoById($id)->delete();
+        $this->tagDao->getInfoById($id)->delete();
     }
 
 }

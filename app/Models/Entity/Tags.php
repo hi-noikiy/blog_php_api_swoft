@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Models\Entity;
 
 use Swoft\Db\Model;
@@ -17,7 +18,7 @@ use Swoft\Db\Types;
 class Tags extends BaseModel
 {
     /**
-     * @var int $Id 
+     * @var int $Id
      * @Id()
      * @Column(name="id", type="integer")
      */
@@ -36,6 +37,20 @@ class Tags extends BaseModel
      *
      */
     private $sort;
+
+    /**
+     * @var string $createdAt
+     * @Column(name="created_at", type="string")
+     *
+     */
+    private $createdAt;
+
+    /**
+     * @var string $updatedAt
+     * @Column(name="updated_at", type="string")
+     *
+     */
+    private $updatedAt;
 
     /**
      * @param int $value
@@ -73,6 +88,30 @@ class Tags extends BaseModel
     }
 
     /**
+     *
+     * @param string $value
+     * @return $this
+     */
+    public function setcreatedAt(string $value): self
+    {
+        $this->createdAt = $value;
+
+        return $this;
+    }
+
+    /**
+     *
+     * @param string $value
+     * @return $this
+     */
+    public function setupdatedAt(string $value): self
+    {
+        $this->updatedAt = $value;
+
+        return $this;
+    }
+
+    /**
      * @return mixed
      */
     public function getId()
@@ -98,4 +137,14 @@ class Tags extends BaseModel
         return $this->sort;
     }
 
+    public function getcreatedAt()
+    {
+        return $this->createdAt;
+    }
+
+
+    public function getupdatedAt()
+    {
+        return $this->updatedAt;
+    }
 }

@@ -4,6 +4,7 @@ namespace App\Controllers\Dashboard;
 
 use App\Common\Controller\ApiController;
 use App\Common\Lang\Lang;
+use App\Common\Validate\Dashboard\TagValidate;
 use App\Models\Services\TagService;
 use Swoft\Bean\Annotation\Number;
 use Swoft\Bean\Annotation\Strings;
@@ -13,12 +14,14 @@ use Swoft\Http\Server\Bean\Annotation\RequestMethod;
 use Swoft\Bean\Annotation\Inject;
 use Swoft\Http\Message\Bean\Annotation\Middleware;
 use App\Middlewares\JwtMiddleware;
+use App\Middlewares\ValidateMiddleware;
 use Swoft\Bean\Annotation\ValidatorFrom;
 use \Swoft;
 
 /**
  * @Controller(prefix="/dashboard/tag")
  * @Middleware(JwtMiddleware::class)
+ * @Middleware(ValidateMiddleware::class)
  */
 class TagController extends ApiController
 {
@@ -69,6 +72,22 @@ class TagController extends ApiController
         return $this->setMessage(Lang::CREATE_SUCCESS)->respondWithArray();
     }
 
+
+    /**
+     *
+     * @RequestMapping(route="/dashboard/tag/{id}", method={RequestMethod::PUT})
+     * @Strings(from=ValidatorFrom::PATH, name="id",  template="请输入id")
+     *
+     *
+     * @param int $id
+     * @return string
+     */
+    public function update(int $id)
+    {
+        $this->tagService->update($id, Swoft::param());
+        var_dump(123);
+        return $this->setMessage(Lang::UPDATE_SUCCESS)->respondWithArray();
+    }
 
     /**
      *

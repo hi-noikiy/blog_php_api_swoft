@@ -11,7 +11,6 @@ class BaseAuthService
 
     public function update_user_info(Users $user): void
     {
-        $user->setLoginTime(date('Y-m-d H:i:s'));
         $user->visitCount++;
         $user->update();
     }

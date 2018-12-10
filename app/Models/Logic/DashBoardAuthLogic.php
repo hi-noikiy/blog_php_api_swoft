@@ -68,8 +68,7 @@ class DashBoardAuthLogic
     public function updateUserInfo(AdminUsers $user)
     {
         $user->visitCount++;
-        $user->setLoginTime(date('Y-m-d H:i:s'));
-        $user->setLastIp(ip());
+        $user->setLastIp(\Swoft::ip());
         $user->update();
     }
 }

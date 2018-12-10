@@ -20,24 +20,6 @@ function today_rest()
     return $surplus;
 }
 
-function swoole_headers(): array
-{
-    return request()->getSwooleRequest()->header;
-}
-
-function swoole_header($key = ''): string
-{
-    $headers = swoole_headers();
-    if (!isset($headers[$key])) {
-        throw new \App\Exception\NotDefinedException("{$key}未定义");
-    }
-    return $headers[$key];
-}
-
-function ip()
-{
-    return swoole_header('remote-host');
-}
 
 /**
  * 获取推流地址

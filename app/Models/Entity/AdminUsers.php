@@ -14,10 +14,10 @@ use Swoft\Db\Types;
  * @Table(name="admin_users")
  * @uses      AdminUsers
  */
-class AdminUsers extends Model
+class AdminUsers extends BaseModel
 {
     /**
-     * @var int $user_id 
+     * @var int $userId 
      * @Id()
      * @Column(name="user_id", type="integer")
      */
@@ -32,21 +32,21 @@ class AdminUsers extends Model
     /**
      * @var string $avatar 头像
      * @Column(name="avatar", type="text", length=65535)
-     *
+     * @Required()
      */
     private $avatar;
 
     /**
      * @var int $salt 盐值
      * @Column(name="salt", type="integer")
-     *
+     * @Required()
      */
     private $salt;
 
     /**
      * @var string $password 密码
      * @Column(name="password", type="string", length=50)
-     *
+     * @Required()
      */
     private $password;
 
@@ -57,21 +57,7 @@ class AdminUsers extends Model
     private $role;
 
     /**
-     * @var string $regTime 注册时间
-     * @Column(name="reg_time", type="timestamp")
-     *
-     */
-    private $regTime;
-
-    /**
-     * @var string $loginTime 登陆时间
-     * @Column(name="login_time", type="timestamp")
-     *
-     */
-    private $loginTime;
-
-    /**
-     * @var string $lastIp
+     * @var string $lastIp 
      * @Column(name="last_ip", type="string", length=20, default="0")
      */
     private $lastIp;
@@ -87,6 +73,18 @@ class AdminUsers extends Model
      * @Column(name="is_delete", type="tinyint", default=0)
      */
     private $isDelete;
+
+    /**
+     * @var string $createdAt 
+     * @Column(name="created_at", type="timestamp")
+     */
+    private $createdAt;
+
+    /**
+     * @var string $updatedAt 
+     * @Column(name="updated_at", type="timestamp")
+     */
+    private $updatedAt;
 
     /**
      * @param int $value
@@ -160,30 +158,6 @@ class AdminUsers extends Model
     }
 
     /**
-     * 注册时间
-     * @param string $value
-     * @return $this
-     */
-    public function setRegTime(string $value): self
-    {
-        $this->regTime = $value;
-
-        return $this;
-    }
-
-    /**
-     * 登陆时间
-     * @param string $value
-     * @return $this
-     */
-    public function setLoginTime(string $value): self
-    {
-        $this->loginTime = $value;
-
-        return $this;
-    }
-
-    /**
      * @param string $value
      * @return $this
      */
@@ -214,6 +188,28 @@ class AdminUsers extends Model
     public function setIsDelete(int $value): self
     {
         $this->isDelete = $value;
+
+        return $this;
+    }
+
+    /**
+     * @param string $value
+     * @return $this
+     */
+    public function setCreatedAt(string $value): self
+    {
+        $this->createdAt = $value;
+
+        return $this;
+    }
+
+    /**
+     * @param string $value
+     * @return $this
+     */
+    public function setUpdatedAt(string $value): self
+    {
+        $this->updatedAt = $value;
 
         return $this;
     }
@@ -272,24 +268,6 @@ class AdminUsers extends Model
     }
 
     /**
-     * 注册时间
-     * @return string
-     */
-    public function getRegTime()
-    {
-        return $this->regTime;
-    }
-
-    /**
-     * 登陆时间
-     * @return string
-     */
-    public function getLoginTime()
-    {
-        return $this->loginTime;
-    }
-
-    /**
      * @return string
      */
     public function getLastIp()
@@ -313,6 +291,22 @@ class AdminUsers extends Model
     public function getIsDelete()
     {
         return $this->isDelete;
+    }
+
+    /**
+     * @return string
+     */
+    public function getCreatedAt()
+    {
+        return $this->createdAt;
+    }
+
+    /**
+     * @return string
+     */
+    public function getUpdatedAt()
+    {
+        return $this->updatedAt;
     }
 
 }

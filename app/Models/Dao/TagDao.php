@@ -13,7 +13,7 @@ use Swoft\Bean\Annotation\Bean;
 class TagDao
 {
 
-    public function getInfoById(int $id)
+    public function getInfoById(int $id): Tags
     {
         $data = Tags::findById($id)->getResult();
         if (!$data) {

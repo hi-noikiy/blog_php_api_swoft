@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Models\Entity;
 
 use Swoft\Db\Model;
@@ -17,7 +18,7 @@ use Swoft\Db\Types;
 class SystemLog extends BaseModel
 {
     /**
-     * @var int $slId 
+     * @var int $slId
      * @Id()
      * @Column(name="sl_id", type="integer")
      */
@@ -38,17 +39,17 @@ class SystemLog extends BaseModel
     private $file;
 
     /**
-     * @var int $line 
+     * @var int $line
      * @Column(name="line", type="integer")
      * @Required()
      */
     private $line;
 
     /**
-     * @var string $recordTime 
-     * @Column(name="record_time", type="timestamp")
+     * @var string $createdAt
+     * @Column(name="created_at", type="timestamp")
      */
-    private $recordTime;
+    private $createdAt;
 
     /**
      * @param int $value
@@ -100,9 +101,9 @@ class SystemLog extends BaseModel
      * @param string $value
      * @return $this
      */
-    public function setRecordTime(string $value): self
+    public function setCreatedAt(string $value): self
     {
-        $this->recordTime = $value;
+        $this->createdAt = $value;
 
         return $this;
     }
@@ -144,9 +145,9 @@ class SystemLog extends BaseModel
     /**
      * @return string
      */
-    public function getRecordTime()
+    public function getCreatedAt()
     {
-        return $this->recordTime;
+        return $this->createdAt;
     }
 
 }
