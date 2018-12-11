@@ -14,7 +14,7 @@ use Swoft\Db\Types;
  * @Table(name="category")
  * @uses      Category
  */
-class Category extends Model
+class Category extends BaseModel
 {
     /**
      * @var int $catId 

@@ -66,8 +66,8 @@ class SwoftExceptionHandler
             'code' => $code,
             'data' => $bodyData,
             'msg' => $message,
-            'file' => $throwable->getFile(),
-            'line' => $throwable->getLine(),
+//            'file' => $throwable->getFile(),
+//            'line' => $throwable->getLine(),
         ];
 
         if (in_array($code, [Code::ERROR_NO_DEFINED], true)) {

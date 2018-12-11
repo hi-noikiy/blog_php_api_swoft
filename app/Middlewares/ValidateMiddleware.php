@@ -11,6 +11,7 @@
 namespace App\Middlewares;
 
 use App\Common\Validate\BaseValidate;
+use App\Exception\SystemException;
 use Psr\Http\Server\RequestHandlerInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -37,19 +38,19 @@ class ValidateMiddleware implements MiddlewareInterface
             $validatorKey = $exploded[1] ?? '';
             $matches = $info['matches'] ?? [];
 
+            $validateClassName = sprintf("App\\Common\\Validate%sValidate", str_replace('/', '//', substr(strstr($className, "Controllers"), 11, -10)));
 
-            $validateClass = "App\\Common\\Validate\\AuthValidate";
-            $param = $matches + \Swoft::param();
-            if (class_exists($validateClass)) {
+            if (class_exists($validateClassName)) {
+
                 /* @var BaseValidate $validateClass */
-                (new $validateClass)->scene($validatorKey)->check($param);
-            }
+                $validateClass = new $validateClassName;
 
-//            (new BaseValidate())->scene($validatorKey)->check($param);
-//            if (isset($collector[$className][$validatorKey]['validator'])) {
-//                $validators = $collector[$className][$validatorKey]['validator'];
-//                $request = $validator->validate($validators, $request, $matches);
-//            }
+                if (!$validateClass instanceof BaseValidate) {
+                    throw new SystemException("$validateClass not extend BaseValidate");
+                }
+                $param = $matches + \Swoft::param();
+                $validateClass->scene($validatorKey)->check($param);
+            }
         }
         $response = $handler->handle($request);
 

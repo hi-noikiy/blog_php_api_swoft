@@ -41,6 +41,8 @@ return [
     'provider' => require __DIR__ . DS . 'provider.php',
     'jwt' => require __DIR__ . DS . 'jwt.php',
     'github' => require __DIR__ . DS . 'github.php',
+    'mail' => require __DIR__ . DS . 'mail.php',
+    'sms' => require __DIR__ . DS . 'sms.php',
     'opendota' => require __DIR__ . DS . 'opendota.php',
     'auth' => [
         'jwt' => [

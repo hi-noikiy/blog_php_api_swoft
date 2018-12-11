@@ -47,7 +47,7 @@ class SmsController extends ApiController
         $this->SmsService->risk(\Swoft::ip());
         $this->SmsService->risk($mobile);
         $this->SmsService->send($mobile, $type);
-        return $this->respondWithArray(null, '短信发送成功');
+        return $this->setMessage('短信发送成功')->respondWithArray();
     }
 
     /**
@@ -63,6 +63,7 @@ class SmsController extends ApiController
 
         if ($res) {
             foreach ($res as $item) {
+//                $this->SmsService->n
                 SmsRecord::updateOne([
                     'send_time' => $item['send_time'],
                     'report_time' => $item['report_time'],

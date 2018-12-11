@@ -8,6 +8,8 @@ use App\Common\Utility\Sms;
 use App\Exception\CustomException;
 use App\Exception\ExtendDataException;
 use App\Exception\SystemException;
+use App\Models\Dao\SmsRecordDao;
+use App\Models\Entity\SmsRecord;
 use Swoft\Bean\Annotation\Bean;
 use Swoft\Bean\Annotation\Inject;
 
@@ -22,6 +24,13 @@ class SmsService
      * @var \Redis
      */
     private $redis;
+
+    /**
+     *
+     * @Inject()
+     * @var SmsRecordDao
+     */
+    private $smsRecordDao;
 
     public function send(string $mobile, int $type): void
     {
@@ -112,4 +121,29 @@ class SmsService
             }
         }
     }
+
+    /**
+     *
+     * 短信发送记录
+     * @access public
+     * @param string $mobile 手机号
+     * @param string $template_code 模板id
+     * @param string $request_id 状态码-返回OK代表请求成功,其他错误码详见错误码列表
+     * @param string $biz_id 发送回执ID,可根据该ID查询具体的发送状态
+     * @return void
+     *
+     */
+    public function record(string $mobile, string $template_code, string $request_id, string $biz_id)
+    {
+        $ip = \Swoft::ip();
+        $data = compact('mobile', 'template_code', 'request_id', 'biz_id', 'ip');
+        $this->smsRecordDao->create($data);
+    }
+
+    public function notifyUpdate()
+    {
+
+    }
+
+
 }

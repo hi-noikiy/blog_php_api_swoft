@@ -4,8 +4,8 @@ namespace App\Controllers\Dashboard;
 
 use App\Common\Controller\ApiController;
 use App\Common\Lang\Lang;
-use App\Common\Validate\Dashboard\TagValidate;
-use App\Models\Services\TagService;
+use App\Common\Validate\Dashboard\ArticleValidate;
+use App\Models\Services\ArticleService;
 use Swoft\Bean\Annotation\Number;
 use Swoft\Bean\Annotation\Strings;
 use Swoft\Http\Server\Bean\Annotation\Controller;
@@ -18,33 +18,33 @@ use Swoft\Bean\Annotation\ValidatorFrom;
 use \Swoft;
 
 /**
- * @Controller(prefix="/dashboard/tag")
+ * @Controller(prefix="/dashboard/article")
  * @Middleware(JwtMiddleware::class)
  */
-class TagController extends ApiController
+class ArticleController extends ApiController
 {
     /**
      *
      * @Inject()
-     * @var TagService
+     * @var ArticleService
      */
-    private $tagService;
+    private $articleService;
 
     /**
      *
-     * @RequestMapping(route="/dashboard/tag", method={RequestMethod::GET})
+     * @RequestMapping(route="/dashboard/article", method={RequestMethod::GET})
      *
      * @return string
      */
     public function list()
     {
-        $data = $this->tagService->getList();
+        $data = $this->articleService->getList();
         return $this->respondWithArray($data);
     }
 
     /**
      *
-     * @RequestMapping(route="/dashboard/tag/{id}", method={RequestMethod::GET})
+     * @RequestMapping(route="/dashboard/article/{id}", method={RequestMethod::GET})
      * @Number(from=ValidatorFrom::PATH, name="id", min=1, template="请输入id")
      *
      * @param int $id
@@ -52,28 +52,28 @@ class TagController extends ApiController
      */
     public function info(int $id)
     {
-        $data = $this->tagService->getInfo($id);
+        $data = $this->articleService->getInfo($id);
         return $this->respondWithArray($data);
     }
 
 
     /**
      *
-     * @RequestMapping(route="/dashboard/tag", method={RequestMethod::POST})
-     * @Strings(from=ValidatorFrom::QUERY, name="tag_name",  template="请输入标签名称")
+     * @RequestMapping(route="/dashboard/article", method={RequestMethod::POST})
+     * @Strings(from=ValidatorFrom::QUERY, name="article_name",  template="请输入标签名称")
      *
      * @return string
      */
     public function create()
     {
-        $this->tagService->create(Swoft::param());
+        $this->articleService->create(Swoft::param());
         return $this->setMessage(Lang::CREATE_SUCCESS)->respondWithArray();
     }
 
 
     /**
      *
-     * @RequestMapping(route="/dashboard/tag/{id}", method={RequestMethod::PUT})
+     * @RequestMapping(route="/dashboard/article/{id}", method={RequestMethod::PUT})
      *
      *
      * @param int $id
@@ -81,20 +81,20 @@ class TagController extends ApiController
      */
     public function update(int $id)
     {
-        $this->tagService->update($id, Swoft::param());
+        $this->articleService->update($id, Swoft::param());
         return $this->setMessage(Lang::UPDATE_SUCCESS)->respondWithArray();
     }
 
     /**
      *
-     * @RequestMapping(route="/dashboard/tag/{id}", method={RequestMethod::DELETE})
+     * @RequestMapping(route="/dashboard/article/{id}", method={RequestMethod::DELETE})
      *
      * @param int $id
      * @return string
      */
     public function delete(int $id)
     {
-        $this->tagService->delete($id);
+        $this->articleService->delete($id);
         return $this->setMessage(Lang::DELETE_SUCCESS)->respondWithArray();
     }
 }

@@ -33,23 +33,23 @@ class JwtMiddleware implements MiddlewareInterface
         if (!end($accessToken)) {
             throw new Exception('请登录', Code::UNLOGIN);
         }
-        $route = explode('/',$request->getUri()->getPath());
+        $route = explode('/', $request->getUri()->getPath());
 
         try {
             $decode = JWT::decode(end($accessToken), $this->jwt_key, ['HS256']);
         } catch (ExpiredException $e) {
             throw new ExpiredException('请重新登录', Code::INVALID_TOKEN);
-        } catch (UnexpectedValueException $e){
+        } catch (UnexpectedValueException $e) {
             throw new ExpiredException('请重新登录', Code::INVALID_TOKEN);
-        }catch (Exception $exception){
+        } catch (Exception $exception) {
             throw new ExpiredException('请重新登录', Code::INVALID_TOKEN);
         }
 
-        if(current($decode->role) != '-1'){
+        if (current($decode->role) != '-1') {
             throw new ExpiredException('该用户无权限', Code::ACCOUNT_BAD);
         }
-            //权限管理代码 restful风格根据 method区分一个模块的验证
-        $request = $request->withAttribute('user_id',$decode->user_id);
+        //权限管理代码 restful风格根据 method区分一个模块的验证
+        $request = $request->withAttribute('user_id', $decode->user_id);
 //        return response()->raw(Encrypt::encrypt(json_encode($request->getParsedBody() + $request->getQueryParams())))->withoutHeader('Content-Type')->withAddedHeader('Content-Type', 'application/octet-stream');
         // 委托给下一个中间件处理
         $response = $handler->handle($request);

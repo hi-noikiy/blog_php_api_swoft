@@ -78,25 +78,16 @@ class ApiController
     /**
      * @param $validate string
      * @param $scene string
-     * @return Validate
+     * @return void
      * @throws  object
      */
-    protected function validate($validate, $scene)
+    protected function validate($validate, $scene = null)
     {
-
-//        if (strpos($validate, '.')) {
-//            // 支持场景
-//            list($validate, $scene) = explode('.', $validate);
-//        }
         /* @var Validate $v */
         $v = new $validate;
         if (!empty($scene)) {
             $v->scene($scene);
         }
-        if (!$v->check(\Swoft::param())) {
-            throw new ValidateException($v->getError());
-        } else {
-            return $v;
-        }
+        $v->check(\Swoft::param());
     }
 }

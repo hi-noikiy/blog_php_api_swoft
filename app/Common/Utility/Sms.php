@@ -4,6 +4,8 @@ namespace App\Common\Utility;
 
 use App\Common\Enums\SmsEnum;
 use App\Models\Entity\SmsRecord;
+use App\Models\Services\SmsService;
+use Swoft\App;
 
 class Sms
 {
@@ -20,15 +22,19 @@ class Sms
             return false;
         }
         if (isset($res) && $res->Code == 'OK') {
-            $SmsRecord = new SmsRecord();
-            $SmsRecord->setMobile($mobile)->setTemplateCode($template_code)
-                ->setRequestId($res->RequestId)->setBizId($res->BizId)
-                ->setIp(\Swoft::ip())->setDate(date('Y-m-d H:i:s'))
-                ->save();
+
+            /* @var SmsService $smsService */
+            $smsService = App::getBean(SmsService::class);
+            $smsService->record($mobile, $template_code, $res->RequestId, $res->BizId);
+//            $SmsRecord = new SmsRecord();
+//            $SmsRecord->setMobile($mobile)->setTemplateCode($template_code)
+//                ->setRequestId($res->RequestId)->setBizId($res->BizId)
+//                ->setIp(\Swoft::ip())->setDate(date('Y-m-d H:i:s'))
+//                ->save();
+            return true;
         } else {
             return false;
         }
-        return true;
     }
 
 

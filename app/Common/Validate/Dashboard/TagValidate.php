@@ -7,25 +7,29 @@
 
 namespace App\Common\Validate\Dashboard;
 
+use App\Common\Validate\BaseValidate;
 
-use think\Validate;
-
-class TagValidate extends Validate
+class TagValidate extends BaseValidate
 {
     protected $rule = [
+        'id' => 'require|number',
         'tag_name' => 'require',
-        'sort' => 'require|number',
+        'sort' => 'number',
     ];
 
     protected $message = [
         'tag_name.require' => '请输入标签名称',
     ];
 
+    protected $scene = [
+        'create' => ['tag_name', 'sort'],
+        'update' => ['id', 'tag_name', 'sort'],
+        'delete' => ['id']
+    ];
 
-    public function sceneUpdate()
-    {
-        return $this->only(['tag_name', 'sort'])
-            ->remove('tag_name', 'require')
-            ->remove('sort', 'require');
-    }
+//    public function sceneupdate()
+//    {
+//        return $this->remove('tag_name', 'require')
+//            ->remove('sort', 'require');
+//    }
 }

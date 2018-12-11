@@ -43,7 +43,8 @@
         "ramsey/uuid": "^3.7",
         "swoft/auth": "^1.0",
         "webonyx/graphql-php": "^0.13.0",
-        "league/oauth2-github": "^2.0"
+        "league/oauth2-github": "^2.0",
+        "draguo/directmail": "^1.0"
     },
     "require-dev": {
         "eaglewu/swoole-ide-helper": "dev-master",

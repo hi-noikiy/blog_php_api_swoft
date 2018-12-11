@@ -34,8 +34,8 @@ class BaseModel extends Model
     /**
      * 进行分页查询
      *
-     * @param array $condition
-     * @param array $options
+     * @param array $condition 查找条件，数组
+     * @param array $options  额外选项。 如： orderby limit offset
      *
      * @return array
      */

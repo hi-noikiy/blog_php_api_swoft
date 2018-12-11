@@ -15,9 +15,10 @@ class BaseValidate extends Validate
 {
     public function check($data, $rules = [], $scene = '')
     {
+        var_dump($data);
         if (!parent::check($data, $rules, $scene)) {
             throw new ValidateException($this->getError());
         }
-
+        return true;
     }
 }

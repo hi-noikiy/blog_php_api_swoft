@@ -14,7 +14,7 @@ use Swoft\Db\Types;
  * @Table(name="article")
  * @uses      Article
  */
-class Article extends Model
+class Article extends BaseModel
 {
     /**
      * @var int $articleId 
