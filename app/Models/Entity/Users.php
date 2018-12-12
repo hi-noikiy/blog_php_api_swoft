@@ -1,20 +1,18 @@
 <?php
 namespace App\Models\Entity;
 
-use Swoft\Db\Model;
 use Swoft\Db\Bean\Annotation\Column;
 use Swoft\Db\Bean\Annotation\Entity;
 use Swoft\Db\Bean\Annotation\Id;
 use Swoft\Db\Bean\Annotation\Required;
 use Swoft\Db\Bean\Annotation\Table;
-use Swoft\Db\Types;
 
 /**
  * @Entity()
  * @Table(name="users")
  * @uses      Users
  */
-class Users extends Model
+class Users extends BaseModel
 {
     /**
      * @var int $userId 
@@ -24,11 +22,23 @@ class Users extends Model
     private $userId;
 
     /**
-     * @var string $mobile 手机号
-     * @Column(name="mobile", type="string", length=50)
+     * @var int $githubId github_id
+     * @Column(name="github_id", type="integer")
      * @Required()
      */
+    private $githubId;
+
+    /**
+     * @var string $mobile 手机号
+     * @Column(name="mobile", type="string", length=50)
+     */
     private $mobile;
+
+    /**
+     * @var string $mail 邮箱
+     * @Column(name="mail", type="string", length=255)
+     */
+    private $mail;
 
     /**
      * @var string $nick 昵称
@@ -75,19 +85,6 @@ class Users extends Model
     private $lastIp;
 
     /**
-     * @var string $regTime 注册时间
-     * @Column(name="reg_time", type="timestamp")
-     * @Required()
-     */
-    private $regTime;
-
-    /**
-     * @var string $loginTime 最后一次登陆时间
-     * @Column(name="login_time", type="timestamp")
-     */
-    private $loginTime;
-
-    /**
      * @var int $visitCount 登陆次数
      * @Column(name="visit_count", type="integer", default=0)
      */
@@ -101,12 +98,36 @@ class Users extends Model
     private $isDelete;
 
     /**
+     * @var string $createdAt
+     * @Column(name="created_at", type="timestamp")
+     */
+    private $createdAt;
+
+    /**
+     * @var string $updatedAt
+     * @Column(name="updated_at", type="timestamp")
+     */
+    private $updatedAt;
+
+    /**
      * @param int $value
      * @return $this
      */
     public function setUserId(int $value)
     {
         $this->userId = $value;
+
+        return $this;
+    }
+
+    /**
+     * github_id
+     * @param int $value
+     * @return $this
+     */
+    public function setGithubId(int $value): self
+    {
+        $this->githubId = $value;
 
         return $this;
     }
@@ -119,6 +140,18 @@ class Users extends Model
     public function setMobile(string $value): self
     {
         $this->mobile = $value;
+
+        return $this;
+    }
+
+    /**
+     * 邮箱
+     * @param string $value
+     * @return $this
+     */
+    public function setMail(string $value): self
+    {
+        $this->mail = $value;
 
         return $this;
     }
@@ -207,30 +240,6 @@ class Users extends Model
     }
 
     /**
-     * 注册时间
-     * @param string $value
-     * @return $this
-     */
-    public function setRegTime(string $value): self
-    {
-        $this->regTime = $value;
-
-        return $this;
-    }
-
-    /**
-     * 最后一次登陆时间
-     * @param string $value
-     * @return $this
-     */
-    public function setLoginTime(string $value): self
-    {
-        $this->loginTime = $value;
-
-        return $this;
-    }
-
-    /**
      * 登陆次数
      * @param int $value
      * @return $this
@@ -256,11 +265,42 @@ class Users extends Model
     }
 
     /**
+     * @param string $value
+     * @return $this
+     */
+    public function setCreatedAt(string $value): self
+    {
+        $this->createdAt = $value;
+
+        return $this;
+    }
+
+    /**
+     * @param string $value
+     * @return $this
+     */
+    public function setUpdatedAt(string $value): self
+    {
+        $this->updatedAt = $value;
+
+        return $this;
+    }
+
+    /**
      * @return mixed
      */
     public function getUserId()
     {
         return $this->userId;
+    }
+
+    /**
+     * github_id
+     * @return int
+     */
+    public function getGithubId()
+    {
+        return $this->githubId;
     }
 
     /**
@@ -270,6 +310,15 @@ class Users extends Model
     public function getMobile()
     {
         return $this->mobile;
+    }
+
+    /**
+     * 邮箱
+     * @return string
+     */
+    public function getMail()
+    {
+        return $this->mail;
     }
 
     /**
@@ -335,24 +384,6 @@ class Users extends Model
     }
 
     /**
-     * 注册时间
-     * @return string
-     */
-    public function getRegTime()
-    {
-        return $this->regTime;
-    }
-
-    /**
-     * 最后一次登陆时间
-     * @return string
-     */
-    public function getLoginTime()
-    {
-        return $this->loginTime;
-    }
-
-    /**
      * 登陆次数
      * @return int
      */
@@ -369,6 +400,22 @@ class Users extends Model
     public function getIsDelete()
     {
         return $this->isDelete;
+    }
+
+    /**
+     * @return string
+     */
+    public function getCreatedAt()
+    {
+        return $this->createdAt;
+    }
+
+    /**
+     * @return string
+     */
+    public function getUpdatedAt()
+    {
+        return $this->updatedAt;
     }
 
 }

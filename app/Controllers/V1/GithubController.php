@@ -2,6 +2,9 @@
 
 namespace App\Controllers\V1;
 
+use App\Common\Code\Code;
+use App\Exception\AuthException;
+use League\OAuth2\Client\Provider\Exception\GithubIdentityProviderException;
 use League\OAuth2\Client\Token\AccessToken;
 use Swoft\Http\Server\Bean\Annotation\Controller;
 use Swoft\Http\Server\Bean\Annotation\RequestMapping;
@@ -39,11 +42,17 @@ class GithubController extends ApiController
     {
         $github = \Swoft::github();
 
-        /* @var AccessToken $token */
-        $token = $github->getAccessToken('authorization_code', [
-            'code' => \Swoft::param('code')
-        ]);
-        $user = $github->getResourceOwner($token);
+
+        try {
+            /* @var AccessToken $token */
+            $token = $github->getAccessToken('authorization_code', [
+                'code' => \Swoft::param('code')
+            ]);
+            $user = $github->getResourceOwner($token);
+        } catch (GithubIdentityProviderException $githubIdentityProviderException) {
+            throw new AuthException(Code::CODE_EXPIRE, '请重新授权登录');
+        }
+
 
         return $this->respondWithArray($user->toArray());
     }

@@ -16,7 +16,6 @@ class Encrypt
 
     public function getKey()
     {
-        var_dump($this->key);
         return $this->key;
     }
 

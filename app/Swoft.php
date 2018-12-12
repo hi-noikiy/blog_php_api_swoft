@@ -47,14 +47,10 @@ class Swoft extends \Swoft\App
         return request()->getSwooleRequest()->header;
     }
 
-    public static function swoole_header($key = ''): string
+    public static function swoole_header($key = '', $default = null): ?string
     {
         $headers = self::swoole_headers();
-
-        if (!isset($headers[$key])) {
-            throw new \App\Exception\NotDefinedException("{$key}未定义");
-        }
-        return $headers[$key];
+        return $headers[$key] ?? $default;
     }
 
     public static function ip()

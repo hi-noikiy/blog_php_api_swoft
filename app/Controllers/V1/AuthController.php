@@ -32,15 +32,10 @@ class AuthController extends ApiController
 
     /**
      * @RequestMapping(route="signin", method=RequestMethod::POST)
-     * @param Request $request
      * @return string
      */
-    public function signin(Request $request)
+    public function signin()
     {
-        /* @var AuthValidate $validate */
-        $validate = $this->validate('App\Common\Validate\AuthValidate', 'signin');
-        var_dump($validate->login_type);
-//        $validate->login_type;
         $login_type = \Swoft::param('login_type');
 
         /* @var AuthInterface $auth */
@@ -56,12 +51,9 @@ class AuthController extends ApiController
      */
     public function signup()
     {
-        /* @var AuthValidate $s */
-        $s = $this->validate('App\Common\Validate\AuthValidate', 'signup');
-        var_dump($s->login_type);
         /* @var RegisterService $registerService */
         $registerService = App::getBean(RegisterService::class);
-        $data = $registerService->register();
+        $data = $registerService->register(\Swoft::param(['mobile']),\Swoft::param(['code']),\Swoft::param(['type']));
         return $this->respondWithArray($data);
 
     }
@@ -80,13 +72,10 @@ class AuthController extends ApiController
 
     /**
      * @RequestMapping(route="/v1/refresh", method=RequestMethod::POST)
-     * @param Request $request
      * @return string
      */
-    public function refresh(Request $request)
+    public function refresh()
     {
-        /* @var AuthValidate */
-        $this->validate('App\Common\Validate\AuthValidate', 'refresh');
         $refresh_token = \Swoft::param('refresh_token');
 
         $refresh_token_key = sprintf("%s:%s", Token::REFRESH_TOKEN, $refresh_token);

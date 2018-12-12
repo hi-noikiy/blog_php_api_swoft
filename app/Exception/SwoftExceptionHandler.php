@@ -51,7 +51,6 @@ class SwoftExceptionHandler
 //        $file      = $throwable->getFile();
 //        $line      = $throwable->getLine();
 
-
         $code = $throwable->getCode();
         $message = $throwable->getMessage();
 

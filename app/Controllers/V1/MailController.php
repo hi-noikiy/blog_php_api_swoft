@@ -3,6 +3,7 @@
 namespace App\Controllers\V1;
 
 use App\Common\Enums\SmsEnum;
+use App\Common\Utility\Mail;
 use App\Common\Validate\SmsValidate;
 use App\Models\Entity\SmsRecord;
 use App\Models\Services\SmsService;
@@ -33,21 +34,17 @@ class MailController extends ApiController
 
     /**
      * @RequestMapping(route="send", method=RequestMethod::POST)
-     * @param Request $request
+     *
      * @return string
      * @throws Exception
      */
-    public function send(Request $request)
+    public function send()
     {
-        /* @var SmsValidate */
-        $this->validate('App\Common\Validate\SmsValidate', 'send');
-        $type = $request->input('type');
-        $mobile = $request->input('mobile');
 
-        $this->SmsService->risk(\Swoft::ip());
-        $this->SmsService->risk($mobile);
-        $this->SmsService->send($mobile, $type);
-        return $this->setMessage('短信发送成功')->respondWithArray();
+
+        $res = Mail::send(['741696717@qq.com']);
+
+        return $this->setMessage('短信发送成功')->respondWithArray($res);
     }
 
     /**

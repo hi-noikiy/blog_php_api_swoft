@@ -11,6 +11,7 @@ class Code
     const ERROR = 400; //失败
     const ERROR_NOT_FOUND = 404; //找不到该数据
     const ERROR_NO_AUTH = 1000; //签名失败
+    const CODE_EXPIRE = 40001;//第三方oauth2 code过期 或者已被使用
     const EMPTY_PARAMETER = 450;
     const UNLOGIN = 2001; //未登录
     const INVALID_PARAMETER = 2002; //不合法的参数,缺少参数

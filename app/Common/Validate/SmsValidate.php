@@ -3,7 +3,9 @@
 namespace App\Common\Validate;
 
 use App\Common\Enums\SmsEnum;
+use App\Models\Dao\UserDao;
 use App\Models\Entity\Users;
+use Swoft\App;
 use think\Validate;
 
 
@@ -32,7 +34,9 @@ class SmsValidate extends Validate
     protected function check_mobile($value, $rule, $data)
     {
 
-        $arr = $this->findUser($data['mobile']);
+        /* @var UserDao $userDao */
+        $userDao = App::getBean(UserDao::class);
+        $arr = $userDao->getInfoByMobile($data['mobile']);;
 
         if ($data['type'] == SmsEnum::REGISTER && $arr) {
             return '您已经注册过了';

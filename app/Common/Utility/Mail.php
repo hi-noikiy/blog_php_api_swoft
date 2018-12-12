@@ -12,18 +12,29 @@ use Draguo\DirectMail\DirectMail;
 
 class Mail
 {
-    public static function send(array $to, $subject, $body)
+    /**
+     *
+     *
+     * @access public
+     * @param array $to 目标地址，多个 email 地址可以用逗号分隔，最多100个地址。
+     * @param string $subject 邮件主题，建议填写。
+     * @param string $body 邮件 html 正文，限制28K。
+     * @param String $trace 取值范围 0~1: 1 为打开数据跟踪功能; 0 为关闭数据跟踪功能。该参数默认值为 0。
+     * @return string
+     *
+     */
+    public static function send(array $to, string $subject = '', string $body = '', string $trace = '1')
     {
         $config = config('mail');
 
         $mail = new DirectMail($config['AccessKeyID'], $config['AccessKeySecret']);
-        $mail->send([
-            'from' => '', // 发信地址 AccountName
+        return $mail->send([
+            'from' => $config['SendMail'], // 发信地址 AccountName
             'to' => implode($to, ','), // 多个地址可用逗号分隔，最多100个
-            'name' => '', // 发件人昵称  FromAlias
-            'subject' => '这个是邮件的主题', // Subject
+            'name' => '你猜', // 发件人昵称  FromAlias
+            'subject' => 'test', // Subject
             'body' => 'test', // html or text
-            'trace' => 1 // 是否开启数据追踪功能, 1 或 0
+            'trace' => $trace // 是否开启数据追踪功能, 1 或 0
         ]);
     }
 

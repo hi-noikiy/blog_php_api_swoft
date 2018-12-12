@@ -27,7 +27,7 @@ class ApiController
     {
         $data = [
             "code" => $this->getStatusCode(),
-            "data" => is_array($array) ? (count($array) ? $array : new \stdClass()) : new \stdClass(),
+            "data" => is_array($array) ? (count($array) ? $array : new \stdClass()) : $array,
             "msg" => $this->getMessage()
         ];
         return response()->json($data);

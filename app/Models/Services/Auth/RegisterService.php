@@ -46,7 +46,8 @@ class RegisterService extends BaseAuthService
 
         $this->SmsService->check($mobile, $sms_code, $type);
 
-        $this->userDao->createUser();
+        $this->userDao->create()
+        $this->createUser()
 
         $this->update_user_info($user);
 

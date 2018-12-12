@@ -7,17 +7,24 @@
 
 namespace App\Models\Services;
 
-use App\Models\Entity\OperatorLog;
+use App\Models\Data\OperatorLogData;
 use Swoft\Bean\Annotation\Bean;
+use Swoft\Bean\Annotation\Inject;
 
 /**
  * @Bean()
  */
 class OperatorLogService
 {
+    /**
+     *
+     * @Inject()
+     * @var OperatorLogData
+     */
+    private $operatorLodData;
+
     public function write(array $arr)
     {
-        $operatorLog = new OperatorLog();
-        $operatorLog->fill($arr)->save();
+        $this->operatorLodData->writeToMysql($arr);
     }
 }
