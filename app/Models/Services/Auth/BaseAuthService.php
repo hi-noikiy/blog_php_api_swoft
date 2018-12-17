@@ -15,24 +15,25 @@ class BaseAuthService
 
     public function update_user_info(Users $user): void
     {
+        $user->setLastIp(\Swoft::ip());
         $user->visitCount++;
         $user->update();
     }
 
     public function generateToken(Users $users): array
     {
+        $this->update_user_info($users);
         /* @var TokenService $tokenService */
         $tokenService = App::getBean(TokenService::class);
         return $tokenService->generateToken($users);
     }
 
-    public function createUser(array $arr){
 
-//        ArrayHelper::getValue()
-//        if()
-        $user = new Users();
-
-//        $user->getGithubId()
+    protected function generatePassword(string $password = '123456'): array
+    {
+        $salt = rand(1000, 9999);
+        $password = password_encrypt($password, $salt);
+        return compact('password', 'salt');
     }
 
 }

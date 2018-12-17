@@ -48,8 +48,11 @@ class ValidateMiddleware implements MiddlewareInterface
                 if (!$validateClass instanceof BaseValidate) {
                     throw new SystemException("$validateClass not extend BaseValidate");
                 }
-                $param = $matches + \Swoft::param();
-                $validateClass->scene($validatorKey)->check($param);
+
+                if ($validateClass->hasScene($validatorKey)) {
+                    $param = $matches + \Swoft::param();
+                    $validateClass->scene($validatorKey)->check($param);
+                }
             }
         }
         $response = $handler->handle($request);

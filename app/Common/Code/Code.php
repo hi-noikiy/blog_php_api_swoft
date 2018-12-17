@@ -24,6 +24,7 @@ class Code
     const REGISTERED = 2009; //已注册，直接登录
     const REDIRECT = 2010; //前端路由重定向标识符
     const ACCOUNT_SYSTEM = 2018;//系统账号
+    const SQL_ERROR = 50001;
     const ACCOUNT_BAD = 2019;//账号异常
     const BEYOND_LIMIT = 2020; //超过上限
     const PAYMENT_ERROR = 2030;//支付失败

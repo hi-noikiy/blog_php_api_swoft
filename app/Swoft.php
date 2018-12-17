@@ -72,6 +72,12 @@ class Swoft extends \Swoft\App
         return $github;
     }
 
+    public static function miniProgram()
+    {
+        $miniProgram = \EasyWeChat\Factory::miniProgram(config('wechat.miniprogram'));
+        return $miniProgram;
+    }
+
     protected function getInputData($content)
     {
         if (false !== strpos(request()->getContentType(), 'application/json') || 0 === strpos($content, '{"')) {

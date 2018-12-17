@@ -19,7 +19,7 @@ class SmsValidate extends Validate
 {
     protected $rule = [
         'type' => 'require|between:2,4|number',
-        'mail' => 'require|regex:/^1[34758]{1}\d{9}$/|check_mail',
+        'mail' => 'require|check_mail',
     ];
 
     protected $message = [

@@ -5,6 +5,7 @@ namespace App\Controllers\V1;
 
 use App\Common\Controller\ApiController;
 use App\Models\Amqp;
+use App\Models\Dao\UserDao;
 use App\Models\Token;
 use Elasticsearch\ClientBuilder;
 use PhpAmqpLib\Connection\AMQPStreamConnection;
@@ -26,7 +27,6 @@ use Swoft\Bean\Annotation\Inject;
 
 /**
  * @Controller(prefix="/v1/test")
- * @Middleware(class=ControllerTestMiddleware::class)
  */
 class TestController extends ApiController
 {
@@ -62,6 +62,19 @@ class TestController extends ApiController
             echo 'Caught exception: ' . $e->getMessage() . "\n";
 
         }
+    }
+
+
+    /**
+     * @RequestMapping(route="db", method=RequestMethod::GET)
+     * @return string
+     */
+    public function db()
+    {
+        /* @var UserDao $userDao */
+        $userDao = App::getBean(UserDao::class);
+
+        return $userDao->getInfoByMobile('1');
     }
 
 }

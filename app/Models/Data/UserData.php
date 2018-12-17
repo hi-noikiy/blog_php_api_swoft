@@ -22,7 +22,7 @@ class UserData
 
     public function getUserInfo(int $user_id)
     {
-        $user_info = $this->UserDao->getUserInfo($user_id);
+        $user_info = $this->UserDao->getUserInfoById($user_id);
         if (!$user_info) {
             throw new AuthException(Code::ERROR_NOT_FOUND, '该账号不存在');
         }

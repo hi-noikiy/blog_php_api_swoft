@@ -44,6 +44,7 @@ return [
     'mail' => require __DIR__ . DS . 'mail.php',
     'sms' => require __DIR__ . DS . 'sms.php',
     'opendota' => require __DIR__ . DS . 'opendota.php',
+    'wechat' => require __DIR__ . DS . 'wechat.php',
     'auth' => [
         'jwt' => [
             'algorithm' => 'HS256',

@@ -11,6 +11,7 @@ use Swoft\Bean\Annotation\Bean;
  */
 class UserDao
 {
+
     /**
      *
      * @access public
@@ -25,6 +26,7 @@ class UserDao
 
     public function getInfoByMobile(string $mobile)
     {
+        /* @var Users $user */
         return Users::findOne(['mobile' => $mobile])->getResult();
     }
 
@@ -38,10 +40,17 @@ class UserDao
         return Users::findOne(['github_id' => $github_id])->getResult();
     }
 
+    public function getInfoByUnionId(string $wechat_unionId)
+    {
+        return Users::findOne(['wechat_unionId' => $wechat_unionId])->getResult();
+    }
 
-    public function create(array $data): Users
+
+    public function create(array $data): int
     {
         $user = new Users();
-        return $user->fill($data)->save()->getResult();
+        $user_id = $user->fill($data)->save()->getResult();
+
+        return $user_id;
     }
 }

@@ -22,9 +22,14 @@ class Users extends BaseModel
     private $userId;
 
     /**
+     * @var string $wechatUnionId 微信unionId
+     * @Column(name="wechat_unionId", type="string", length=255)
+     */
+    private $wechatUnionId;
+
+    /**
      * @var int $githubId github_id
      * @Column(name="github_id", type="integer")
-     * @Required()
      */
     private $githubId;
 
@@ -67,14 +72,12 @@ class Users extends BaseModel
     /**
      * @var string $password 密码
      * @Column(name="password", type="string", length=255)
-     * @Required()
      */
     private $password;
 
     /**
      * @var string $salt 盐值
      * @Column(name="salt", type="char", length=4)
-     * @Required()
      */
     private $salt;
 
@@ -116,6 +119,18 @@ class Users extends BaseModel
     public function setUserId(int $value)
     {
         $this->userId = $value;
+
+        return $this;
+    }
+
+    /**
+     * 微信unionId
+     * @param string $value
+     * @return $this
+     */
+    public function setWechatUnionId(string $value): self
+    {
+        $this->wechatUnionId = $value;
 
         return $this;
     }
@@ -292,6 +307,15 @@ class Users extends BaseModel
     public function getUserId()
     {
         return $this->userId;
+    }
+
+    /**
+     * 微信unionId
+     * @return string
+     */
+    public function getWechatUnionId()
+    {
+        return $this->wechatUnionId;
     }
 
     /**

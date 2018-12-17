@@ -23,6 +23,12 @@ class TokenService
             'user_id' => $users->getUserId(),
             'mobile' => $users->getMobile(),
             'github_id' => $users->getGithubId(),
+            'wechat_unionId' => $users->getWechatUnionId(),
+            'nick' => $users->getNick(),
+            'avatar' => $users->getAvatar(),
+            'age' => $users->getAge(),
+            'sex' => $users->getSex(),
+            'mail' => $users->getMail(),
         ];
         //不存在则生成 1.第一次登录 2.彻底失效 token_index的ttl和refresh_token的失效时间都为30天 token_index失效时 refresh_token同时失效
         if (!$hData = redis()->hGetAll($token_index)) {
@@ -42,15 +48,7 @@ class TokenService
         return [
             'access_token' => $token_arr['access_token'],
             'refresh_token' => $token_arr['refresh_token'],
-            'info' => [
-                'github_id' => $users->getGithubId(),
-                'mobile' => $users->getMobile(),
-                'mail' => $users->getMail(),
-                'nick' => $users->getNick(),
-                'avatar' => $users->getAvatar(),
-                'age' => $users->getAge(),
-                'sex' => $users->getSex()
-            ],
+            'info' => $info,
         ];
     }
 
