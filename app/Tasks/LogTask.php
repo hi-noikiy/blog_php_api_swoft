@@ -13,7 +13,7 @@ use Throwable;
  */
 class LogTask
 {
-    public function record(string $message, int $line, string $file, string $trace)
+    public function record(string $message, int $line, string $file, string $trace, array $request)
     {
         $systemlog = new SystemLog();
         $systrace = new SystemTrace();
@@ -22,8 +22,8 @@ class LogTask
             'message' => $message,
             'file' => addslashes($file),
             'line' => $line,
-            'recordTime' => date('Y-m-d H:i:s')
         ];
+        $insert = array_merge($insert, $request);
 
         $sl_id = $systemlog->fill($insert)->save()->getResult();
         $systrace->setSlId($sl_id);

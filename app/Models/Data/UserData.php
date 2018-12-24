@@ -29,6 +29,11 @@ class UserData
         return $user_info;
     }
 
+    public function getUserInfoInRedis(int $user_id)
+    {
+
+    }
+
     public function createUser(array $data)
     {
         return $this->UserDao->createUser($data);

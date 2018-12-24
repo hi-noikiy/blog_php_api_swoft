@@ -38,6 +38,12 @@ class OperatorLog extends BaseModel
     private $operatorUserName;
 
     /**
+     * @var string $accessToken
+     * @Column(name="access_token", type="string", length=255)
+     */
+    private $accessToken;
+
+    /**
      * @var string $uri
      * @Column(name="uri", type="string", length=255)
      * @Required()
@@ -107,6 +113,17 @@ class OperatorLog extends BaseModel
     public function setOperatorUserName(string $value): self
     {
         $this->operatorUserName = $value;
+
+        return $this;
+    }
+
+    /**
+     * @param string $value
+     * @return $this
+     */
+    public function setAccessToken(?string $value): self
+    {
+        $this->accessToken = $value;
 
         return $this;
     }
@@ -204,6 +221,14 @@ class OperatorLog extends BaseModel
     /**
      * @return string
      */
+    public function getAccessToken()
+    {
+        return $this->accessToken;
+    }
+
+    /**
+     * @return string
+     */
     public function getUri()
     {
         return $this->uri;
@@ -217,9 +242,7 @@ class OperatorLog extends BaseModel
         return $this->param;
     }
 
-
     /**
-     *
      * @return string
      */
     public function getResponse()

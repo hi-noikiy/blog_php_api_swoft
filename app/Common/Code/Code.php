@@ -6,7 +6,7 @@ class Code
 {
     const SYSTEM_ERROR = -1; //系统错误
     const EMPTY_ERROR = -2; //返回值为空
-    const ERROR_NO_DEFINED = 411; //未定义的错误类型
+    const ERROR_NO_DEFINED = 0; //未定义的错误类型
     const SUCCESS = 200; //请求成功
     const ERROR = 400; //失败
     const ERROR_NOT_FOUND = 404; //找不到该数据

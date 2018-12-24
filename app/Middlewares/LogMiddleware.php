@@ -33,7 +33,7 @@ class LogMiddleware implements MiddlewareInterface
         //__devtool 不写入日志
         if (strpos($request->getUri()->getPath(), '__devtool') === false) {
             $this->operatorLogService->write([
-                'access-token' => \Swoft::swoole_header('access-token'),
+                'access_token' => \Swoft::swoole_header('access_token'),
                 'uri' => $request->getUri()->getPath(),
                 'method' => $request->getMethod(),
                 'param' => json_encode(empty(\Swoft::param()) ? new \stdClass() : \Swoft::param(), JSON_UNESCAPED_UNICODE),

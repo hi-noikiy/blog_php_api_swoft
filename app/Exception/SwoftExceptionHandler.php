@@ -14,6 +14,7 @@ use App\Common\Code\Code;
 use App\Controllers\TaskController;
 use App\Models\Entity\SystemLog;
 use App\Models\Entity\SystemTrace;
+use App\Tasks\LogTask;
 use Swoft\App;
 use Swoft\Bean\Annotation\ExceptionHandler;
 use Swoft\Bean\Annotation\Handler;
@@ -69,8 +70,16 @@ class SwoftExceptionHandler
 //            'line' => $throwable->getLine(),
         ];
 
-        if (in_array($code, [Code::ERROR_NO_DEFINED], true)) {
-            Task::deliver('Log', 'record', [$throwable->getMessage(), $throwable->getLine(), $throwable->getFile(), $throwable->getTraceAsString()], Task::TYPE_ASYNC);
+        /* @var LogTask */
+        if (!$throwable instanceof ValidatorException) {
+            $requset = [
+                'access_token' => \Swoft::swoole_header('access_token'),
+                'uri' => \request()->getUri()->getPath(),
+                'method' => \request()->getMethod(),
+                'param' => json_encode(empty(\Swoft::param()) ? new \stdClass() : \Swoft::param(), JSON_UNESCAPED_UNICODE),
+                'ip' => \Swoft::ip()
+            ];
+            Task::deliver('Log', 'record', [$throwable->getMessage(), $throwable->getLine(), $throwable->getFile(), $throwable->getTraceAsString(), $requset], Task::TYPE_ASYNC);
         }
         return $response->json($data);
     }

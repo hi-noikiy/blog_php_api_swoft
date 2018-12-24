@@ -14,6 +14,7 @@ use Ramsey\Uuid\Exception\UnsatisfiedDependencyException;
 use Ramsey\Uuid\Uuid;
 use Swoft\App;
 use Swoft\Bean\BeanFactory;
+use Swoft\Db\Db;
 use Swoft\Db\Query;
 use Swoft\Http\Message\Server\Request;
 use Swoft\Http\Server\Bean\Annotation\Controller;
@@ -37,6 +38,8 @@ class TestController extends ApiController
      */
     public function index()
     {
+
+        return $this->respondWithArray(Db::query('select * from users')->getResult());
         try {
 
             // Generate a version 1 (time-based) UUID object

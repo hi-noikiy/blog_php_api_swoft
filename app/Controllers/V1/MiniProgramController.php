@@ -3,6 +3,7 @@
 namespace App\Controllers\V1;
 
 
+use App\Exception\ValidateException;
 use App\Models\Services\Auth\WechatMiniProgramService;
 use Swoft\App;
 use Swoft\Http\Message\Bean\Annotation\Middlewares;
@@ -32,7 +33,9 @@ class MiniProgramController extends ApiController
     public function getSessionKey()
     {
         $data = \Swoft::miniProgram()->auth->session(\Swoft::param('code'));
-
+        if (isset($data['errcode'])) {
+            throw new Exception($data['errmsg'], $data['errcode']);
+        }
         return $this->respondWithArray($data);
     }
 
