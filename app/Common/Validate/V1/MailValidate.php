@@ -15,7 +15,7 @@ use Swoft\App;
 use think\Validate;
 
 
-class SmsValidate extends Validate
+class MailValidate extends Validate
 {
     protected $rule = [
         'type' => 'require|between:2,4|number',
