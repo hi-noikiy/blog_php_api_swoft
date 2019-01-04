@@ -13,7 +13,6 @@ use Exception;
 /**
  *
  * @Bean()
- * @uses      Amqp
  */
 class Amqp
 {

@@ -28,8 +28,8 @@ class Token
         $random_str = substr(str_shuffle($str_pol), 0, $length);
 
         $token = sprintf('%s:%s', $token_name, $random_str);
-        //如果redis中已存在则递归执行
-        if (redis()->exists($token)) {
+        //如果\Swoft()::redis中已存在则递归执行
+        if (\Swoft::redis()->exists($token)) {
             return self::buildRandom($token_name, $length);
         }
         return $random_str;
@@ -41,34 +41,32 @@ class Token
         $refresh_token = self::buildRandom(self::REFRESH_TOKEN);
 
         $access_token_key = self::getAccessTokenKey($access_token);
-        redis()->hMset($access_token_key, $data);
-        redis()->expire($access_token_key, self::expires);
-        //维护旧的access_token5分钟 防止前端并发请求
+        \Swoft::redis()->hMset($access_token_key, $data);
+        \Swoft::redis()->expire($access_token_key, self::expires);
+        //维护旧的access_token5分钟 防止前端并发请求  删除refresh_token
         if ($old_access_token_key) {
-            redis()->hMset($old_access_token_key, $data);
-            redis()->expire($old_access_token_key, 300);
+            \Swoft::redis()->hMset($old_access_token_key, $data);
+            \Swoft::redis()->expire($old_access_token_key, 300);
+
         }
 
-
-        $refresh_token_key = self::getRefreshTokenKey($refresh_token);
-        redis()->hMset($refresh_token_key, ['access_token' => $access_token, 'user_id' => $data['user_id']]);
-        redis()->expire($refresh_token_key, self::refresh_expires);
-        //refresh时 删除旧的refresh_token
+        $refresh_token_key = self::getRefreshTokenKey($access_token);
+        \Swoft::redis()->hMset($refresh_token_key, ['refresh_token' => $refresh_token, 'user_id' => $data['user_id']]);
+        \Swoft::redis()->expire($refresh_token_key, self::refresh_expires);
         if ($old_refresh_token_key) {
-            redis()->del($old_refresh_token_key);
+            \Swoft::redis()->del($old_refresh_token_key);
         }
-
 
         $token_index = sprintf('%s:%s', self::TOKEN_INDEX, $data['user_id']);
-        redis()->hMset($token_index, compact('access_token', 'refresh_token'));
-        redis()->expire($token_index, self::refresh_expires);
+        \Swoft::redis()->hMset($token_index, compact('access_token', 'refresh_token'));
+        \Swoft::redis()->expire($token_index, self::refresh_expires);
         return compact('access_token', 'refresh_token');
     }
 
 
-    public static function getRefreshTokenKey($refresh_token)
+    public static function getRefreshTokenKey($access_token)
     {
-        return sprintf("%s:%s", Token::REFRESH_TOKEN, $refresh_token);
+        return sprintf("%s:%s", Token::REFRESH_TOKEN, $access_token);
     }
 
     public static function getAccessTokenKey($access_token)
@@ -92,14 +90,14 @@ class Token
     {
 
         if ($rank == false) {
-            if ($hData = $this->redis->hGetAll($accessToken)) {
+            if ($hData = \Swoft::redis()->hGetAll($accessToken)) {
                 return $hData;
             } else {
                 return null;
             }
         } else {
             if (!empty($accessToken)) {
-                if ($hData = $this->redis->hGetAll($accessToken)) {
+                if ($hData = \Swoft::redis()->hGetAll($accessToken)) {
                     return $hData;
                 } else {
                     throw new Exception('账号异常,请重新登录', Code::INVALID_TOKEN);

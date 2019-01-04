@@ -3,6 +3,7 @@
 namespace App\Common\Validate\V1;
 
 use App\Common\Enums\LoginTypeEnums;
+use App\Common\Validate\BaseValidate;
 use App\Models\Dao\UserDao;
 use App\Models\Entity\Users;
 use Swoft\App;
@@ -11,7 +12,7 @@ use think\Validate;
 use think\validate\ValidateRule;
 
 
-class AuthValidate extends Validate
+class AuthValidate extends BaseValidate
 {
     public $login_type;
 
@@ -39,7 +40,7 @@ class AuthValidate extends Validate
     ];
 
     protected $scene = [
-        'signin' => ['login_type'],
+        'signin' => ['login_type', 'mobile', 'password'],
         'signup' => ['mobile', 'password', 'sms_code'],
         'forget' => ['mobile', 'password', 'repassword', 'sms_code'],
         'oauth2' => ['openid', 'type'],
