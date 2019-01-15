@@ -24,20 +24,20 @@ use Swoft\Redis\Redis;
 class MiniProgramController extends ApiController
 {
 
-    /**
-     * @RequestMapping(route="session_key", method=RequestMethod::POST)
-     *
-     * @return string
-     * @throws Exception
-     */
-    public function getSessionKey()
-    {
-        $data = \Swoft::miniProgram()->auth->session(\Swoft::param('code'));
-        if (isset($data['errcode'])) {
-            throw new Exception($data['errmsg'], $data['errcode']);
-        }
-        return $this->respondWithArray($data);
-    }
+//    /**
+//     * @RequestMapping(route="session_key", method=RequestMethod::POST)
+//     *
+//     * @return string
+//     * @throws Exception
+//     */
+//    public function getSessionKey()
+//    {
+//        $data = \Swoft::miniProgram()->auth->session(\Swoft::param('code'));
+//        if (isset($data['errcode'])) {
+//            throw new Exception($data['errmsg'], $data['errcode']);
+//        }
+//        return $this->respondWithArray($data);
+//    }
 
 
     /**
@@ -48,7 +48,12 @@ class MiniProgramController extends ApiController
      */
     public function signin()
     {
-        $session_key = \Swoft::param('session_key');
+        $data = \Swoft::miniProgram()->auth->session(\Swoft::param('code'));
+        if (isset($data['errcode'])) {
+            throw new Exception($data['errmsg'], $data['errcode']);
+        }
+
+        $session_key = $data['session_key'];
         $iv = \Swoft::param('iv');
         $encryptedData = \Swoft::param('encryptedData');
 

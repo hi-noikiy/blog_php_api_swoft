@@ -1,5 +1,12 @@
 <?php
 
+function dd($data)
+{
+    $debugInfo = debug_backtrace();
+    echo "file:" . $debugInfo[0]['file'] . PHP_EOL;
+    echo "line:" . $debugInfo[0]['line'] . PHP_EOL;
+    var_dump($data);
+}
 
 /*-返回今天剩余时间戳-*/
 function today_rest()

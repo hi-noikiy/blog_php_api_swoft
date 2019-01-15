@@ -22,7 +22,6 @@ class BaseAuthService
 
     public function generateToken(Users $users): array
     {
-        $this->update_user_info($users);
         /* @var TokenService $tokenService */
         $tokenService = App::getBean(TokenService::class);
         return $tokenService->generateToken($users);

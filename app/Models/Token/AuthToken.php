@@ -16,7 +16,24 @@ use Swoft\Bean\Annotation\Scope;
 class AuthToken
 {
 
-    protected $user_id = 0;
+    private $user_id = 0;
+
+    private $mobile;
+
+    private $github_id;
+
+    private $wechat_unionId;
+
+    private $nick;
+
+    private $avatar;
+
+    private $age;
+
+    private $sex;
+
+    private $mail;
+
 
     protected $user_info = [];
 

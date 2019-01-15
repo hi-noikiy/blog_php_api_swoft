@@ -2,10 +2,10 @@
 
 namespace App\Common\Validate\Dashboard;
 
+use App\Common\Validate\BaseValidate;
 use App\Models\Entity\AdminUsers;
-use think\Validate;
 
-class AuthValidate extends Validate
+class AuthValidate extends BaseValidate
 {
     protected $rule = [
         'account' => 'require',

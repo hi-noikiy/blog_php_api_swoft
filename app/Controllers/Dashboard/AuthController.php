@@ -18,6 +18,7 @@ use Swoft\Bean\Annotation\Inject;
 
 /**
  * @Controller(prefix="/dashboard/auth")
+ *
  */
 class AuthController extends ApiController
 {
@@ -40,7 +41,6 @@ class AuthController extends ApiController
     public function login()
     {
         /* @var AuthValidate */
-        $this->validate('App\Common\Validate\Dashboard\AuthValidate', 'login');
         $info = $this->AuthLogic->checkManager(\Swoft::param('account'), \Swoft::param('password'));
 
         $arr = [

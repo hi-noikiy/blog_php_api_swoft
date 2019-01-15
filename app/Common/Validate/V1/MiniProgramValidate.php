@@ -14,7 +14,6 @@ class MiniProgramValidate extends BaseValidate
 {
     protected $rule = [
         'code' => 'require',
-        'session_key' => 'require',
         'iv' => 'require',
         'encryptedData' => 'require'
     ];
@@ -24,6 +23,6 @@ class MiniProgramValidate extends BaseValidate
 
     protected $scene = [
         'login' => ['code'],
-        'signin' => ['session_key', 'iv', 'encryptedData']
+        'signin' => ['code', 'iv', 'encryptedData']
     ];
 }

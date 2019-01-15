@@ -16,6 +16,7 @@ use Psr\Http\Server\RequestHandlerInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Swoft\Bean\Annotation\Bean;
+use Swoft\Core\RequestContext;
 use Swoft\Http\Message\Middleware\MiddlewareInterface;
 use Swoft\Http\Server\AttributeEnum;
 use think\Validate;

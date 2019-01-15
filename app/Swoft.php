@@ -58,6 +58,23 @@ class Swoft extends \Swoft\App
         return self::swoole_header('remote-host') ?? self::swoole_header('x-real-ip');
     }
 
+    public static function accessToken()
+    {
+        return self::swoole_header('access-token');
+    }
+
+    public static function agentTransferEnum(): int
+    {
+
+        $source = self::swoole_header('source');
+        $agent = self::swoole_header('user-agent');
+        if(isset($source) && $source == 'losingbattle_miniprogram'){
+            return \App\Common\Enums\SourceEnums::MINIPROGRAM;
+        }
+
+        return \App\Common\Enums\SourceEnums::UNKNOWN;
+    }
+
 
     public static function github($redirect_uri = null)
     {

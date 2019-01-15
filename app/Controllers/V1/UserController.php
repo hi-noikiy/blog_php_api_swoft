@@ -23,7 +23,7 @@ use Swoft\Bean\Annotation\Inject;
 
 /**
  * @Controller(prefix="/v1/user")
- * @Middleware(AuthMiddleware::class)
+ *
  */
 class UserController extends ApiController
 {
@@ -36,7 +36,7 @@ class UserController extends ApiController
 
     /**
      * @RequestMapping(route="info", method=RequestMethod::GET)
-     *
+     * @Middleware(AuthMiddleware::class)
      * @return string
      * @throws Exception
      */

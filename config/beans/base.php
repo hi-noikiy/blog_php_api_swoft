@@ -14,6 +14,7 @@ return [
 //            \Swoft\Auth\Middleware\AuthMiddleware::class,
             \Swoft\Devtool\Middleware\DevToolMiddleware::class,
 //             \Swoft\Session\Middleware\SessionMiddleware::class,
+            \App\Middlewares\ValidateMiddleware::class,
             \App\Middlewares\LogMiddleware::class
         ]
     ],

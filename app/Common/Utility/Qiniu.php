@@ -172,7 +172,7 @@ class Qiniu
         return $this->prefix ?? self::PREFIX;
     }
 
-    public function setPrefix(string $prefix)
+    public function setPrefix(?string $prefix)
     {
         $this->prefix = $prefix;
         return $this;

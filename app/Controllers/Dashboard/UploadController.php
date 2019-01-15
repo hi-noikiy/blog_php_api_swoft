@@ -7,6 +7,7 @@ use App\Common\Controller\ApiController;
 use App\Common\Lang\Lang;
 use App\Common\Utility\Qiniu;
 use App\Models\Dao\Log;
+use Ramsey\Uuid\Uuid;
 use Swoft\Http\Message\Server\Request;
 use Swoft\Http\Message\Upload\UploadedFile;
 use Swoft\Http\Server\Bean\Annotation\Controller;
@@ -34,7 +35,7 @@ class UploadController extends ApiController
         $file = $request->file('media');
         $prefix = $request->post('prefix');
         if (!$file) {
-            return $this->setStatusCode(Code::EMPTY_PARAMETER)->respondWithError('图片不能为空');
+            return $this->setStatusCode(Code::EMPTY_PARAMETER)->setMessage('图片不能为空')->respondWithError();
         }
 
         $upload = new Qiniu();
@@ -47,7 +48,7 @@ class UploadController extends ApiController
             $imgs = $upload->single_upload($file->toArray());
         }
 
-        return $this->respondWithArray(['imgs' => $imgs], Lang::UPLOAD_SUCCESS);
+        return $this->setMessage(Lang::UPLOAD_SUCCESS)->respondWithArray(['imgs' => $imgs]);
     }
 
 

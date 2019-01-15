@@ -35,7 +35,7 @@ class Token
         return $random_str;
     }
 
-    public static function Generate(array $data, string $old_access_token_key = null, string $old_refresh_token_key = null): array
+    public static function Generate(array $data, string $old_access_token_key = null, string $old_refresh_token_key = null, bool $single_sign_on = false): array
     {
         $access_token = self::buildRandom(self::ACCESS_TOKEN);
         $refresh_token = self::buildRandom(self::REFRESH_TOKEN);
@@ -43,11 +43,10 @@ class Token
         $access_token_key = self::getAccessTokenKey($access_token);
         \Swoft::redis()->hMset($access_token_key, $data);
         \Swoft::redis()->expire($access_token_key, self::expires);
-        //维护旧的access_token5分钟 防止前端并发请求  删除refresh_token
-        if ($old_access_token_key) {
+        //非单点登录模式下 维护旧的access_token5分钟 防止前端并发请求  删除refresh_token
+        if ($old_access_token_key && $single_sign_on === false) {
             \Swoft::redis()->hMset($old_access_token_key, $data);
             \Swoft::redis()->expire($old_access_token_key, 300);
-
         }
 
         $refresh_token_key = self::getRefreshTokenKey($access_token);
@@ -57,7 +56,7 @@ class Token
             \Swoft::redis()->del($old_refresh_token_key);
         }
 
-        $token_index = sprintf('%s:%s', self::TOKEN_INDEX, $data['user_id']);
+        $token_index = Token::getTokenIndex($data['user_id']);
         \Swoft::redis()->hMset($token_index, compact('access_token', 'refresh_token'));
         \Swoft::redis()->expire($token_index, self::refresh_expires);
         return compact('access_token', 'refresh_token');
@@ -66,17 +65,20 @@ class Token
 
     public static function getRefreshTokenKey($access_token)
     {
-        return sprintf("%s:%s", Token::REFRESH_TOKEN, $access_token);
+        $agent = \Swoft::agentTransferEnum();
+        return sprintf("%s:%d:%s", Token::REFRESH_TOKEN, $agent, $access_token);
     }
 
     public static function getAccessTokenKey($access_token)
     {
-        return sprintf("%s:%s", Token::ACCESS_TOKEN, $access_token);
+        $agent = \Swoft::agentTransferEnum();
+        return sprintf("%s:%d:%s", Token::ACCESS_TOKEN, $agent, $access_token);
     }
 
     public static function getTokenIndex(int $user_id)
     {
-        return sprintf("%s:%s", Token::TOKEN_INDEX, $user_id);
+        $agent = \Swoft::agentTransferEnum();
+        return sprintf("%s:%d:%s", Token::TOKEN_INDEX, $agent, $user_id);
     }
 
     /**

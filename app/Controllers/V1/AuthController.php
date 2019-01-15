@@ -26,9 +26,6 @@ use App\Middlewares\ValidateMiddleware;
 
 /**
  * @Controller(prefix="/v1/auth")
- * @Middlewares({
- *     @Middleware(ValidateMiddleware::class)
- * })
  */
 class AuthController extends ApiController
 {
@@ -80,7 +77,7 @@ class AuthController extends ApiController
      */
     public function refresh()
     {
-        $access_token = \Swoft::param('access_token');
+        $access_token = \Swoft::accessToken();
         $refresh_token = \Swoft::param('refresh_token');
 
         $refresh_token_key = Token::getRefreshTokenKey($access_token);
