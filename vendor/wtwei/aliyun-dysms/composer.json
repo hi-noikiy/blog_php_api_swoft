@@ -1,0 +1,26 @@
+{
+  "name": "wtwei/aliyun-dysms",
+  "description": "阿里云云通信短信服务",
+  "keywords": [
+    "aliyun",
+    "sms",
+    "dysms",
+    "sdk"
+  ],
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "kevin",
+      "email": "kevinwu@halobear.com"
+    }
+  ],
+  "require": {
+    "php": ">=5.5.0"
+  },
+  "autoload": {
+    "psr-4": {
+      "Aliyun\\": "src/"
+    }
+  },
+  "minimum-stability": "stable"
+}

@@ -39,4 +39,11 @@ return [
         'class' => \Swoft\Redis\Redis::class,
         'poolName' => 'demoRedis'
     ],
+    'providerSelector' => [
+        'class' => \Swoft\Sg\ProviderSelector::class,
+        'provider' => 'consul',
+        'providers' => [
+            'consul' => \Swoft\Sg\Provider\ConsulProvider::class
+        ]
+    ],
 ];
