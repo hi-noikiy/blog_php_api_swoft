@@ -365,15 +365,15 @@
         "source": {
             "type": "git",
             "url": "https://github.com/wudi/swoole-ide-helper.git",
-            "reference": "51672c1ea0c1a029b07f19113b2d84182647af8d"
+            "reference": "b8356ee96d6c3b5a7db02927b75a534ed548c95c"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/wudi/swoole-ide-helper/zipball/51672c1ea0c1a029b07f19113b2d84182647af8d",
-            "reference": "51672c1ea0c1a029b07f19113b2d84182647af8d",
+            "url": "https://api.github.com/repos/wudi/swoole-ide-helper/zipball/b8356ee96d6c3b5a7db02927b75a534ed548c95c",
+            "reference": "b8356ee96d6c3b5a7db02927b75a534ed548c95c",
             "shasum": ""
         },
-        "time": "2018-12-16T07:18:40+00:00",
+        "time": "2019-01-19T10:53:07+00:00",
         "type": "library",
         "installation-source": "source",
         "notification-url": "https://packagist.org/downloads/",
@@ -448,17 +448,17 @@
     },
     {
         "name": "elasticsearch/elasticsearch",
-        "version": "v6.0.1",
-        "version_normalized": "6.0.1.0",
+        "version": "v6.1.0",
+        "version_normalized": "6.1.0.0",
         "source": {
             "type": "git",
             "url": "https://github.com/elastic/elasticsearch-php.git",
-            "reference": "b8e3bc9d1fc54d6a18692df0b74956efe7fe241a"
+            "reference": "b237a37b2cdf23a5a17fd3576cdea771394ad00d"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/elastic/elasticsearch-php/zipball/b8e3bc9d1fc54d6a18692df0b74956efe7fe241a",
-            "reference": "b8e3bc9d1fc54d6a18692df0b74956efe7fe241a",
+            "url": "https://api.github.com/repos/elastic/elasticsearch-php/zipball/b237a37b2cdf23a5a17fd3576cdea771394ad00d",
+            "reference": "b237a37b2cdf23a5a17fd3576cdea771394ad00d",
             "shasum": ""
         },
         "require": {
@@ -481,7 +481,7 @@
             "ext-curl": "*",
             "monolog/monolog": "Allows for client-level logging and tracing"
         },
-        "time": "2017-12-05T14:15:58+00:00",
+        "time": "2019-01-08T18:53:46+00:00",
         "type": "library",
         "installation-source": "dist",
         "autoload": {
@@ -3056,17 +3056,17 @@
     },
     {
         "name": "react/promise",
-        "version": "v2.7.0",
-        "version_normalized": "2.7.0.0",
+        "version": "v2.7.1",
+        "version_normalized": "2.7.1.0",
         "source": {
             "type": "git",
             "url": "https://github.com/reactphp/promise.git",
-            "reference": "f4edc2581617431aea50430749db55cc3fc031b3"
+            "reference": "31ffa96f8d2ed0341a57848cbb84d88b89dd664d"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/reactphp/promise/zipball/f4edc2581617431aea50430749db55cc3fc031b3",
-            "reference": "f4edc2581617431aea50430749db55cc3fc031b3",
+            "url": "https://api.github.com/repos/reactphp/promise/zipball/31ffa96f8d2ed0341a57848cbb84d88b89dd664d",
+            "reference": "31ffa96f8d2ed0341a57848cbb84d88b89dd664d",
             "shasum": ""
         },
         "require": {
@@ -3075,7 +3075,7 @@
         "require-dev": {
             "phpunit/phpunit": "~4.8"
         },
-        "time": "2018-06-13T15:59:06+00:00",
+        "time": "2019-01-07T21:25:54+00:00",
         "type": "library",
         "installation-source": "dist",
         "autoload": {
@@ -3920,17 +3920,17 @@
     },
     {
         "name": "swoft/db",
-        "version": "v1.1.25",
-        "version_normalized": "1.1.25.0",
+        "version": "v1.1.26",
+        "version_normalized": "1.1.26.0",
         "source": {
             "type": "git",
             "url": "https://github.com/swoft-cloud/swoft-db.git",
-            "reference": "bd44c1986f30536a85bc22e150fe526ce857ddd8"
+            "reference": "a9bc7106637c57b4f43f85b6806e3f462605b3a1"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/swoft-cloud/swoft-db/zipball/bd44c1986f30536a85bc22e150fe526ce857ddd8",
-            "reference": "bd44c1986f30536a85bc22e150fe526ce857ddd8",
+            "url": "https://api.github.com/repos/swoft-cloud/swoft-db/zipball/a9bc7106637c57b4f43f85b6806e3f462605b3a1",
+            "reference": "a9bc7106637c57b4f43f85b6806e3f462605b3a1",
             "shasum": ""
         },
         "require": {
@@ -3944,7 +3944,7 @@
             "phpunit/phpunit": "^5.7",
             "swoft/swoole-ide-helper": "dev-master"
         },
-        "time": "2018-10-06T06:40:26+00:00",
+        "time": "2018-12-21T12:41:44+00:00",
         "type": "library",
         "installation-source": "dist",
         "autoload": {
@@ -4712,17 +4712,17 @@
     },
     {
         "name": "swoft/websocket-server",
-        "version": "v1.0.5",
-        "version_normalized": "1.0.5.0",
+        "version": "v1.0.6",
+        "version_normalized": "1.0.6.0",
         "source": {
             "type": "git",
             "url": "https://github.com/swoft-cloud/swoft-websocket-server.git",
-            "reference": "cc5c2fd214377d2629196370d9d2082fdccfc5db"
+            "reference": "b55b0a3b7a821d9e06af6b7ecc39b2d3a527edc9"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/swoft-cloud/swoft-websocket-server/zipball/cc5c2fd214377d2629196370d9d2082fdccfc5db",
-            "reference": "cc5c2fd214377d2629196370d9d2082fdccfc5db",
+            "url": "https://api.github.com/repos/swoft-cloud/swoft-websocket-server/zipball/b55b0a3b7a821d9e06af6b7ecc39b2d3a527edc9",
+            "reference": "b55b0a3b7a821d9e06af6b7ecc39b2d3a527edc9",
             "shasum": ""
         },
         "require": {
@@ -4731,7 +4731,7 @@
         "require-dev": {
             "phpunit/phpunit": "^5.7"
         },
-        "time": "2018-12-28T09:11:43+00:00",
+        "time": "2019-01-09T12:21:14+00:00",
         "type": "library",
         "installation-source": "dist",
         "autoload": {
@@ -4757,17 +4757,17 @@
     },
     {
         "name": "symfony/cache",
-        "version": "v4.2.1",
-        "version_normalized": "4.2.1.0",
+        "version": "v4.2.2",
+        "version_normalized": "4.2.2.0",
         "source": {
             "type": "git",
             "url": "https://github.com/symfony/cache.git",
-            "reference": "5c4b50d6ba4f1c8955c3454444c1e3cfddaaad41"
+            "reference": "dd223d4bb9a2f9a4b4992851800b349739c40860"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/symfony/cache/zipball/5c4b50d6ba4f1c8955c3454444c1e3cfddaaad41",
-            "reference": "5c4b50d6ba4f1c8955c3454444c1e3cfddaaad41",
+            "url": "https://api.github.com/repos/symfony/cache/zipball/dd223d4bb9a2f9a4b4992851800b349739c40860",
+            "reference": "dd223d4bb9a2f9a4b4992851800b349739c40860",
             "shasum": ""
         },
         "require": {
@@ -4797,7 +4797,7 @@
             "symfony/dependency-injection": "~3.4|~4.1",
             "symfony/var-dumper": "^4.1.1"
         },
-        "time": "2018-12-06T11:00:08+00:00",
+        "time": "2019-01-03T09:07:35+00:00",
         "type": "library",
         "extra": {
             "branch-alias": {
@@ -4906,24 +4906,24 @@
     },
     {
         "name": "symfony/filesystem",
-        "version": "v4.2.1",
-        "version_normalized": "4.2.1.0",
+        "version": "v4.2.2",
+        "version_normalized": "4.2.2.0",
         "source": {
             "type": "git",
             "url": "https://github.com/symfony/filesystem.git",
-            "reference": "2f4c8b999b3b7cadb2a69390b01af70886753710"
+            "reference": "c2ffd9a93f2d6c5be2f68a0aa7953cc229f871f8"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/symfony/filesystem/zipball/2f4c8b999b3b7cadb2a69390b01af70886753710",
-            "reference": "2f4c8b999b3b7cadb2a69390b01af70886753710",
+            "url": "https://api.github.com/repos/symfony/filesystem/zipball/c2ffd9a93f2d6c5be2f68a0aa7953cc229f871f8",
+            "reference": "c2ffd9a93f2d6c5be2f68a0aa7953cc229f871f8",
             "shasum": ""
         },
         "require": {
             "php": "^7.1.3",
             "symfony/polyfill-ctype": "~1.8"
         },
-        "time": "2018-11-11T19:52:12+00:00",
+        "time": "2019-01-03T09:07:35+00:00",
         "type": "library",
         "extra": {
             "branch-alias": {
@@ -4958,17 +4958,17 @@
     },
     {
         "name": "symfony/http-foundation",
-        "version": "v4.2.1",
-        "version_normalized": "4.2.1.0",
+        "version": "v4.2.2",
+        "version_normalized": "4.2.2.0",
         "source": {
             "type": "git",
             "url": "https://github.com/symfony/http-foundation.git",
-            "reference": "1b31f3017fadd8cb05cf2c8aebdbf3b12a943851"
+            "reference": "a633d422a09242064ba24e44a6e1494c5126de86"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/symfony/http-foundation/zipball/1b31f3017fadd8cb05cf2c8aebdbf3b12a943851",
-            "reference": "1b31f3017fadd8cb05cf2c8aebdbf3b12a943851",
+            "url": "https://api.github.com/repos/symfony/http-foundation/zipball/a633d422a09242064ba24e44a6e1494c5126de86",
+            "reference": "a633d422a09242064ba24e44a6e1494c5126de86",
             "shasum": ""
         },
         "require": {
@@ -4979,7 +4979,7 @@
             "predis/predis": "~1.0",
             "symfony/expression-language": "~3.4|~4.0"
         },
-        "time": "2018-11-26T10:55:26+00:00",
+        "time": "2019-01-05T16:37:49+00:00",
         "type": "library",
         "extra": {
             "branch-alias": {
@@ -5135,23 +5135,23 @@
     },
     {
         "name": "symfony/process",
-        "version": "v3.4.20",
-        "version_normalized": "3.4.20.0",
+        "version": "v3.4.21",
+        "version_normalized": "3.4.21.0",
         "source": {
             "type": "git",
             "url": "https://github.com/symfony/process.git",
-            "reference": "abb46b909dd6ba0b50e10d4c10ffe6ee96dd70f2"
+            "reference": "0d41dd7d95ed179aed6a13393b0f4f97bfa2d25c"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/symfony/process/zipball/abb46b909dd6ba0b50e10d4c10ffe6ee96dd70f2",
-            "reference": "abb46b909dd6ba0b50e10d4c10ffe6ee96dd70f2",
+            "url": "https://api.github.com/repos/symfony/process/zipball/0d41dd7d95ed179aed6a13393b0f4f97bfa2d25c",
+            "reference": "0d41dd7d95ed179aed6a13393b0f4f97bfa2d25c",
             "shasum": ""
         },
         "require": {
             "php": "^5.5.9|>=7.0.8"
         },
-        "time": "2018-11-20T16:10:26+00:00",
+        "time": "2019-01-02T21:24:08+00:00",
         "type": "library",
         "extra": {
             "branch-alias": {
@@ -5249,17 +5249,17 @@
     },
     {
         "name": "symfony/translation",
-        "version": "v4.2.1",
-        "version_normalized": "4.2.1.0",
+        "version": "v4.2.2",
+        "version_normalized": "4.2.2.0",
         "source": {
             "type": "git",
             "url": "https://github.com/symfony/translation.git",
-            "reference": "c0e2191e9bed845946ab3d99767513b56ca7dcd6"
+            "reference": "939fb792d73f2ce80e6ae9019d205fc480f1c9a0"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/symfony/translation/zipball/c0e2191e9bed845946ab3d99767513b56ca7dcd6",
-            "reference": "c0e2191e9bed845946ab3d99767513b56ca7dcd6",
+            "url": "https://api.github.com/repos/symfony/translation/zipball/939fb792d73f2ce80e6ae9019d205fc480f1c9a0",
+            "reference": "939fb792d73f2ce80e6ae9019d205fc480f1c9a0",
             "shasum": ""
         },
         "require": {
@@ -5289,7 +5289,7 @@
             "symfony/config": "",
             "symfony/yaml": ""
         },
-        "time": "2018-12-06T10:45:32+00:00",
+        "time": "2019-01-03T09:07:35+00:00",
         "type": "library",
         "extra": {
             "branch-alias": {
@@ -5324,17 +5324,17 @@
     },
     {
         "name": "symfony/var-exporter",
-        "version": "v4.2.1",
-        "version_normalized": "4.2.1.0",
+        "version": "v4.2.2",
+        "version_normalized": "4.2.2.0",
         "source": {
             "type": "git",
             "url": "https://github.com/symfony/var-exporter.git",
-            "reference": "a39222e357362424b61dcde50e2f7b5a7d3306db"
+            "reference": "51bd782120fa2bfed89452f142d2a47c4b51101c"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/symfony/var-exporter/zipball/a39222e357362424b61dcde50e2f7b5a7d3306db",
-            "reference": "a39222e357362424b61dcde50e2f7b5a7d3306db",
+            "url": "https://api.github.com/repos/symfony/var-exporter/zipball/51bd782120fa2bfed89452f142d2a47c4b51101c",
+            "reference": "51bd782120fa2bfed89452f142d2a47c4b51101c",
             "shasum": ""
         },
         "require": {
@@ -5343,7 +5343,7 @@
         "require-dev": {
             "symfony/var-dumper": "^4.1.1"
         },
-        "time": "2018-12-03T22:40:09+00:00",
+        "time": "2019-01-03T09:09:06+00:00",
         "type": "library",
         "extra": {
             "branch-alias": {
@@ -5386,17 +5386,17 @@
     },
     {
         "name": "symfony/yaml",
-        "version": "v4.2.1",
-        "version_normalized": "4.2.1.0",
+        "version": "v4.2.2",
+        "version_normalized": "4.2.2.0",
         "source": {
             "type": "git",
             "url": "https://github.com/symfony/yaml.git",
-            "reference": "c41175c801e3edfda90f32e292619d10c27103d7"
+            "reference": "d0aa6c0ea484087927b49fd513383a7d36190ca6"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/symfony/yaml/zipball/c41175c801e3edfda90f32e292619d10c27103d7",
-            "reference": "c41175c801e3edfda90f32e292619d10c27103d7",
+            "url": "https://api.github.com/repos/symfony/yaml/zipball/d0aa6c0ea484087927b49fd513383a7d36190ca6",
+            "reference": "d0aa6c0ea484087927b49fd513383a7d36190ca6",
             "shasum": ""
         },
         "require": {
@@ -5412,7 +5412,7 @@
         "suggest": {
             "symfony/console": "For validating YAML files using the lint command"
         },
-        "time": "2018-11-11T19:52:12+00:00",
+        "time": "2019-01-03T09:07:35+00:00",
         "type": "library",
         "extra": {
             "branch-alias": {

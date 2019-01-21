@@ -86,11 +86,16 @@ class YamlRunnerTest extends \PHPUnit\Framework\TestCase
 
         'search/110_field_collapsing.yml' => 'Temporary: parse error, malformed inline yaml',
         'search/110_field_collapsing.yaml' => 'Temporary: parse error, malformed inline yaml',
+        'range/10_basic.yml' => 'Temporary: parse error, malformed inline yaml',
 
         'cat.nodes/10_basic.yml' => 'Temporary: parse error, something about $body: |',
         'cat.nodes/10_basic.yaml' => 'Temporary: parse error, something about $body: |',
         'search.aggregation/180_percentiles_tdigest_metric.yml' => 'array of objects, unclear how to fix',
-        'search.aggregation/190_percentiles_hdr_metric.yml' => 'array of objects, unclear how to fix'
+        'search.aggregation/190_percentiles_hdr_metric.yml' => 'array of objects, unclear how to fix',
+        'search/190_index_prefix_search.yml' => 'bad yaml array syntax',
+        'search.aggregation/230_composite.yml' => 'bad yaml array syntax',
+        'search/30_limits.yml' => 'bad regex'
+
     ];
 
     /**
@@ -137,7 +142,7 @@ class YamlRunnerTest extends \PHPUnit\Framework\TestCase
      * @dataProvider yamlProvider
      * @group sync
      */
-    public function testIntegration($testProcedure, $skip, $setupProcedure, $fileName)
+    public function testIntegration($testProcedure, bool $skip, $setupProcedure, $teardownProcedure, string $fileName)
     {
         if ($skip) {
             static::markTestIncomplete($testProcedure);
@@ -152,14 +157,21 @@ class YamlRunnerTest extends \PHPUnit\Framework\TestCase
             $this->waitForYellow();
         }
 
-        $this->processProcedure(current($testProcedure), key($testProcedure), $fileName);
+        try {
+            $this->processProcedure(current($testProcedure), key($testProcedure), $fileName);
+        } finally {
+            if (null !== $teardownProcedure) {
+                $this->processProcedure(current($teardownProcedure), 'teardown', $fileName);
+                $this->waitForYellow();
+            }
+        }
     }
 
     /**
      * @dataProvider yamlProvider
      * @group async
      */
-    public function testAsyncIntegration($testProcedure, $skip, $setupProcedure, $fileName)
+    public function testAsyncIntegration($testProcedure, bool $skip, $setupProcedure, $teardownProcedure, string $fileName)
     {
         if ($skip) {
             static::markTestIncomplete($testProcedure);
@@ -174,7 +186,14 @@ class YamlRunnerTest extends \PHPUnit\Framework\TestCase
             $this->waitForYellow();
         }
 
-        $this->processProcedure(current($testProcedure), key($testProcedure), $fileName, true);
+        try {
+            $this->processProcedure(current($testProcedure), key($testProcedure), $fileName, true);
+        } finally {
+            if (null !== $teardownProcedure) {
+                $this->processProcedure(current($teardownProcedure), 'teardown', $fileName);
+                $this->waitForYellow();
+            }
+        }
     }
 
     /**
@@ -913,6 +932,7 @@ class YamlRunnerTest extends \PHPUnit\Framework\TestCase
         $documentsParsed = [];
         $setup = null;
         $setupSkip = false;
+        $teardown = null;
         $fileName = str_replace($path . '/', '', $file);
 
         if (array_key_exists($fileName, static::$fatalFiles)) {
@@ -926,6 +946,8 @@ class YamlRunnerTest extends \PHPUnit\Framework\TestCase
         $skip = false;
         $documentParsed = null;
         foreach ($documents as $documentString) {
+            // TODO few bad instances of teardown, should be fixed in upstream but this is a quick fix locally
+            $documentString = str_replace(" teardown:", "teardown:", $documentString);
             try {
                 if (!$setupSkip) {
                     $documentParsed = $this->yaml->parse($documentString, false, false, true);
@@ -960,8 +982,10 @@ class YamlRunnerTest extends \PHPUnit\Framework\TestCase
             if (!$skip && key($documentParsed) === 'setup') {
                 $setup = $documentParsed;
                 $setupSkip = $skip;
+            } elseif (!$teardown && key($documentParsed) === 'teardown') {
+                $teardown = $documentParsed;
             } else {
-                $documentsParsed[] = [$documentParsed, $skip || $setupSkip, $setup, $fileName];
+                $documentsParsed[] = [$documentParsed, $skip || $setupSkip, $setup, $teardown, $fileName];
             }
         }
 
