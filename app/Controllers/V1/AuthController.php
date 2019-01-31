@@ -66,8 +66,6 @@ class AuthController extends ApiController
      */
     public function forget(Request $request)
     {
-        /* @var AuthValidate */
-        $this->validate('App\Common\Validate\AuthValidate', 'forget');
     }
 
 

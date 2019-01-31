@@ -75,19 +75,4 @@ class ApiController
         return $this->message;
     }
 
-    /**
-     * @param $validate string
-     * @param $scene string
-     * @return void
-     * @throws  object
-     */
-    protected function validate($validate, $scene = null)
-    {
-        /* @var Validate $v */
-        $v = new $validate;
-        if (!empty($scene)) {
-            $v->scene($scene);
-        }
-        $v->check(\Swoft::param());
-    }
 }

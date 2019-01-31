@@ -35,7 +35,7 @@ class LogController extends ApiController
         $page = \request()->input('page', 1);
         $limit = \request()->input('limit', 15);
 
-        $lists = $this->log->list($page, $limit);
+        $lists = $this->log->list();
 
         return $this->respondWithArray($lists);
     }
