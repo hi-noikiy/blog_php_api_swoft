@@ -1,0 +1,38 @@
+{
+    "name": "96qbhy/baidu-aip",
+    "description": "百度 AI 开放平台 php-sdk",
+    "license": "MIT",
+    "keywords": [
+        "百度AI",
+        "百度AI开放平台",
+        "开放平台",
+        "自然语言处理",
+        "人脸识别"
+    ],
+    "authors": [
+        {
+            "name": "qbhy",
+            "email": "96qbhy@gmail.com"
+        }
+    ],
+    "require": {
+        "php": ">=7.1",
+        "ext-json": ">=1.0",
+        "hanson/foundation-sdk": "^3.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Qbhy\\BaiduAIP\\": "src"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Qbhy\\BaiduAIP\\LaravelServiceProvider"
+            ]
+        }
+    },
+    "require-dev": {
+        "illuminate/support": "^5.5"
+    }
+}

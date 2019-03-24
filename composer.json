@@ -46,7 +46,9 @@
         "league/oauth2-github": "^2.0",
         "draguo/directmail": "^1.0",
         "overtrue/wechat": "~4.0",
-        "fzaninotto/faker": "^1.8"
+        "fzaninotto/faker": "^1.8",
+        "96qbhy/baidu-aip": "^0.1.3",
+        "khanamiryan/qrcode-detector-decoder": "^1.0"
     },
     "require-dev": {
         "eaglewu/swoole-ide-helper": "dev-master",

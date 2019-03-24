@@ -10,6 +10,7 @@ namespace App\Models\Services;
 use App\Models\Data\OperatorLogData;
 use Swoft\Bean\Annotation\Bean;
 use Swoft\Bean\Annotation\Inject;
+use Swoft\Helper\ArrayHelper;
 
 /**
  * @Bean()
@@ -25,6 +26,7 @@ class OperatorLogService
 
     public function write(array $arr)
     {
+//        ArrayHelper::get()
         $this->operatorLodData->writeToMysql($arr);
     }
 }
